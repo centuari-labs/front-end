@@ -1,39 +1,43 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowUpRight, Calendar } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight, Calendar } from "lucide-react";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 interface BondCardProps {
   bond: {
-    id: string
-    marketId: string
-    name: string
-    icon: string
-    yield: number
-    maturityDate: string
-    issuanceDate: string
-    totalSupply: number
-    minAmount: number
-    remainingSupply: number
-    value?: number
-    amount?: number
-  }
-  isOwned?: boolean
+    id: string;
+    marketId: string;
+    name: string;
+    icon: string;
+    yield: number;
+    maturityDate: string;
+    issuanceDate: string;
+    totalSupply: number;
+    minAmount: number;
+    remainingSupply: number;
+    value?: number;
+    amount?: number;
+  };
+  isOwned?: boolean;
 }
 
 export function BondCard({ bond, isOwned = false }: BondCardProps) {
-  const maturityDate = new Date(bond.maturityDate)
-  const issuanceDate = new Date(bond.issuanceDate)
-  const now = new Date()
+  const maturityDate = new Date(bond.maturityDate);
+  const issuanceDate = new Date(bond.issuanceDate);
+  const now = new Date();
 
   // Calculate days remaining until maturity
-  const daysRemaining = Math.ceil((maturityDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-  const totalDays = Math.ceil((maturityDate.getTime() - issuanceDate.getTime()) / (1000 * 60 * 60 * 24))
-  const progressPercent = 100 - (daysRemaining / totalDays) * 100
+  const daysRemaining = Math.ceil(
+    (maturityDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  const totalDays = Math.ceil(
+    (maturityDate.getTime() - issuanceDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  const progressPercent = 100 - (daysRemaining / totalDays) * 100;
 
   return (
     <Card>
@@ -59,7 +63,9 @@ export function BondCard({ bond, isOwned = false }: BondCardProps) {
         <Separator className="my-4" />
         <div className="grid gap-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Yield at Maturity</span>
+            <span className="text-sm text-muted-foreground">
+              Yield at Maturity
+            </span>
             <span className="font-medium text-green-500">+{bond.yield}%</span>
           </div>
           {isOwned && bond.amount && (
@@ -72,13 +78,19 @@ export function BondCard({ bond, isOwned = false }: BondCardProps) {
           )}
           {isOwned && bond.value && (
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Current Value</span>
-              <span className="font-medium">${bond.value.toLocaleString()}</span>
+              <span className="text-sm text-muted-foreground">
+                Current Value
+              </span>
+              <span className="font-medium">
+                ${bond.value.toLocaleString()}
+              </span>
             </div>
           )}
           {!isOwned && (
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Minimum Amount</span>
+              <span className="text-sm text-muted-foreground">
+                Minimum Amount
+              </span>
               <span className="font-medium">
                 {bond.minAmount.toLocaleString()} {bond.name.split(" ")[0]}
               </span>
@@ -86,8 +98,12 @@ export function BondCard({ bond, isOwned = false }: BondCardProps) {
           )}
           {!isOwned && (
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Remaining Supply</span>
-              <span className="font-medium">${bond.remainingSupply.toLocaleString()}</span>
+              <span className="text-sm text-muted-foreground">
+                Remaining Supply
+              </span>
+              <span className="font-medium">
+                ${bond.remainingSupply.toLocaleString()}
+              </span>
             </div>
           )}
           <div className="mt-2">
@@ -96,10 +112,15 @@ export function BondCard({ bond, isOwned = false }: BondCardProps) {
                 <Calendar className="h-3 w-3" />
                 <span>Matures {maturityDate.toLocaleDateString()}</span>
               </div>
-              <span className="text-xs font-medium">{daysRemaining} days left</span>
+              <span className="text-xs font-medium">
+                {daysRemaining} days left
+              </span>
             </div>
             <div className="h-2 w-full rounded-full bg-muted">
-              <div className="h-full rounded-full bg-primary" style={{ width: `${progressPercent}%` }} />
+              <div
+                className="h-full rounded-full bg-primary max-w-full"
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
           </div>
         </div>
@@ -124,6 +145,5 @@ export function BondCard({ bond, isOwned = false }: BondCardProps) {
         )}
       </CardFooter>
     </Card>
-  )
+  );
 }
-

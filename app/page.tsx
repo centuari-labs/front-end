@@ -1,11 +1,10 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { MarketCard } from "@/components/market-card"
-import { StatsCard } from "@/components/stats-card"
-import { marketData } from "@/lib/data"
-
+import { Button } from "@/components/ui/button";
+import { MarketCard } from "@/components/market-card";
+import { StatsCard } from "@/components/stats-card";
+import { marketData } from "@/lib/data";
 
 export default function HomePage() {
   return (
@@ -15,7 +14,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                <span className="gradient-text">PINJOC</span>
+                <span className="gradient-text">Centuari</span>
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 A DeFi platform revolutionizing CLOB for borrowers and lenders.
@@ -41,13 +40,35 @@ export default function HomePage() {
       <section className="container px-4 md:px-6">
         <div className="grid gap-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight gradient-blue-text">Platform Statistics</h2>
+            <h2 className="text-2xl font-bold tracking-tight gradient-blue-text">
+              Platform Statistics
+            </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatsCard title="Total Value Locked" value="$1.24B" change="+5.4%" isPositive={true} />
-            <StatsCard title="Total Borrowed" value="$820M" change="+2.1%" isPositive={true} />
-            <StatsCard title="Active Users" value="42.5K" change="+12.3%" isPositive={true} />
-            <StatsCard title="Markets" value="24" change="+2" isPositive={true} />
+            <StatsCard
+              title="Total Value Locked"
+              value="$1.24B"
+              change="+5.4%"
+              isPositive={true}
+            />
+            <StatsCard
+              title="Total Borrowed"
+              value="$820M"
+              change="+2.1%"
+              isPositive={true}
+            />
+            <StatsCard
+              title="Active Users"
+              value="42.5K"
+              change="+12.3%"
+              isPositive={true}
+            />
+            <StatsCard
+              title="Markets"
+              value="24"
+              change="+2"
+              isPositive={true}
+            />
           </div>
         </div>
       </section>
@@ -55,31 +76,35 @@ export default function HomePage() {
       <section className="container px-4 md:px-6">
         <div className="grid gap-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight gradient-coral-text">Popular Markets</h2>
-            <Link href="/markets" className="flex items-center text-sm font-medium text-coral">
+            <h2 className="text-2xl font-bold tracking-tight gradient-coral-text">
+              Popular Markets
+            </h2>
+            <Link
+              href="/markets"
+              className="flex items-center text-sm font-medium text-coral"
+            >
               View all markets
               <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {marketData.slice(0, 6).map((market) => (
-              <MarketCard 
-                key={market.id} 
-                id={market.id} 
-                name={market.name} 
-                lendingAPY={market.lendingAPY} 
-                borrowingAPY={market.borrowingAPY} 
-                totalSupply={market.totalSupply} 
-                totalBorrowed={market.totalBorrowed} 
-                trending={market.trending} 
-                lendTokenUrl='https://etherscan.io/token/images/usdc_ofc_32.svg' 
-                borrowTokenUrl='https://etherscan.io/token/images/weth_28.png?v=2' />
+              <MarketCard
+                key={market.id}
+                id={market.id}
+                name={market.name}
+                lendingAPY={market.lendingAPY}
+                borrowingAPY={market.borrowingAPY}
+                totalSupply={market.totalSupply}
+                totalBorrowed={market.totalBorrowed}
+                trending={market.trending}
+                lendTokenUrl="https://etherscan.io/token/images/usdc_ofc_32.svg"
+                borrowTokenUrl="https://etherscan.io/token/images/weth_28.png?v=2"
+              />
             ))}
           </div>
         </div>
       </section>
-
     </div>
-  )
+  );
 }
-

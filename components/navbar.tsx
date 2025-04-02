@@ -16,12 +16,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -50,7 +44,7 @@ export function Navbar() {
               />
             </div>
             <span className="hidden font-bold sm:inline-block gradient-text">
-              PINJOC
+              Centuari
             </span>
           </Link>
         </div>

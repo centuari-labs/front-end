@@ -17,8 +17,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x1234567890abcdef1234567890abcdef12345678",
     description: "USDC stablecoin paired with Ethereum",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
   {
     id: "wbtc-eth",
@@ -37,8 +37,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0xabcdef1234567890abcdef1234567890abcdef12",
     description: "Wrapped Bitcoin paired with Ethereum",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
   {
     id: "dai-usdc",
@@ -57,8 +57,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x7890abcdef1234567890abcdef1234567890abcd",
     description: "DAI stablecoin paired with USDC stablecoin",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
   {
     id: "eth-usdt",
@@ -77,8 +77,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0xdef1234567890abcdef1234567890abcdef123456",
     description: "Ethereum paired with USDT stablecoin",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
   {
     id: "link-eth",
@@ -97,8 +97,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x567890abcdef1234567890abcdef1234567890ab",
     description: "Chainlink token paired with Ethereum",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
   {
     id: "aave-eth",
@@ -117,10 +117,10 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x90abcdef1234567890abcdef1234567890abcdef",
     description: "AAVE token paired with Ethereum",
-    lendTokenUrl: 'https://etherscan.io/token/images/usdc_ofc_32.svg',
-    borrowTokenUrl: 'https://etherscan.io/token/images/weth_28.png?v=2'
+    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
   },
-]
+];
 
 // Lending positions
 export const lendingPositions = [
@@ -144,7 +144,7 @@ export const lendingPositions = [
     apy: 3.85,
     startDate: "2023-05-22T14:45:00Z",
   },
-]
+];
 
 // Borrowing positions
 export const borrowingPositions = [
@@ -160,7 +160,7 @@ export const borrowingPositions = [
     healthFactor: 1.85,
     collateralRatio: 150,
   },
-]
+];
 
 // Tokenized bonds
 export const tokenizedBonds = [
@@ -200,7 +200,7 @@ export const tokenizedBonds = [
     minAmount: 0.01,
     remainingSupply: 180000,
   },
-]
+];
 
 // My bonds
 export const myBonds = [
@@ -215,7 +215,7 @@ export const myBonds = [
     amount: 5000,
     value: 5000,
   },
-]
+];
 
 // Transaction history
 export const transactionHistory = [
@@ -228,7 +228,8 @@ export const transactionHistory = [
     value: 10000,
     timestamp: "2023-06-15T10:30:00Z",
     status: "completed",
-    txHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    txHash:
+      "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
   },
   {
     id: "tx-2",
@@ -239,7 +240,8 @@ export const transactionHistory = [
     value: 5000,
     timestamp: "2023-05-22T14:45:00Z",
     status: "completed",
-    txHash: "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+    txHash:
+      "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
   },
   {
     id: "tx-3",
@@ -250,7 +252,8 @@ export const transactionHistory = [
     value: 5000,
     timestamp: "2023-06-10T09:15:00Z",
     status: "completed",
-    txHash: "0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456",
+    txHash:
+      "0x7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456",
   },
   {
     id: "tx-4",
@@ -261,7 +264,8 @@ export const transactionHistory = [
     value: 25.34,
     timestamp: "2023-06-22T00:00:00Z",
     status: "completed",
-    txHash: "0xdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc",
+    txHash:
+      "0xdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc",
   },
   {
     id: "tx-5",
@@ -272,7 +276,7 @@ export const transactionHistory = [
     value: 1000,
     timestamp: "2023-06-01T11:20:00Z",
     status: "completed",
-    txHash: "0x567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234",
+    txHash:
+      "0x567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234",
   },
-]
-
+];

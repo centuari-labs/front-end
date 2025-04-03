@@ -58,12 +58,6 @@ export default function HomePage() {
               isPositive={true}
             />
             <StatsCard
-              title="Active Users"
-              value="42.5K"
-              change="+12.3%"
-              isPositive={true}
-            />
-            <StatsCard
               title="Markets"
               value="24"
               change="+2"
@@ -81,7 +75,7 @@ export default function HomePage() {
             </h2>
             <Link
               href="/markets"
-              className="flex items-center text-sm font-medium text-muted-foreground"
+              className="flex items-center text-sm font-medium text-slate-300"
             >
               View all markets
               <ArrowRight className="ml-1 h-4 w-4" />

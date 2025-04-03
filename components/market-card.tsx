@@ -42,7 +42,9 @@ export function MarketCard({
         <Separator className="my-4" />
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-muted-foreground ">Lending APY</p>
+            <p className="text-sm text-muted-foreground dark:text-muted-dark">
+              Lending APY
+            </p>
             <p
               className={cn(
                 "text-lg font-bold",
@@ -53,20 +55,32 @@ export function MarketCard({
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Borrowing APY</p>
-            <p className="text-lg font-bold">{borrowingAPY}%</p>
+            <p className="text-sm text-muted-foreground dark:text-muted-dark">
+              Borrowing APY
+            </p>
+            <p className="text-lg font-bold dark:text-primary-dark">
+              {borrowingAPY}%
+            </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Supply</p>
-            <p className="font-medium">${totalSupply.toLocaleString()}</p>
+            <p className="text-sm text-muted-foreground dark:text-muted-dark">
+              Total Supply
+            </p>
+            <p className="font-medium dark:text-primary-dark">
+              ${totalSupply.toLocaleString()}
+            </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Borrowed</p>
-            <p className="font-medium">${totalBorrowed.toLocaleString()}</p>
+            <p className="text-sm text-muted-foreground dark:text-muted-dark">
+              Total Borrowed
+            </p>
+            <p className="font-medium dark:text-primary-dark">
+              ${totalBorrowed.toLocaleString()}
+            </p>
           </div>
         </div>
       </CardContent>
-      <CardFooter className="bg-muted/50 p-4">
+      <CardFooter className="bg-muted/50 dark:bg-card-dark p-4">
         <Link href={`/markets/${id}`} className="w-full">
           <Button variant="colorful" className="w-full">
             View Market

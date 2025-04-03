@@ -20,7 +20,7 @@ export function StatsCard({
     <Card className="card-colorful">
       <CardContent className="p-6">
         <div className="flex flex-col gap-1">
-          <p className="text-sm font-medium text-muted-foreground dark:text-foreground-dark">
+          <p className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
             {title}
           </p>
           <p className="text-2xl font-bold dark:text-primary-dark">{value}</p>

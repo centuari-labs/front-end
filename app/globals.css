@@ -109,6 +109,7 @@
   }
 
   .btn-colorful:hover::before {
+    background: linear-gradient(45deg, #0f3460, #e94560);
     opacity: 1;
   }
 

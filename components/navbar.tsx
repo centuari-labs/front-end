@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -13,26 +13,36 @@ import {
   X,
   ChevronDown,
   LogIn,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { useTheme } from "next-themes";
+
+const routes = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/markets", label: "Markets", icon: BarChart2 },
+  { href: "/my-positions", label: "My Positions", icon: Wallet },
+  { href: "/tokenized-bonds", label: "Tokenized Bonds", icon: FileText },
+  { href: "/history", label: "History", icon: Clock },
+];
 
 export function Navbar() {
+  const { setTheme } = useTheme();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const routes = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/markets", label: "Markets", icon: BarChart2 },
-    { href: "/my-positions", label: "My Positions", icon: Wallet },
-    { href: "/tokenized-bonds", label: "Tokenized Bonds", icon: FileText },
-    { href: "/history", label: "History", icon: Clock },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b dark:border-b-0 bg-background/95 dark:bg-[#1a1b2f] backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="flex items-center space-x-2">
@@ -43,7 +53,7 @@ export function Navbar() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="hidden font-bold sm:inline-block gradient-text">
+            <span className="hidden font-bold sm:inline-block dark:gradient-text gradient-text">
               Centuari
             </span>
           </Link>
@@ -60,8 +70,10 @@ export function Navbar() {
                 key={route.href}
                 href={route.href}
                 className={cn(
-                  "group flex items-center px-3 py-2 text-sm font-medium transition-colors hover:text-foreground",
-                  isActive ? "text-foreground" : "text-muted-foreground"
+                  "group flex items-center px-3 py-2 text-sm font-medium transition-colors hover:text-foreground hover:dark:text-primary-dark",
+                  isActive
+                    ? "text-foreground dark:text-primary-dark"
+                    : "text-muted-foreground dark:text-neutral-300"
                 )}
               >
                 <div className="relative">
@@ -114,6 +126,28 @@ export function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu> */}
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                  System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 

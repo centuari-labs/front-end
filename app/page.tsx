@@ -9,14 +9,14 @@ import { marketData } from "@/lib/data";
 export default function HomePage() {
   return (
     <div className="flex flex-col gap-8 pb-8">
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-background to-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-background to-muted dark:bg-gradient-to-r dark:from-background-dark dark:to-muted-dark">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
                 <span className="gradient-text">Centuari</span>
               </h1>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+              <p className="mx-auto max-w-[700px] text-muted-foreground dark:text-primary-dark md:text-xl">
                 A DeFi platform revolutionizing CLOB for borrowers and lenders.
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
             </h2>
             <Link
               href="/markets"
-              className="flex items-center text-sm font-medium text-coral"
+              className="flex items-center text-sm font-medium text-muted-foreground"
             >
               View all markets
               <ArrowRight className="ml-1 h-4 w-4" />

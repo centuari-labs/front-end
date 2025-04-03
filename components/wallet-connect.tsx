@@ -8,12 +8,11 @@ import {
   darkTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { getConfig } from "@/lib/wagmi";
 import { useTheme } from "next-themes";
-import { headers } from "next/headers";
 
-import { type ReactNode, useState } from "react";
+import { useState } from "react";
 
 interface IWalletConnectProps extends PropsWithChildren {
   initialState: State | undefined;
@@ -28,20 +27,29 @@ export const CustomRainbowContext = ({ children }: PropsWithChildren) => {
   );
 };
 
-const queryClient = new QueryClient();
-
 export default function WalletLayout({
   children,
   initialState,
 }: IWalletConnectProps) {
+  const [isClient, setIsClient] = useState(false);
   const [config] = useState(() => getConfig());
   const [queryClient] = useState(() => new QueryClient());
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <WagmiProvider config={config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>
-        <CustomRainbowContext>{children}</CustomRainbowContext>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <>
+      {isClient ? (
+        <WagmiProvider config={config} initialState={initialState}>
+          <QueryClientProvider client={queryClient}>
+            <CustomRainbowContext>
+              <>{children}</>
+            </CustomRainbowContext>
+          </QueryClientProvider>
+        </WagmiProvider>
+      ) : null}
+    </>
   );
 }

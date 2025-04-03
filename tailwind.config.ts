@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -20,14 +20,26 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        // textColor: {
+        //   dark: "#171717",
+        // },
+        border: {
+          light: "hsl(var(--border))",
+          DEFAULT: "hsl(var(--border))",
+          dark: "hsl(var(--border-dark))",
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          light: "hsl(var(--background))",
+          DEFAULT: "hsl(var(--background))",
+          dark: "hsl(var(--background-dark))",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          dark: "hsl(var(--primary-dark))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -40,6 +52,7 @@ const config = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+          dark: "hsl(var(--muted-dark))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -52,6 +65,7 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+          dark: "hsl(var(--dark-surface))",
         },
         // Custom theme colors - High Contrast Midnight Palette
         purple: {
@@ -127,13 +141,15 @@ const config = {
           "linear-gradient(rgba(159, 122, 234, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(159, 122, 234, 0.03) 1px, transparent 1px)",
         "gradient-primary": "linear-gradient(135deg, #9f7aea 0%, #b794f4 100%)",
         "gradient-card": "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
-        "gradient-card-dark": "linear-gradient(135deg, #1e2538 0%, #131a2b 100%)",
+        "gradient-card-dark":
+          "linear-gradient(135deg, #1e2538 0%, #131a2b 100%)",
         "gradient-purple": "linear-gradient(135deg, #9f7aea 0%, #b794f4 100%)",
-        "gradient-dark-purple": "linear-gradient(135deg, #553c9a 0%, #805ad5 100%)",
+        "gradient-dark-purple":
+          "linear-gradient(135deg, #553c9a 0%, #805ad5 100%)",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

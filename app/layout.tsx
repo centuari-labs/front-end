@@ -17,27 +17,34 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(
+    getConfig(),
+    (await headers()).get("cookie")
+  );
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
-          <WalletLayout>
+          <WalletLayout initialState={initialState}>
             <div className="relative flex min-h-screen flex-col">
               <Navbar />
-              <main className="flex-1 bg-background">{children}</main>
+              <main className="flex-1 dark:bg-background-dark bg-background">
+                {children}
+              </main>
               <footer className="border-t py-6 md:py-0">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm dark:text-muted-dark text-muted-foreground">
                     &copy; {new Date().getFullYear()} Centuari. All rights
                     reserved.
                   </p>
@@ -64,3 +71,6 @@ export default function RootLayout({
 
 import "./globals.css";
 import WalletLayout from "@/components/wallet-connect";
+import { cookieToInitialState } from "wagmi";
+import { getConfig } from "@/lib/wagmi";
+import { headers } from "next/headers";

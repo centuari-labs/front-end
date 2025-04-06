@@ -12,8 +12,8 @@ interface MarketCardProps {
   name: string;
   lendingAPY: number;
   borrowingAPY: number;
-  totalSupply: number;
-  totalBorrowed: number;
+  marketVolume: number;
+  ltv: number;
   trending: number;
   lendTokenUrl: string;
   borrowTokenUrl: string;
@@ -24,8 +24,8 @@ export function MarketCard({
   name,
   lendingAPY,
   borrowingAPY,
-  totalSupply,
-  totalBorrowed,
+  marketVolume,
+  ltv,
   trending,
   lendTokenUrl,
   borrowTokenUrl,
@@ -64,18 +64,18 @@ export function MarketCard({
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
-              Total Supply
+              Market Volume
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${totalSupply.toLocaleString()}
+              ${marketVolume.toLocaleString()}
             </p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
-              Total Borrowed
+              LTV
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${totalBorrowed.toLocaleString()}
+              ${ltv.toLocaleString()}
             </p>
           </div>
         </div>

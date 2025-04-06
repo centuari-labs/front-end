@@ -92,8 +92,8 @@ export default function HomePage() {
                 name={market.name}
                 lendingAPY={market.lendingAPY}
                 borrowingAPY={market.borrowingAPY}
-                totalSupply={market.totalSupply}
-                totalBorrowed={market.totalBorrowed}
+                marketVolume={market.marketVolume}
+                ltv={market.ltv}
                 trending={market.trending}
                 lendTokenUrl="https://etherscan.io/token/images/usdc_ofc_32.svg"
                 borrowTokenUrl="https://etherscan.io/token/images/weth_28.png?v=2"

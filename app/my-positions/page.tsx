@@ -33,7 +33,7 @@ export default function MyPositionsPage() {
         <div className="grid gap-6 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle>Total Supplied</CardTitle>
+              <CardTitle>Active Supply</CardTitle>
               <CardDescription>Across all markets</CardDescription>
             </CardHeader>
             <CardContent>
@@ -45,7 +45,7 @@ export default function MyPositionsPage() {
           </Card>
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle>Total Borrowed</CardTitle>
+              <CardTitle>Active Borrow</CardTitle>
               <CardDescription>Across all markets</CardDescription>
             </CardHeader>
             <CardContent>

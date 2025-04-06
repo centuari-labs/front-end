@@ -1,27 +1,38 @@
-import type { Metadata } from "next"
-import { Calendar, Download, Filter } from "lucide-react"
+import type { Metadata } from "next";
+import { Calendar, Download, Filter } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { HistoryTable } from "@/components/history-table"
-import { transactionHistory } from "@/lib/data"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HistoryTable } from "@/components/history-table";
+import { transactionHistory } from "@/lib/data";
+import UnderConstruction from "@/components/under-construction";
 
 export const metadata: Metadata = {
   title: "Transaction History - DeFi Lending & Borrowing",
   description: "View your transaction history",
-}
+};
 
 export default function HistoryPage() {
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Transaction History</h1>
-          <p className="text-muted-foreground">View and export your complete transaction history.</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Transaction History
+          </h1>
+          <p className="text-muted-foreground">
+            View and export your complete transaction history.
+          </p>
         </div>
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="h-8">
               <Calendar className="mr-2 h-4 w-4" />
@@ -84,9 +95,9 @@ export default function HistoryPage() {
           <TabsContent value="interest" className="mt-6">
             <HistoryTable transactions={transactionHistory.filter((tx) => tx.type === "interest")} />
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
       </div>
+      <UnderConstruction />
     </div>
-  )
+  );
 }
-

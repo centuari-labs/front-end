@@ -1,19 +1,30 @@
-import Link from "next/link"
-import { ArrowLeft, ExternalLink, Info } from "lucide-react"
+import Link from "next/link";
+import { ArrowLeft, ExternalLink, Info } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MarketChart } from "@/components/market-chart"
-import { OrderBook } from "@/components/order-book"
-import { LendingForm } from "@/components/lending-form"
-import { BorrowingForm } from "@/components/borrowing-form"
-import { OpenOrders } from "@/components/open-orders"
-import { marketData } from "@/lib/data"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MarketChart } from "@/components/market-chart";
+import { OrderBook } from "@/components/order-book";
+import { LendingForm } from "@/components/lending-form";
+import { BorrowingForm } from "@/components/borrowing-form";
+import { OpenOrders } from "@/components/open-orders";
+import { marketData } from "@/lib/data";
 
-export default function MarketDetailPage({ params }: { params: { marketId: string } }) {
+export default function MarketDetailPage({
+  params,
+}: {
+  params: { marketId: string };
+}) {
   // In a real app, we would fetch this data based on the marketId
-  const market = marketData.find((m) => m.id === params.marketId) || marketData[0]
+  const market =
+    marketData.find((m) => m.id === params.marketId) || marketData[0];
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -56,23 +67,39 @@ export default function MarketDetailPage({ params }: { params: { marketId: strin
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">Total Supply</span>
-                <span className="text-xl font-bold">${market.totalSupply.toLocaleString()}</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Market Volume
+                </span>
+                <span className="text-xl font-bold">
+                  ${market.marketVolume.toLocaleString()}
+                </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">Total Borrowed</span>
-                <span className="text-xl font-bold">${market.totalBorrowed.toLocaleString()}</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  LTV
+                </span>
+                <span className="text-xl font-bold">
+                  ${market.ltv.toLocaleString()}
+                </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">Lending APY</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Lending APY
+                </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-xl font-bold text-green-500">{market.lendingAPY}%</span>
+                  <span className="text-xl font-bold text-green-500">
+                    {market.lendingAPY}%
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">Borrowing APY</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Borrowing APY
+                </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-xl font-bold">{market.borrowingAPY}%</span>
+                  <span className="text-xl font-bold">
+                    {market.borrowingAPY}%
+                  </span>
                 </div>
               </div>
             </div>
@@ -82,7 +109,9 @@ export default function MarketDetailPage({ params }: { params: { marketId: strin
         <Card className="card-colorful">
           <CardHeader className="pb-3">
             <CardTitle>Order Book</CardTitle>
-            <CardDescription>Current lending and borrowing orders</CardDescription>
+            <CardDescription>
+              Current lending and borrowing orders
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <OrderBook marketId={market.id} />
@@ -98,10 +127,16 @@ export default function MarketDetailPage({ params }: { params: { marketId: strin
           <CardContent>
             <Tabs defaultValue="lend" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="lend" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                <TabsTrigger
+                  value="lend"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
                   Lend
                 </TabsTrigger>
-                <TabsTrigger value="borrow" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                <TabsTrigger
+                  value="borrow"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
                   Borrow
                 </TabsTrigger>
               </TabsList>
@@ -126,6 +161,5 @@ export default function MarketDetailPage({ params }: { params: { marketId: strin
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

@@ -1,4 +1,5 @@
 let userConfig = undefined
+
 try {
   userConfig = await import('./v0-user-next.config')
 } catch (e) {
@@ -20,6 +21,12 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+  },
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    config.externals.push('pino-pretty', 'encoding');
+    return config;
   },
 }
 

@@ -29,7 +29,7 @@ interface MarketTableProps {
 
 export function MarketTable({ markets }: MarketTableProps) {
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border dark:border-muted-dark">
       <Table>
         <TableHeader>
           <TableRow>

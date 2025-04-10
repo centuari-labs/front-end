@@ -58,16 +58,16 @@ export default function MyPositionsPage() {
         </div>
 
         <Tabs defaultValue="lending" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:w-auto dark:bg-gray-800">
+          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
             <TabsTrigger
               value="lending"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white text-white"
+              className="data-[state=active]:bg-primary data-[state=active]:text-white dark:text-white"
             >
               Lending Positions
             </TabsTrigger>
             <TabsTrigger
               value="borrowing"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white"
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white dark:text-white"
             >
               Borrowing Positions
             </TabsTrigger>

@@ -25,7 +25,7 @@ export default function MyPositionsPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight">My Positions</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground dark:text-muted-dark">
             View and manage your current lending and borrowing positions.
           </p>
         </div>
@@ -38,9 +38,9 @@ export default function MyPositionsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">$12,450.83</div>
-              <p className="text-xs text-muted-foreground">
+              {/* <p className="text-xs text-muted-foreground">
                 +$245.23 (1.98%) today
-              </p>
+              </p> */}
             </CardContent>
           </Card>
           <Card>
@@ -50,17 +50,27 @@ export default function MyPositionsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">$5,280.42</div>
-              <p className="text-xs text-muted-foreground">
+              {/* <p className="text-xs text-muted-foreground">
                 -$120.15 (2.23%) today
-              </p>
+              </p> */}
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="lending" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:w-auto">
-            <TabsTrigger value="lending">Lending Positions</TabsTrigger>
-            <TabsTrigger value="borrowing">Borrowing Positions</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 md:w-auto dark:bg-gray-800">
+            <TabsTrigger
+              value="lending"
+              className="data-[state=active]:bg-primary data-[state=active]:text-white text-white"
+            >
+              Lending Positions
+            </TabsTrigger>
+            <TabsTrigger
+              value="borrowing"
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white"
+            >
+              Borrowing Positions
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="lending" className="mt-6">
             <div className="flex items-center justify-between mb-4">

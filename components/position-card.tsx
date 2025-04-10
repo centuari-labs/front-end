@@ -16,6 +16,8 @@ interface PositionCardProps {
     marketIcon: string;
     amount: number;
     value: number;
+    collateral?: string;
+    maturityDate: string;
     apy: number;
     startDate: string;
     endDate?: string;
@@ -44,8 +46,12 @@ export function PositionCard({ position, type }: PositionCardProps) {
               />
             </div>
             <div>
-              <h3 className="font-semibold">{position.marketName}</h3>
-              <p className="text-sm text-muted-foreground">
+              <Link href={`/markets/${position.marketId}`}>
+                <h3 className="font-semibold hover:font-bold">
+                  {position.marketName}
+                </h3>
+              </Link>
+              <p className="text-sm dark:text-muted-dark">
                 {isLending ? "Lending Position" : "Borrowing Position"}
               </p>
             </div>
@@ -54,7 +60,7 @@ export function PositionCard({ position, type }: PositionCardProps) {
         <Separator className="my-4" />
         <div className="grid gap-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-muted-foreground dark:text-muted-dark">
               {isLending ? "Supplied" : "Borrowed"}
             </span>
             <span className="font-medium">
@@ -63,13 +69,17 @@ export function PositionCard({ position, type }: PositionCardProps) {
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Value</span>
+            <span className="text-sm text-muted-foreground dark:text-muted-dark">
+              Value
+            </span>
             <span className="font-medium">
               ${position.value.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">APY</span>
+            <span className="text-sm text-muted-foreground dark:text-muted-dark">
+              APY
+            </span>
             <span
               className={cn("font-medium", isLending ? "text-green-500" : "")}
             >
@@ -77,10 +87,34 @@ export function PositionCard({ position, type }: PositionCardProps) {
               {position.apy}%
             </span>
           </div>
+          {!isLending && (
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground dark:text-muted-dark">
+                Collateral
+              </span>
+              <span
+                className={cn("font-medium", isLending ? "text-green-500" : "")}
+              >
+                {position.collateral}
+              </span>
+            </div>
+          )}
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground dark:text-muted-dark">
+              Maturity
+            </span>
+            <span className="font-semibold">
+              {new Date(position.maturityDate).toLocaleString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
+          </div>
           {!isLending && position.healthFactor && (
             <div className="mt-2">
               <div className="flex justify-between mb-1">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground dark:text-muted-dark">
                   Health Factor
                 </span>
                 <span
@@ -108,7 +142,7 @@ export function PositionCard({ position, type }: PositionCardProps) {
               />
             </div>
           )}
-          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground dark:text-muted-dark">
             <Clock className="h-3 w-3" />
             <span>
               Started {new Date(position.startDate).toLocaleDateString()}
@@ -116,8 +150,8 @@ export function PositionCard({ position, type }: PositionCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-2 bg-muted/50 p-4">
-        <Button variant={"destructive"} size="sm">
+      <CardFooter className="grid grid-cols-2 gap-2 bg-muted/50 dark:bg-card-dark p-4">
+        {/* <Button variant={"destructive"} size="sm">
           {isLending ? "Withdraw" : "Repay"}
         </Button>
         <Link href={`/markets/${position.marketId}`}>
@@ -125,7 +159,13 @@ export function PositionCard({ position, type }: PositionCardProps) {
             {isLending ? "Add More" : "View Market"}
             <ArrowUpRight className="ml-1 h-3 w-3" />
           </Button>
-        </Link>
+        </Link> */}
+        <Button variant={"destructive"} size="sm">
+          Repay
+        </Button>
+        <Button variant="outline" size="sm" className="w-full">
+          Withdraw
+        </Button>
       </CardFooter>
     </Card>
   );

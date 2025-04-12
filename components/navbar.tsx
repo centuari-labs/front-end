@@ -11,10 +11,9 @@ import {
   Clock,
   Menu,
   X,
-  ChevronDown,
-  LogIn,
   Sun,
   Moon,
+  Droplets,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,6 +29,7 @@ import { useTheme } from "next-themes";
 
 const routes = [
   { href: "/", label: "Home", icon: Home },
+  { href: "/feucets", label: "Faucets", icon: Droplets },
   { href: "/markets", label: "Markets", icon: BarChart2 },
   { href: "/my-positions", label: "My Positions", icon: Wallet },
   { href: "/tokenized-bonds", label: "Tokenized Bonds", icon: FileText },

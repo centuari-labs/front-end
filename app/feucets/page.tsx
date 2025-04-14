@@ -1,12 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Metadata } from "next";
-import { FeucetCard } from "./_components/feucet-card";
 import { feucetData } from "@/lib/data";
-import { useState } from "react";
 import { FeucetList } from "./_components/feucet-list";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Feucets - DeFi Lending & Borrowing",
@@ -19,7 +15,7 @@ export default function FeucetsPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight">Choose Feucets</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground dark:text-muted-dark">
             Get testnet tokens. Multiple assets available. Experiment with smart
             contracts today.
           </p>

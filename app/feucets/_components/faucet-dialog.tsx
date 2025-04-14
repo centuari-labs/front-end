@@ -1,9 +1,8 @@
-import { Copy, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -16,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { FeucetDataProps } from "./feucet-list";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { TokenPair } from "./token-pair";
 
 export function FaucetDialog({
   data,
@@ -49,7 +49,17 @@ export function FaucetDialog({
                   data.length - 1 === data.indexOf(feucet) ? "mb-4" : "mb-0"
                 )}
               >
-                <Label htmlFor={`address-${feucet.id}`}>{feucet.name}</Label>
+                <Label
+                  htmlFor={`address-${feucet.id}`}
+                  className="flex items-center gap-1"
+                >
+                  <TokenPair
+                    icons={feucet.tokenIcons}
+                    className="h-5 border-0 w-5"
+                  />
+
+                  {feucet.name}
+                </Label>
                 <div className="flex items-center gap-2">
                   <Input
                     id={`address-${feucet.id}`}

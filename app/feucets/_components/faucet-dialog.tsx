@@ -27,7 +27,9 @@ export function FaucetDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"teal"}>Continue</Button>
+        <Button variant={"teal"} size={"sm"}>
+          Continue
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md md:max-w-3xl">
         <DialogHeader>

@@ -15,23 +15,13 @@ export function FeucetCard({
   handleFeucetSelect,
   selectedFeucet,
 }: FeucetCardProps) {
-  const {
-    id,
-    name,
-    chain,
-    chainId,
-    tokenIcons,
-    explorer,
-    faucetUrl,
-    claimLimit,
-    status,
-  } = data;
+  const { id, name, tokenIcons, claimLimit } = data;
 
   return (
     <Card
       className={cn(
         "card-colorful",
-        selectedFeucet.includes(id) && "bg-slate-100 border-fuchsia-200"
+        selectedFeucet.includes(id) && "bg-slate-200 dark:bg-slate-700"
       )}
       onClick={() => handleFeucetSelect(id)}
     >

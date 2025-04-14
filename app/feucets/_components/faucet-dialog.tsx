@@ -31,10 +31,10 @@ export function FaucetDialog({
           Continue
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md md:max-w-3xl">
+      <DialogContent className="max-w-md md:max-w-3xl dark:bg-slate-950 dark:border-muted-dark">
         <DialogHeader>
           <DialogTitle>Get tokens</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-muted-foreground dark:text-muted-dark">
             Confirm your addresses and get the tokens.
           </DialogDescription>
         </DialogHeader>
@@ -69,7 +69,7 @@ export function FaucetDialog({
           </div>
         </div>
         <DialogFooter className="sm:justify-center">
-          <Button type="button" variant="purple" size={"lg"}>
+          <Button type="button" variant="colorful" size={"lg"}>
             Get Tokens
           </Button>
         </DialogFooter>

@@ -47,7 +47,7 @@ export default function HomePage() {
               Platform Statistics
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <StatsCard
               title="Total Value Locked"
               value="$1.24B"

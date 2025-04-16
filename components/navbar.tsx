@@ -106,7 +106,7 @@ const NavbarLinkMobile = ({
 };
 
 export function Navbar() {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isConnected } = useAccount();
@@ -116,16 +116,16 @@ export function Navbar() {
       <div className="container flex h-16 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="relative h-8 w-8 overflow-hidden rounded-full">
+            <div className="relative h-full w-40 rounded-full">
               <img
-                src="/logo.png"
+                src={theme === "dark" ? "/logo-color.png" : "logo-black.png"}
                 alt="DeFi Lending Logo"
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="hidden font-bold sm:inline-block dark:gradient-text gradient-text">
+            {/* <span className="hidden font-bold sm:inline-block dark:gradient-text gradient-text">
               Centuari
-            </span>
+            </span> */}
           </Link>
         </div>
 

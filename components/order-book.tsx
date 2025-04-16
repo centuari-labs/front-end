@@ -39,7 +39,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
     <div className="space-y-1">
       {/* Sell Orders (Higher rates) */}
       <div className="space-y-1">
-        <h3 className="text-sm font-medium text-muted-foreground mb-2">
+        <h3 className="text-sm font-medium text-muted-foreground dark:text-muted-dark mb-2">
           Lend Orders
         </h3>
         {orders
@@ -51,7 +51,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
             >
               {/* Background bar */}
               <div
-                className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-200"
+                className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-200 dark:bg-green-700"
                 style={{ width: `${(order.amount / maxAmount) * 100}%` }}
               />
               {/* Content */}
@@ -70,7 +70,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
 
       {/* Buy Orders (Lower rates) */}
       <div className="space-y-1">
-        <h3 className="text-sm font-medium text-muted-foreground mb-2">
+        <h3 className="text-sm font-medium text-muted-foreground dark:text-muted-dark mb-2">
           Borrow Orders
         </h3>
         {orders
@@ -82,7 +82,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
             >
               {/* Background bar */}
               <div
-                className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-200"
+                className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-200 dark:bg-red-700"
                 style={{ width: `${(order.amount / maxAmount) * 100}%` }}
               />
               {/* Content */}
@@ -96,11 +96,11 @@ export function OrderBook({ marketId }: OrderBookProps) {
           ))}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground border-t border-border/30 pt-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-muted-dark border-t border-border/30 pt-4">
         <div>
           <p>
             Highest Lend:{" "}
-            <span className="text-green-300 font-medium">
+            <span className="text-green-300 dark:text-green-600 font-medium">
               {Math.max(
                 ...orders.filter((o) => o.type === "lend").map((o) => o.rate)
               )}
@@ -109,7 +109,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
           </p>
           <p>
             Lowest Borrow:{" "}
-            <span className="text-red-300 font-medium">
+            <span className="text-red-300 dark:text-red-600 font-medium">
               {Math.min(
                 ...orders.filter((o) => o.type === "borrow").map((o) => o.rate)
               )}

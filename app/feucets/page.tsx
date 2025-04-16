@@ -14,7 +14,7 @@ export default function FeucetsPage() {
     <div className="container px-4 py-8 md:px-6 md:py-12 relative">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Choose Feucets</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Choose Faucets</h1>
           <p className="text-muted-foreground dark:text-muted-dark">
             Get testnet tokens. Multiple assets available. Experiment with smart
             contracts today.

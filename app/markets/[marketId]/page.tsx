@@ -49,7 +49,9 @@ export default function MarketDetailPage({
               </Button>
             </Link>
           </div>
-          <p className="text-muted-foreground">{market.description}</p>
+          <p className="text-muted-foreground dark:text-muted-dark">
+            {market.description}
+          </p>
         </div>
       </div>
 
@@ -67,7 +69,7 @@ export default function MarketDetailPage({
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   Market Volume
                 </span>
                 <span className="text-xl font-bold">
@@ -75,7 +77,7 @@ export default function MarketDetailPage({
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   LTV
                 </span>
                 <span className="text-xl font-bold">
@@ -83,7 +85,7 @@ export default function MarketDetailPage({
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   Lending APY
                 </span>
                 <div className="flex items-center gap-1">
@@ -93,7 +95,7 @@ export default function MarketDetailPage({
                 </div>
               </div>
               <div className="flex flex-col gap-1 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   Borrowing APY
                 </span>
                 <div className="flex items-center gap-1">
@@ -126,16 +128,16 @@ export default function MarketDetailPage({
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="lend" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800 mb-6">
                 <TabsTrigger
                   value="lend"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                  className="text-white data-[state=active]:bg-blue-400 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
                 >
                   Lend
                 </TabsTrigger>
                 <TabsTrigger
                   value="borrow"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                  className="text-white data-[state=active]:bg-primary data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
                 >
                   Borrow
                 </TabsTrigger>

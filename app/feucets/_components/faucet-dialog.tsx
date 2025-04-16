@@ -78,8 +78,13 @@ export function FaucetDialog({
             ))}
           </div>
         </div>
-        <DialogFooter className="sm:justify-center">
-          <Button type="button" variant="colorful" size={"lg"}>
+        <DialogFooter>
+          <Button
+            type="button"
+            variant="colorful"
+            size={"lg"}
+            className="w-full"
+          >
             Get Tokens
           </Button>
         </DialogFooter>

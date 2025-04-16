@@ -89,13 +89,13 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
           <TabsList className="grid w-full grid-cols-2 bg-muted">
             <TabsTrigger
               value="market"
-              className="data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
+              className="data-[state=active]:bg-primary data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
             >
               Limit Order
             </TabsTrigger>
@@ -103,9 +103,9 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
           <TabsContent value="market" className="mt-4">
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
-                <div className="rounded-lg bg-muted p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Available Collateral
                     </span>
                     <span className="font-medium">
@@ -113,7 +113,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Borrowing Power
                     </span>
                     <span className="font-medium">
@@ -121,7 +121,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Max Borrow Amount
                     </span>
                     <span className="font-medium">
@@ -133,7 +133,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                 <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="amount">Amount</Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Max: {maxBorrowAmount.toLocaleString()}{" "}
                       {market.name.split("/")[0]}
                     </span>
@@ -148,7 +148,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     />
                     <Button
                       type="button"
-                      variant="purple"
+                      className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
                       size="sm"
                       onClick={() => setAmount(maxBorrowAmount.toString())}
                     >
@@ -157,13 +157,15 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Fixed APY</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Fixed APY
+                    </span>
                     <span className="font-medium">{market.borrowingAPY}%</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated cost
                     </span>
                     <span className="font-medium">
@@ -171,7 +173,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Liquidation threshold
                     </span>
                     <span className="font-medium">
@@ -179,7 +181,9 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Rate type</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Rate type
+                    </span>
                     <Badge
                       variant="outline"
                       className="bg-blue/10 text-blue border-blue/30"
@@ -190,7 +194,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
 
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-muted-foreground dark:text-muted-dark">
                         Health Factor
                       </span>
                       <span
@@ -215,7 +219,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                           : "bg-teal"
                       }
                     />
-                    <div className="flex justify-between mt-1 text-xs text-muted-foreground">
+                    <div className="flex justify-between mt-1 text-xs text-muted-foreground dark:text-muted-dark">
                       <span>Liquidation</span>
                       <span>Safe</span>
                     </div>
@@ -230,11 +234,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
           </TabsContent>
           <TabsContent value="limit" className="mt-4">
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground dark:text-muted-dark">
                 As a borrower, you can browse available lending offers in the
                 order book and accept them directly.
               </p>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm text-muted-foreground dark:text-muted-dark">
                 Select an offer from the order book tab to borrow at a fixed
                 rate set by lenders.
               </p>

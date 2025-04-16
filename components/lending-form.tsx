@@ -114,16 +114,16 @@ export function LendingForm({ market }: LendingFormProps) {
           onValueChange={setActiveTab}
           value={activeTab}
         >
-          <TabsList className="grid w-full grid-cols-2 bg-muted">
+          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
             <TabsTrigger
               value="market"
-              className="data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+              className="text-white data-[state=active]:bg-blue-400 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
+              className="text-white data-[state=active]:bg-red-400 data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
             >
               Limit Order
             </TabsTrigger>
@@ -134,7 +134,7 @@ export function LendingForm({ market }: LendingFormProps) {
                 <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="amount">Amount</Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Balance: 1,000 {market.name.split("/")[0]}
                     </span>
                   </div>
@@ -148,8 +148,8 @@ export function LendingForm({ market }: LendingFormProps) {
                     />
                     <Button
                       type="button"
-                      variant="teal"
                       size="sm"
+                      className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
                       onClick={() => setAmount("1000")}
                     >
                       MAX
@@ -157,15 +157,17 @@ export function LendingForm({ market }: LendingFormProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Fixed APY</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Fixed APY
+                    </span>
                     <span className="font-medium text-teal">
                       {market.lendingAPY}%
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
@@ -173,7 +175,7 @@ export function LendingForm({ market }: LendingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Collateral factor
                     </span>
                     <span className="font-medium">
@@ -181,7 +183,9 @@ export function LendingForm({ market }: LendingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Rate type</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Rate type
+                    </span>
                     <Badge
                       variant="outline"
                       className="bg-blue/10 text-blue border-blue/30"
@@ -203,7 +207,7 @@ export function LendingForm({ market }: LendingFormProps) {
                 <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="limit-amount">Amount</Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Balance: 1,000 {market.name.split("/")[0]}
                     </span>
                   </div>
@@ -217,8 +221,8 @@ export function LendingForm({ market }: LendingFormProps) {
                     />
                     <Button
                       type="button"
-                      variant="teal"
                       size="sm"
+                      className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500"
                       onClick={() => setAmount("1000")}
                     >
                       MAX
@@ -297,16 +301,16 @@ export function LendingForm({ market }: LendingFormProps) {
                       onChange={handleCustomRateChange}
                       className="border-input"
                     />
-                    <div className="flex justify-between text-xs text-muted-foreground">
+                    <div className="flex justify-between text-xs text-muted-foreground dark:text-muted-dark">
                       <span>Market rate: {market.lendingAPY}%</span>
                       <span>Your rate: {customRate}%</span>
                     </div>
                   </div>
                 )}
 
-                <div className="rounded-lg bg-muted p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Your Fixed APY
                     </span>
                     <span className="font-medium text-teal">
@@ -314,7 +318,7 @@ export function LendingForm({ market }: LendingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
@@ -322,7 +326,9 @@ export function LendingForm({ market }: LendingFormProps) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Order type</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Order type
+                    </span>
                     <Badge
                       variant="outline"
                       className="bg-coral/10 text-coral border-coral/30"
@@ -331,7 +337,9 @@ export function LendingForm({ market }: LendingFormProps) {
                     </Badge>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Rate type</span>
+                    <span className="text-muted-foreground dark:text-muted-dark">
+                      Rate type
+                    </span>
                     <Badge
                       variant="outline"
                       className="bg-blue/10 text-blue border-blue/30"

@@ -40,34 +40,7 @@ export default async function RootLayout({
             <div className="relative flex min-h-screen dark:bg-background-dark bg-background flex-col">
               <Navbar />
               <main className="flex-1">{children}</main>
-              <footer className="border-t dark:border-border-dark dark:bg-[#1a1b2f] ">
-                <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-                  <p className="text-sm dark:text-muted-dark text-muted-foreground">
-                    &copy; {new Date().getFullYear()} Centuari. All rights
-                    reserved.
-                  </p>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <Link
-                      href="/terms"
-                      className="hover:underline dark:text-muted-dark"
-                    >
-                      Terms
-                    </Link>
-                    <Link
-                      href="/privacy"
-                      className="hover:underline dark:text-muted-dark"
-                    >
-                      Privacy
-                    </Link>
-                    <Link
-                      href="/docs"
-                      className="hover:underline dark:text-muted-dark"
-                    >
-                      Docs
-                    </Link>
-                  </div>
-                </div>
-              </footer>
+              <Footer />
             </div>
           </WalletLayout>
         </ThemeProvider>
@@ -81,3 +54,4 @@ import WalletLayout from "@/components/wallet-connect";
 import { cookieToInitialState } from "wagmi";
 import { getConfig } from "@/lib/wagmi";
 import { headers } from "next/headers";
+import { Footer } from "@/components/footer";

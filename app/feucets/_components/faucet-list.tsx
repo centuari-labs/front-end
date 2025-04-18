@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { FeucetCard } from "./feucet-card";
+import { FeucetCard } from "./faucet-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FaucetDialog } from "./faucet-dialog";
@@ -68,11 +68,13 @@ export function FeucetList({ feucets }: { feucets: FeucetDataProps[] }) {
       {/* Fixed position element with higher z-index */}
       {selectedFeucet.length > 0 && (
         <div className="fixed bottom-4 inset-x-0 z-50 flex justify-center pb-0 md:pb-10">
-          <div className="bg-slate-800  dark:bg-slate-800 rounded-lg p-4 shadow-lg text-white transition-all duration-300 ease-in-out transform translate-y-0">
+          <div className="bg-slate-100 border dark:border-0 dark:bg-slate-800 rounded-lg p-4 shadow-lg text-white transition-all duration-300 ease-in-out transform translate-y-0">
             <div className="flex items-center justify-between gap-4 md:gap-20">
               <div className="flex items-center gap-2">
-                <Badge>{selectedFeucet.length}</Badge>
-                <p className="text-xs md:text-lg">
+                <Badge className="text-xs font-light bg-[#0C63BA]">
+                  {selectedFeucet.length}
+                </Badge>
+                <p className="text-xs md:text-sm text-muted-foreground dark:text-primary-dark">
                   {selectedFeucet.length > 1 ? "Faucets" : "Faucet"} Selected
                 </p>
               </div>
@@ -80,6 +82,7 @@ export function FeucetList({ feucets }: { feucets: FeucetDataProps[] }) {
                 <Button
                   variant="outline"
                   size={"sm"}
+                  className="text-muted-foreground border-[#0C63BA] dark:border-white dark:text-primary-dark"
                   onClick={handleFaucetClear}
                 >
                   Clear All

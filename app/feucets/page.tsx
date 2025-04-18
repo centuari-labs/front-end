@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Metadata } from "next";
 import { feucetData } from "@/lib/data";
-import { FeucetList } from "./_components/feucet-list";
+import { FeucetList } from "./_components/faucet-list";
 
 export const metadata: Metadata = {
   title: "Feucets - DeFi Lending & Borrowing",

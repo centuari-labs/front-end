@@ -57,7 +57,7 @@ export function OpenOrders({ marketId }: OpenOrdersProps) {
           orders.map((order) => (
             <div
               key={order.id}
-              className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/10"
+              className="flex items-center justify-between p-3 rounded-lg border border-border bg-slate-900/40"
             >
               <div className="flex items-center gap-3">
                 <Badge

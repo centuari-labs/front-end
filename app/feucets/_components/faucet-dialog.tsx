@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FeucetDataProps } from "./feucet-list";
+import { FeucetDataProps } from "./faucet-list";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
@@ -30,11 +30,11 @@ export function FaucetDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"teal"} size={"sm"}>
+        <Button size={"sm"} className="bg-[#0C63BA]">
           Continue
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md md:max-w-3xl dark:bg-slate-950 dark:border-muted-dark">
+      <DialogContent className="max-w-md md:max-w-3xl dark:bg-slate-950 dark:border-white/20">
         <DialogHeader>
           <DialogTitle>Get tokens</DialogTitle>
           <DialogDescription>

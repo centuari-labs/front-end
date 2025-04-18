@@ -37,11 +37,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <WalletLayout initialState={initialState}>
-            <div className="relative flex min-h-screen flex-col">
+            <div className="relative flex min-h-screen dark:bg-background-dark bg-background flex-col">
               <Navbar />
-              <main className="flex-1 dark:bg-background-dark bg-background">
-                {children}
-              </main>
+              <main className="flex-1">{children}</main>
               <footer className="border-t dark:border-border-dark dark:bg-[#1a1b2f] ">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
                   <p className="text-sm dark:text-muted-dark text-muted-foreground">

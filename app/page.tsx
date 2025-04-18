@@ -17,7 +17,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                <span className="gradient-text">Centuari</span>
+                <span>Centuari</span>
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground dark:text-primary-dark md:text-xl">
                 A DeFi platform revolutionizing CLOB for borrowers and lenders.

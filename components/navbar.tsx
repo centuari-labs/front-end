@@ -136,7 +136,9 @@ export function Navbar() {
 
             if (route.private && !isConnected) return null;
 
-            return <NavbarLink route={route} isActive={isActive} />;
+            return (
+              <NavbarLink key={route.href} route={route} isActive={isActive} />
+            );
           })}
         </nav>
 
@@ -159,25 +161,6 @@ export function Navbar() {
         {/* Connect Wallet Button */}
         <div className="hidden md:flex items-center space-x-2">
           <ConnectButton />
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-dashed">
-                <Wallet className="mr-2 h-4 w-4" />
-                <span>0x1234...5678</span>
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Wallet className="mr-2 h-4 w-4" />
-                <span>View Wallet</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LogIn className="mr-2 h-4 w-4" />
-                <span>Disconnect</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu> */}
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -208,8 +191,7 @@ export function Navbar() {
         <div className="md:hidden border-t">
           <div className="container py-2">
             <nav className="grid gap-2">
-              {routes.map((route) => {
-                const Icon = route.icon;
+              {routes.map((route, i) => {
                 const isActive = pathname === route.href;
 
                 if (route.private && !isConnected) return null;

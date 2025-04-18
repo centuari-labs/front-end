@@ -131,13 +131,13 @@ export default function MarketDetailPage({
               <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800 mb-6">
                 <TabsTrigger
                   value="lend"
-                  className="text-white data-[state=active]:bg-blue-400 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
+                  className="text-slate-400 dark:text-white data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
                 >
                   Lend
                 </TabsTrigger>
                 <TabsTrigger
                   value="borrow"
-                  className="text-white data-[state=active]:bg-primary data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
+                  className="text-slate-400 dark:text-white data-[state=active]:bg-red-500 data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
                 >
                   Borrow
                 </TabsTrigger>

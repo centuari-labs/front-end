@@ -51,7 +51,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
             >
               {/* Background bar */}
               <div
-                className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-200 dark:bg-green-700"
+                className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-300 dark:bg-green-700"
                 style={{ width: `${(order.amount / maxAmount) * 100}%` }}
               />
               {/* Content */}
@@ -82,7 +82,7 @@ export function OrderBook({ marketId }: OrderBookProps) {
             >
               {/* Background bar */}
               <div
-                className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-200 dark:bg-red-700"
+                className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-300 dark:bg-red-700"
                 style={{ width: `${(order.amount / maxAmount) * 100}%` }}
               />
               {/* Content */}

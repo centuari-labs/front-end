@@ -16,6 +16,7 @@ import { FeucetDataProps } from "./feucet-list";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
+import { useAccount } from "wagmi";
 
 export function FaucetDialog({
   data,
@@ -24,6 +25,8 @@ export function FaucetDialog({
   data: FeucetDataProps[];
   handleRemoveFaucet: (id: string) => void;
 }) {
+  const { address } = useAccount();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -34,48 +37,37 @@ export function FaucetDialog({
       <DialogContent className="max-w-md md:max-w-3xl dark:bg-slate-950 dark:border-muted-dark">
         <DialogHeader>
           <DialogTitle>Get tokens</DialogTitle>
-          <DialogDescription className="text-muted-foreground dark:text-muted-dark">
+          <DialogDescription>
             Confirm your addresses and get the tokens.
           </DialogDescription>
         </DialogHeader>
         <Separator className="my-3" />
-        <div>
-          <div className="grid gap-8 max-h-[300px] overflow-y-auto px-3">
-            {data.map((feucet) => (
-              <div
-                key={feucet.id}
-                className={cn(
-                  "flex flex-col gap-2",
-                  data.length - 1 === data.indexOf(feucet) ? "mb-4" : "mb-0"
-                )}
-              >
-                <Label
-                  htmlFor={`address-${feucet.id}`}
-                  className="flex items-center gap-1"
-                >
-                  <TokenPair
-                    icons={feucet.tokenIcons}
-                    className="h-5 border-0 w-5"
-                  />
-
-                  {feucet.name}
-                </Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id={`address-${feucet.id}`}
-                    placeholder="Wallet Address"
-                    className="w-full"
-                  />
-                  <Button
-                    size={"icon"}
-                    variant={"outline"}
-                    onClick={() => handleRemoveFaucet(feucet.id)}
-                  >
-                    <X size={18} />
-                  </Button>
+        <div className="flex flex-col gap-4">
+          <div>
+            <div className="grid gap-4 max-h-[300px] overflow-y-auto mt-1">
+              {data.map((feucet) => (
+                <div key={feucet.id} className={cn("flex flex-col gap-4")}>
+                  <div className="flex items-center gap-2 text-base">
+                    <TokenPair
+                      icons={feucet.tokenIcons}
+                      className="h-10 border-0 w-10"
+                    />
+                    <div className="flex flex-col">
+                      <p className="font-semibold dark:text-primary-dark">
+                        {feucet.name}
+                      </p>
+                      <p className="text-sm dark:text-primary-dark">
+                        {feucet.claimLimit.toLocaleString("en-US")}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-sm">Recipient</p>
+            <p>{address}</p>
           </div>
         </div>
         <DialogFooter>

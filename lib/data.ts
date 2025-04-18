@@ -1,3 +1,5 @@
+import { FeucetDataProps } from "@/app/feucets/_components/feucet-list";
+
 // Market data
 export const marketData = [
   {
@@ -297,131 +299,108 @@ export const transactionHistory = [
   },
 ];
 
-export const feucetData = [
+export const tokenIcon = {
+  usdc: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+  wbtc: "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg",
+  weth: "https://etherscan.io/token/images/weth_28.png?v=2",
+  dai: "https://etherscan.io/token/images/dai_32.png",
+  usdt: "https://etherscan.io/token/images/tethernew_32.svg",
+  link: "https://etherscan.io/token/images/chainlink_ofc_32.svg",
+  aave: "https://app.aave.com/icons/tokens/aave.svg",
+  sol: "https://statics.solscan.io/cdn/imgs/s60?ref=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f736f6c616e612d6c6162732f746f6b656e2d6c6973742f6d61696e2f6173736574732f6d61696e6e65742f536f31313131313131313131313131313131313131313131313131313131313131313131313131313131322f6c6f676f2e706e67",
+  bnb: "https://etherscan.io/token/images/bnb_32.png",
+  shib: "https://etherscan.io/token/images/shibainu_ofc_32.svg",
+  toncoin: "https://etherscan.io/token/images/toncoin_32.svg",
+  pepe: "https://etherscan.io/token/images/pepe_32.svg",
+  bitgetrplce: "https://etherscan.io/token/images/bitgetrplce_32.svg",
+  steth: "https://etherscan.io/token/images/steth_32.svg",
+  eth: "https://etherscan.io/token/images/ethereum_32.png",
+  bgb: "https://etherscan.io/token/images/bitgetrplce_32.svg",
+};
+
+export const feucetData: FeucetDataProps[] = [
   {
-    id: "wbtc-goerli",
-    name: "WBTC Goerli Faucet",
-    chain: "Goerli",
+    id: "usdc",
+    name: "USDC Faucet",
+    tokenName: "USDC",
+    chain: "Sepolia",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg", // WBTC
-      "https://etherscan.io/token/images/tethernew_32.svg", // USDT
-    ],
-    explorer: "https://goerli.etherscan.io",
+    tokenIcons: [tokenIcon.usdc],
+    explorer: "https://sepholia.etherscan.io",
     faucetUrl: "https://faucet.example.com/wbtc",
-    claimLimit: "1 WBTC / 24h",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
   {
-    id: "bgb-goerli",
-    name: "BGB Goerli Faucet",
-    chain: "Goerli",
+    id: "weth",
+    name: "WETH Faucet",
+    tokenName: "WETH",
+    chain: "Sepolia",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/bitgetrplce_32.svg", // BGB
-      "https://etherscan.io/token/images/usdc_ofc_32.svg", // USDC
-    ],
+    tokenIcons: [tokenIcon.weth],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://faucet.example.com/bgb",
-    claimLimit: "50 BGB / 24h",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
   {
-    id: "usdt-goerli",
-    name: "USDT Goerli Faucet",
-    chain: "Goerli",
+    id: "wbtc",
+    name: "WBTC Faucet",
+    tokenName: "WBTC",
+    chain: "Sepolia",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/tethernew_32.svg", // USDT
-      "https://etherscan.io/token/images/steth_32.svg", // ETH
-    ],
+    tokenIcons: [tokenIcon.wbtc],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://stargatefaucet.xyz",
-    claimLimit: "50 USDT / 12h",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
   {
-    id: "bnb-goerli",
-    name: "BNB Goerli Faucet",
+    id: "sol",
+    name: "Solana Faucet",
+    tokenName: "SOL",
     chain: "Goerli",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/bitgetrplce_32.svg", // BGB
-      "https://etherscan.io/token/images/chainlink_ofc_32.svg", // LINK
-    ],
+    tokenIcons: [tokenIcon.sol],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://faucet.example.com/bnb",
-    claimLimit: "0.5 BNB / 12h",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
   {
-    id: "link-goerli",
-    name: "LINK Goerli Faucet",
+    id: "link",
+    name: "LINK Faucet",
+    tokenName: "LINK",
     chain: "Goerli",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/chainlink_ofc_32.svg", // LINK
-      "https://etherscan.io/token/images/shibainu_ofc_32.svg", // SHIB
-    ],
+    tokenIcons: [tokenIcon.link],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://faucet.example.com/link",
-    claimLimit: "10 LINK / 24h",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
   {
-    id: "shib-goerli",
-    name: "SHIB Goerli Faucet",
+    id: "aave",
+    name: "AAVE Faucet",
+    tokenName: "AAVE",
     chain: "Goerli",
     chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/shibainu_ofc_32.svg", // SHIB
-      "https://etherscan.io/token/images/weth_28.png?v=2", // WETH
-    ],
+    tokenIcons: [tokenIcon.aave],
     explorer: "https://goerli.etherscan.io",
-    faucetUrl: "https://faucet.example.com/shib",
-    claimLimit: "10000 SHIB / 24h",
-    status: "active",
-  },
-  {
-    id: "weth-goerli",
-    name: "WETH Goerli Faucet",
-    chain: "Goerli",
-    chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/weth_28.png?v=2", // WETH
-      "https://etherscan.io/token/images/toncoin_32.svg", // Toncoin
-    ],
-    explorer: "https://goerli.etherscan.io",
-    faucetUrl: "https://stargatefaucet.xyz",
-    claimLimit: "1 WETH / 12h",
-    status: "active",
-  },
-  {
-    id: "toncoin-goerli",
-    name: "Toncoin Goerli Faucet",
-    chain: "Goerli",
-    chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/toncoin_32.svg", // Toncoin
-      "https://etherscan.io/token/images/pepe_32.svg", // Pepe
-    ],
-    explorer: "https://goerli.etherscan.io",
-    faucetUrl: "https://faucet.example.com/toncoin",
-    claimLimit: "100 TONCOIN / 24h",
-    status: "active",
-  },
-  {
-    id: "pepe-goerli",
-    name: "Pepe Goerli Faucet",
-    chain: "Goerli",
-    chainId: 5,
-    tokenIcons: [
-      "https://etherscan.io/token/images/pepe_32.svg", // Pepe
-      "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg", // WBTC
-    ],
-    explorer: "https://goerli.etherscan.io",
-    faucetUrl: "https://faucet.example.com/pepe",
-    claimLimit: "1000000 PEPE / 24h",
+    faucetUrl: "https://faucet.example.com/link",
+    claimLimit: 1000000,
+    limitTime: "30",
+    limitTimeUnit: "minutes",
     status: "active",
   },
 ];

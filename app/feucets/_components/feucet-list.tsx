@@ -5,26 +5,38 @@ import { FeucetCard } from "./feucet-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FaucetDialog } from "./faucet-dialog";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 export interface FeucetDataProps {
   id: string;
   name: string;
+  tokenName: string;
   chain: string;
   chainId: number;
   tokenIcons: string[];
   explorer: string;
   faucetUrl: string;
-  claimLimit: string;
+  claimLimit: number;
+  limitTime: string;
+  limitTimeUnit: string;
   status: string;
 }
 
 export function FeucetList({ feucets }: { feucets: FeucetDataProps[] }) {
   const [selectedFeucet, setSelectedFeucet] = useState<string[]>([]);
+  const { address } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
   const handleFeucetSelect = (id: string) => {
-    if (selectedFeucet.includes(id)) {
-      setSelectedFeucet(selectedFeucet.filter((feucet) => feucet !== id));
+    if (!address) {
+      openConnectModal?.();
     } else {
-      setSelectedFeucet([...selectedFeucet, id]);
+      if (selectedFeucet.includes(id)) {
+        setSelectedFeucet(selectedFeucet.filter((feucet) => feucet !== id));
+      } else {
+        setSelectedFeucet([...selectedFeucet, id]);
+      }
     }
   };
 

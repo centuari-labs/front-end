@@ -3,6 +3,8 @@ export const marketData = [
   {
     id: "usdc-eth",
     name: "USDC/ETH",
+    lend_token: "USDC",
+    collateral_token: "ETH",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 3.25,
     borrowingAPY: 5.75,
@@ -23,6 +25,8 @@ export const marketData = [
   {
     id: "wbtc-eth",
     name: "WBTC/ETH",
+    lend_token: "WBTC",
+    collateral_token: "ETH",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 2.15,
     borrowingAPY: 4.25,
@@ -43,6 +47,8 @@ export const marketData = [
   {
     id: "dai-usdc",
     name: "DAI/USDC",
+    lend_token: "DAI",
+    collateral_token: "USDC",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 3.85,
     borrowingAPY: 5.25,
@@ -63,6 +69,8 @@ export const marketData = [
   {
     id: "eth-usdt",
     name: "ETH/USDT",
+    lend_token: "ETH",
+    collateral_token: "USDT",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 2.95,
     borrowingAPY: 5.15,
@@ -83,6 +91,8 @@ export const marketData = [
   {
     id: "link-eth",
     name: "LINK/ETH",
+    lend_token: "LINK",
+    collateral_token: "ETH",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 4.25,
     borrowingAPY: 6.75,
@@ -103,6 +113,8 @@ export const marketData = [
   {
     id: "aave-eth",
     name: "AAVE/ETH",
+    lend_token: "AAVE",
+    collateral_token: "ETH",
     icon: "/placeholder.svg?height=40&width=40",
     lendingAPY: 5.15,
     borrowingAPY: 7.25,

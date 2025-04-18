@@ -17,6 +17,8 @@ interface MarketCardProps {
   trending: number;
   lendTokenUrl: string;
   borrowTokenUrl: string;
+  lendToken: string;
+  collateralToken: string;
 }
 
 export function MarketCard({
@@ -29,6 +31,8 @@ export function MarketCard({
   trending,
   lendTokenUrl,
   borrowTokenUrl,
+  lendToken,
+  collateralToken,
 }: MarketCardProps) {
   return (
     <Card className="overflow-hidden card-colorful animate-float">
@@ -38,6 +42,8 @@ export function MarketCard({
           borrowTokenUrl={borrowTokenUrl}
           pairName={name}
           marketTrending={trending}
+          lendToken={lendToken}
+          collateralToken={collateralToken}
         />
         <Separator className="my-4" />
         <div className="grid grid-cols-2 gap-4">

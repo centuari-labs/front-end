@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { TokenPair } from "./token-pair";
-import { FeucetDataProps } from "./feucet-list";
+import { FeucetDataProps } from "./faucet-list";
 
 interface FeucetCardProps {
   data: FeucetDataProps;
@@ -21,7 +21,7 @@ export function FeucetCard({
     <Card
       className={cn(
         "card-colorful",
-        selectedFeucet.includes(id) && "bg-slate-200 dark:bg-slate-700"
+        selectedFeucet.includes(id) && "bg-slate-100 dark:bg-slate-900"
       )}
       onClick={() => handleFeucetSelect(id)}
     >

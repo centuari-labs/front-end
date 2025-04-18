@@ -157,7 +157,7 @@ export function LendingForm({ market }: LendingFormProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted/10 p-4 border border-border">
+                <div className="rounded-lg bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Fixed APY
@@ -308,7 +308,7 @@ export function LendingForm({ market }: LendingFormProps) {
                   </div>
                 )}
 
-                <div className="rounded-lg bg-muted/10 p-4 border border-border">
+                <div className="rounded-lg bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Your Fixed APY

@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -86,16 +85,16 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
           onValueChange={setActiveTab}
           value={activeTab}
         >
-          <TabsList className="grid w-full grid-cols-2 bg-muted">
+          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
             <TabsTrigger
               value="market"
-              className="data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
+              className="text-white data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
+              className="text-white data-[state=active]:bg-primary data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
             >
               Limit Order
             </TabsTrigger>
@@ -103,7 +102,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
           <TabsContent value="market" className="mt-4">
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
-                <div className="rounded-lg bg-muted/10 p-4 border border-border">
+                <div className="rounded-lg bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Available Collateral
@@ -157,7 +156,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted/10 p-4 border border-border">
+                <div className="rounded-lg bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Fixed APY

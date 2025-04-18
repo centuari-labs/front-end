@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Info } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {

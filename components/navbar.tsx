@@ -1,19 +1,12 @@
 "use client";
 
-import {
-  ForwardRefExoticComponent,
-  RefAttributes,
-  useEffect,
-  useState,
-} from "react";
+import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Home,
   BarChart2,
   Wallet,
-  FileText,
-  Clock,
   Menu,
   X,
   Sun,
@@ -115,7 +108,7 @@ export function Navbar() {
     <header className="p-3 sticky top-0 z-50 w-full container mx-auto">
       <div className="py-1 bg-background/95 dark:bg-[#1a1b2f] backdrop-blur-2xl rounded-xl border dark:border-white/20">
         <div className="container flex h-16 items-center">
-          <div className="mr-4 flex">
+          <div className="flex">
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative h-full w-40 rounded-full">
                 <img
@@ -124,9 +117,6 @@ export function Navbar() {
                   className="h-full w-full object-cover"
                 />
               </div>
-              {/* <span className="hidden font-bold sm:inline-block dark:gradient-text gradient-text">
-              Centuari
-            </span> */}
             </Link>
           </div>
 

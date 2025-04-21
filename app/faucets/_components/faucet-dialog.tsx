@@ -12,11 +12,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FeucetDataProps } from "./faucet-list";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
-import { useAccount } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
+import FaucetAbi from "@/lib/abis/Faucet.json";
+import { FeucetDataProps } from "@/lib/data";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function FaucetDialog({
   data,
@@ -26,6 +29,68 @@ export function FaucetDialog({
   handleRemoveFaucet: (id: string) => void;
 }) {
   const { address } = useAccount();
+
+  const {
+    writeContract,
+    data: txData,
+    isPending,
+    isSuccess,
+    error,
+  } = useWriteContract();
+
+  const {
+    writeContract: lastWriteRequest,
+    data: txDataData,
+    isPending: isPendingLast,
+    isSuccess: isSuccessLast,
+    error: errorLast,
+  } = useWriteContract();
+
+  const handleClick = () => {
+    const tokens = data.map((token) => token.address);
+
+    writeContract({
+      address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
+      abi: FaucetAbi,
+      functionName: "requestTokens",
+      args: [[0], address],
+    });
+  };
+
+  const handleLastRequest = async () => {
+    const result = await writeContract({
+      address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
+      abi: FaucetAbi,
+      functionName: "lastRequestTime",
+      args: [address],
+    });
+
+    console.log("handleLastRequest", { result });
+  };
+
+  useEffect(() => {
+    if (isPending) {
+      console.log("Transaction is pending...");
+    }
+    if (isSuccess) {
+      console.log("Transaction confirmed:", txData);
+    }
+    if (error) {
+      console.error("Transaction failed:", error.message);
+    }
+  }, [isPending, isSuccess, error, txData]);
+
+  useEffect(() => {
+    if (isPendingLast) {
+      console.log("Transaction is pending...");
+    }
+    if (isSuccessLast) {
+      console.log("Transaction confirmed:", txDataData);
+    }
+    if (errorLast) {
+      console.error("Transaction failed:", errorLast.message);
+    }
+  }, [isPendingLast, isSuccessLast, errorLast, txDataData]);
 
   return (
     <Dialog>
@@ -76,8 +141,18 @@ export function FaucetDialog({
             variant="colorful"
             size={"lg"}
             className="w-full"
+            onClick={handleClick}
           >
             Get Tokens
+          </Button>
+          <Button
+            type="button"
+            variant="colorful"
+            size={"lg"}
+            className="w-full"
+            onClick={handleLastRequest}
+          >
+            last request
           </Button>
         </DialogFooter>
       </DialogContent>

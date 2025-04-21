@@ -13,6 +13,7 @@ import {
   Moon,
   Droplets,
   LucideProps,
+  Vault,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,8 @@ interface INavbarLink {
 
 const routes: INavbarLink[] = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/feucets", label: "Faucets", icon: Droplets },
+  { href: "/faucets", label: "Faucets", icon: Droplets },
+  { href: "/vaults", label: "Vaults", icon: Vault },
   { href: "/markets", label: "Markets", icon: BarChart2 },
   { href: "/my-positions", label: "My Positions", icon: Wallet, private: true },
 ];

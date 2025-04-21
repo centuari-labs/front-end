@@ -7,21 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FaucetDialog } from "./faucet-dialog";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-
-export interface FeucetDataProps {
-  id: string;
-  name: string;
-  tokenName: string;
-  chain: string;
-  chainId: number;
-  tokenIcons: string[];
-  explorer: string;
-  faucetUrl: string;
-  claimLimit: number;
-  limitTime: string;
-  limitTimeUnit: string;
-  status: string;
-}
+import { FeucetDataProps } from "@/lib/data";
 
 export function FeucetList({ feucets }: { feucets: FeucetDataProps[] }) {
   const [selectedFeucet, setSelectedFeucet] = useState<string[]>([]);

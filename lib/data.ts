@@ -1,4 +1,18 @@
-import { FeucetDataProps } from "@/app/feucets/_components/feucet-list";
+export interface FeucetDataProps {
+  id: string;
+  name: string;
+  tokenName: string;
+  chain: string;
+  chainId: number;
+  tokenIcons: string[];
+  address: string;
+  explorer: string;
+  faucetUrl: string;
+  claimLimit: number;
+  limitTime: string;
+  limitTimeUnit: string;
+  status: string;
+}
 
 // Market data
 export const marketData = [
@@ -329,6 +343,7 @@ export const feucetData: FeucetDataProps[] = [
     explorer: "https://sepholia.etherscan.io",
     faucetUrl: "https://faucet.example.com/wbtc",
     claimLimit: 1000000,
+    address: "0x3cfC20F01894017817Ad1299890182d65A62bad4",
     limitTime: "30",
     limitTimeUnit: "minutes",
     status: "active",
@@ -338,6 +353,7 @@ export const feucetData: FeucetDataProps[] = [
     name: "WETH Faucet",
     tokenName: "WETH",
     chain: "Sepolia",
+    address: "0x44E14005FB00F571C6169a383458B946cAc64508",
     chainId: 5,
     tokenIcons: [tokenIcon.weth],
     explorer: "https://goerli.etherscan.io",
@@ -351,6 +367,7 @@ export const feucetData: FeucetDataProps[] = [
     id: "wbtc",
     name: "WBTC Faucet",
     tokenName: "WBTC",
+    address: "0xd3efc1393461800fDd59F7B343a5F74E4A6eC0A6",
     chain: "Sepolia",
     chainId: 5,
     tokenIcons: [tokenIcon.wbtc],
@@ -366,6 +383,7 @@ export const feucetData: FeucetDataProps[] = [
     name: "Solana Faucet",
     tokenName: "SOL",
     chain: "Goerli",
+    address: "0xF2668073180BDe47De71d4e35Ff9da1a43aA8Ca1",
     chainId: 5,
     tokenIcons: [tokenIcon.sol],
     explorer: "https://goerli.etherscan.io",
@@ -380,6 +398,7 @@ export const feucetData: FeucetDataProps[] = [
     name: "LINK Faucet",
     tokenName: "LINK",
     chain: "Goerli",
+    address: "0xdB06E847828Ff4fa3144658a7C1A1395dC8921de",
     chainId: 5,
     tokenIcons: [tokenIcon.link],
     explorer: "https://goerli.etherscan.io",
@@ -395,6 +414,7 @@ export const feucetData: FeucetDataProps[] = [
     tokenName: "AAVE",
     chain: "Goerli",
     chainId: 5,
+    address: "0x16bD2f7D7ea5f85DD089F41bf6d5bE7D70e1e546",
     tokenIcons: [tokenIcon.aave],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://faucet.example.com/link",

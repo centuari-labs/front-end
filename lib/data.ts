@@ -14,8 +14,52 @@ export interface FeucetDataProps {
   status: string;
 }
 
+export interface IMarketDataProps {
+  id: string
+  name: string
+  lend_token: string
+  collateral_token: string
+  icon: string
+  lendingAPY: number
+  borrowingAPY: number
+  marketVolume: number
+  ltv: number
+  trending: number
+  fixedRate: boolean
+  collateralFactor: number
+  liquidationThreshold: number
+  liquidationPenalty: number
+  reserveFactor: number
+  oracle: string
+  contractAddress: string
+  description: string
+  lendTokenUrl: string
+  borrowTokenUrl: string
+}
+
+
+export const tokenIcon = {
+  usdc: "https://etherscan.io/token/images/usdc_ofc_32.svg",
+  wbtc: "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg",
+  weth: "https://etherscan.io/token/images/weth_28.png?v=2",
+  dai: "https://etherscan.io/token/images/dairplce_32.svg",
+  usdt: "https://etherscan.io/token/images/tethernew_32.svg",
+  link: "https://etherscan.io/token/images/chainlink_ofc_32.svg",
+  aave: "https://app.aave.com/icons/tokens/aave.svg",
+  sol: "https://statics.solscan.io/cdn/imgs/s60?ref=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f736f6c616e612d6c6162732f746f6b656e2d6c6973742f6d61696e2f6173736574732f6d61696e6e65742f536f31313131313131313131313131313131313131313131313131313131313131313131313131313131322f6c6f676f2e706e67",
+  bnb: "https://etherscan.io/token/images/bnb_32.png",
+  shib: "https://etherscan.io/token/images/shibainu_ofc_32.svg",
+  toncoin: "https://etherscan.io/token/images/toncoin_32.svg",
+  pepe: "https://etherscan.io/token/images/pepe_32.svg",
+  bitgetrplce: "https://etherscan.io/token/images/bitgetrplce_32.svg",
+  steth: "https://etherscan.io/token/images/steth_32.svg",
+  // eth: "https://etherscan.io/token/images/ethereum_32.png",
+  eth: "https://etherscan.io/images/svg/brands/ethereum-original.svg",
+  bgb: "https://etherscan.io/token/images/bitgetrplce_32.svg",
+};
+
 // Market data
-export const marketData = [
+export const marketData: IMarketDataProps[] = [
   {
     id: "usdc-eth",
     name: "USDC/ETH",
@@ -35,8 +79,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x1234567890abcdef1234567890abcdef12345678",
     description: "USDC stablecoin paired with Ethereum",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.weth,
+    borrowTokenUrl: tokenIcon.usdc,
   },
   {
     id: "wbtc-eth",
@@ -57,8 +101,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0xabcdef1234567890abcdef1234567890abcdef12",
     description: "Wrapped Bitcoin paired with Ethereum",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.wbtc,
+    borrowTokenUrl: tokenIcon.weth,
   },
   {
     id: "dai-usdc",
@@ -79,8 +123,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x7890abcdef1234567890abcdef1234567890abcd",
     description: "DAI stablecoin paired with USDC stablecoin",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.dai,
+    borrowTokenUrl: tokenIcon.weth,
   },
   {
     id: "eth-usdt",
@@ -101,8 +145,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0xdef1234567890abcdef1234567890abcdef123456",
     description: "Ethereum paired with USDT stablecoin",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.weth,
+    borrowTokenUrl: tokenIcon.usdt,
   },
   {
     id: "link-eth",
@@ -123,8 +167,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x567890abcdef1234567890abcdef1234567890ab",
     description: "Chainlink token paired with Ethereum",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.link,
+    borrowTokenUrl: tokenIcon.weth,
   },
   {
     id: "aave-eth",
@@ -145,8 +189,8 @@ export const marketData = [
     oracle: "Chainlink",
     contractAddress: "0x90abcdef1234567890abcdef1234567890abcdef",
     description: "AAVE token paired with Ethereum",
-    lendTokenUrl: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-    borrowTokenUrl: "https://etherscan.io/token/images/weth_28.png?v=2",
+    lendTokenUrl: tokenIcon.aave,
+    borrowTokenUrl: tokenIcon.weth,
   },
 ];
 
@@ -313,24 +357,6 @@ export const transactionHistory = [
   },
 ];
 
-export const tokenIcon = {
-  usdc: "https://etherscan.io/token/images/usdc_ofc_32.svg",
-  wbtc: "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg",
-  weth: "https://etherscan.io/token/images/weth_28.png?v=2",
-  dai: "https://etherscan.io/token/images/dai_32.png",
-  usdt: "https://etherscan.io/token/images/tethernew_32.svg",
-  link: "https://etherscan.io/token/images/chainlink_ofc_32.svg",
-  aave: "https://app.aave.com/icons/tokens/aave.svg",
-  sol: "https://statics.solscan.io/cdn/imgs/s60?ref=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f736f6c616e612d6c6162732f746f6b656e2d6c6973742f6d61696e2f6173736574732f6d61696e6e65742f536f31313131313131313131313131313131313131313131313131313131313131313131313131313131322f6c6f676f2e706e67",
-  bnb: "https://etherscan.io/token/images/bnb_32.png",
-  shib: "https://etherscan.io/token/images/shibainu_ofc_32.svg",
-  toncoin: "https://etherscan.io/token/images/toncoin_32.svg",
-  pepe: "https://etherscan.io/token/images/pepe_32.svg",
-  bitgetrplce: "https://etherscan.io/token/images/bitgetrplce_32.svg",
-  steth: "https://etherscan.io/token/images/steth_32.svg",
-  eth: "https://etherscan.io/token/images/ethereum_32.png",
-  bgb: "https://etherscan.io/token/images/bitgetrplce_32.svg",
-};
 
 export const feucetData: FeucetDataProps[] = [
   {

@@ -53,7 +53,7 @@ export function FaucetDialog({
       address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
       abi: FaucetAbi,
       functionName: "requestTokens",
-      args: [[0], address],
+      args: [[2], address],
     });
   };
 

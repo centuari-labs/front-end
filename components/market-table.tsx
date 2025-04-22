@@ -12,24 +12,15 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
+import { IMarketDataProps } from "@/lib/data";
 
 interface MarketTableProps {
-  markets: Array<{
-    id: string;
-    name: string;
-    lendingAPY: number;
-    borrowingAPY: number;
-    marketVolume: number;
-    ltv: number;
-    trending: number;
-    lendTokenUrl: string;
-    borrowTokenUrl: string;
-  }>;
+  markets: IMarketDataProps[];
 }
 
 export function MarketTable({ markets }: MarketTableProps) {
   return (
-    <div className="rounded-md border dark:border-muted-dark">
+    <div className="rounded-md border dark:border-white/20">
       <Table>
         <TableHeader>
           <TableRow>
@@ -51,6 +42,8 @@ export function MarketTable({ markets }: MarketTableProps) {
               <TableCell>
                 <div className="flex justify-center">
                   <TokenPair
+                    lendToken={market.lend_token}
+                    collateralToken={market.collateral_token}
                     lendTokenUrl={market.lendTokenUrl}
                     borrowTokenUrl={market.borrowTokenUrl}
                     pairName={market.name}

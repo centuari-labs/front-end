@@ -74,20 +74,26 @@ export default function MarketDetailPage({
             <div className="h-[350px]">
               <MarketChart marketId={market.id} />
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
               <div className="flex flex-col gap-1 items-center">
                 <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   Market Volume
                 </span>
-                <span className="text-xl font-bold">
+                <span className="text-sm font-bold">
                   ${market.marketVolume.toLocaleString()}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
                 <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
+                  Maturity
+                </span>
+                <span className="text-sm font-bold">MAY 2025 ~ MAY 2026</span>
+              </div>
+              <div className="flex flex-col gap-1 items-center">
+                <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
                   LTV
                 </span>
-                <span className="text-xl font-bold">
+                <span className="text-sm font-bold">
                   ${market.ltv.toLocaleString()}
                 </span>
               </div>
@@ -96,7 +102,7 @@ export default function MarketDetailPage({
                   Lending APY
                 </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-xl font-bold text-green-500">
+                  <span className="text-sm font-bold text-green-500">
                     {market.lendingAPY}%
                   </span>
                 </div>
@@ -106,7 +112,7 @@ export default function MarketDetailPage({
                   Borrowing APY
                 </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-xl font-bold">
+                  <span className="text-sm font-bold">
                     {market.borrowingAPY}%
                   </span>
                 </div>

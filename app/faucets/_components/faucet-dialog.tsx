@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
 import { useAccount, useWriteContract } from "wagmi";
 import FaucetAbi from "@/lib/abis/Faucet.json";
-import { FeucetDataProps } from "@/lib/data";
+import { FaucetDataProps } from "@/lib/data";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
@@ -25,7 +25,7 @@ export function FaucetDialog({
   data,
   handleRemoveFaucet,
 }: {
-  data: FeucetDataProps[];
+  data: FaucetDataProps[];
   handleRemoveFaucet: (id: string) => void;
 }) {
   const { address } = useAccount();
@@ -48,6 +48,8 @@ export function FaucetDialog({
 
   const handleClick = () => {
     const tokens = data.map((token) => token.address);
+
+    console.log("tokens", tokens);
 
     writeContract({
       address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
@@ -110,19 +112,19 @@ export function FaucetDialog({
         <div className="flex flex-col gap-4">
           <div>
             <div className="grid gap-4 max-h-[300px] overflow-y-auto mt-1">
-              {data.map((feucet) => (
-                <div key={feucet.id} className={cn("flex flex-col gap-4")}>
+              {data.map((faucet) => (
+                <div key={faucet.id} className={cn("flex flex-col gap-4")}>
                   <div className="flex items-center gap-2 text-base">
                     <TokenPair
-                      icons={feucet.tokenIcons}
+                      icons={faucet.tokenIcons}
                       className="h-10 border-0 w-10"
                     />
                     <div className="flex flex-col">
                       <p className="font-semibold dark:text-primary-dark">
-                        {feucet.name}
+                        {faucet.name}
                       </p>
                       <p className="text-sm dark:text-primary-dark">
-                        {feucet.claimLimit.toLocaleString("en-US")}
+                        {faucet.claimLimit.toLocaleString("en-US")}
                       </p>
                     </div>
                   </div>

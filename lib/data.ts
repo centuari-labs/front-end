@@ -1,4 +1,4 @@
-export interface FeucetDataProps {
+export interface FaucetDataProps {
   id: string;
   name: string;
   tokenName: string;
@@ -15,28 +15,27 @@ export interface FeucetDataProps {
 }
 
 export interface IMarketDataProps {
-  id: string
-  name: string
-  lend_token: string
-  collateral_token: string
-  icon: string
-  lendingAPY: number
-  borrowingAPY: number
-  marketVolume: number
-  ltv: number
-  trending: number
-  fixedRate: boolean
-  collateralFactor: number
-  liquidationThreshold: number
-  liquidationPenalty: number
-  reserveFactor: number
-  oracle: string
-  contractAddress: string
-  description: string
-  lendTokenUrl: string
-  borrowTokenUrl: string
+  id: string;
+  name: string;
+  lend_token: string;
+  collateral_token: string;
+  icon: string;
+  lendingAPY: number;
+  borrowingAPY: number;
+  marketVolume: number;
+  ltv: number;
+  trending: number;
+  fixedRate: boolean;
+  collateralFactor: number;
+  liquidationThreshold: number;
+  liquidationPenalty: number;
+  reserveFactor: number;
+  oracle: string;
+  contractAddress: string;
+  description: string;
+  lendTokenUrl: string;
+  borrowTokenUrl: string;
 }
-
 
 export const tokenIcon = {
   usdc: "https://etherscan.io/token/images/usdc_ofc_32.svg",
@@ -357,8 +356,7 @@ export const transactionHistory = [
   },
 ];
 
-
-export const feucetData: FeucetDataProps[] = [
+export const faucetData: FaucetDataProps[] = [
   {
     id: "usdc",
     name: "USDC Faucet",

@@ -2,28 +2,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { TokenPair } from "./token-pair";
-import { FeucetDataProps } from "./faucet-list";
+import { FaucetDataProps } from "@/lib/data";
 
-interface FeucetCardProps {
-  data: FeucetDataProps;
-  handleFeucetSelect: (id: string) => void;
-  selectedFeucet?: any;
+interface FaucetCardProps {
+  data: FaucetDataProps;
+  handleFaucetSelect: (id: string) => void;
+  selectedFaucet?: any;
 }
 
-export function FeucetCard({
+export function FaucetCard({
   data,
-  handleFeucetSelect,
-  selectedFeucet,
-}: FeucetCardProps) {
+  handleFaucetSelect,
+  selectedFaucet,
+}: FaucetCardProps) {
   const { id, name, tokenIcons, claimLimit, limitTime, limitTimeUnit } = data;
 
   return (
     <Card
       className={cn(
         "card-colorful",
-        selectedFeucet.includes(id) && "bg-slate-100 dark:bg-slate-900"
+        selectedFaucet.includes(id) && "bg-slate-100 dark:bg-slate-900"
       )}
-      onClick={() => handleFeucetSelect(id)}
+      onClick={() => handleFaucetSelect(id)}
     >
       <CardContent className="p-6">
         <TokenPair icons={tokenIcons} />

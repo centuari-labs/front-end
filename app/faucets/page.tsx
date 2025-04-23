@@ -1,15 +1,15 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Metadata } from "next";
-import { feucetData } from "@/lib/data";
-import { FeucetList } from "./_components/faucet-list";
+import { faucetData } from "@/lib/data";
+import { FaucetList } from "./_components/faucet-list";
 
 export const metadata: Metadata = {
-  title: "Feucets - DeFi Lending & Borrowing",
-  description: "View your feucets",
+  title: "Faucets - DeFi Lending & Borrowing",
+  description: "View your faucets",
 };
 
-export default function FeucetsPage() {
+export default function FaucetsPage() {
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12 relative">
       <div className="flex flex-col gap-8">
@@ -25,12 +25,12 @@ export default function FeucetsPage() {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-muted-dark" />
             <Input
               type="search"
-              placeholder="Search feucets..."
+              placeholder="Search faucets..."
               className="w-full appearance-none pl-8"
             />
           </div>
         </div>
-        <FeucetList feucets={feucetData} />
+        <FaucetList faucets={faucetData} />
       </div>
     </div>
   );

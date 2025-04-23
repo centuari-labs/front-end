@@ -16,6 +16,8 @@ import { LendingForm } from "@/components/lending-form";
 import { BorrowingForm } from "@/components/borrowing-form";
 import { OpenOrders } from "@/components/open-orders";
 import { marketData } from "@/lib/data";
+import { SelectMaturity } from "./_components/select-maturity";
+import { maturityList } from "./_data/maturity-list";
 
 export default function MarketDetailPage({
   params,
@@ -28,31 +30,36 @@ export default function MarketDetailPage({
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
-      <div className="flex items-center gap-4 mb-8">
-        <Link href="/markets">
-          <Button variant="outline" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
-          </Button>
-        </Link>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight">{market.name}</h1>
-            <Link
-              href={`https://etherscan.io/address/${market.contractAddress}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="ghost" size="icon" className="h-6 w-6">
-                <ExternalLink className="h-4 w-4" />
-                <span className="sr-only">View on Etherscan</span>
-              </Button>
-            </Link>
+      <div className="flex justify-between items-center gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          <Link href="/markets">
+            <Button variant="outline" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+              <span className="sr-only">Back</span>
+            </Button>
+          </Link>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold tracking-tight">
+                {market.name}
+              </h1>
+              <Link
+                href={`https://etherscan.io/address/${market.contractAddress}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="ghost" size="icon" className="h-6 w-6">
+                  <ExternalLink className="h-4 w-4" />
+                  <span className="sr-only">View on Etherscan</span>
+                </Button>
+              </Link>
+            </div>
+            <p className="text-muted-foreground dark:text-muted-dark">
+              {market.description}
+            </p>
           </div>
-          <p className="text-muted-foreground dark:text-muted-dark">
-            {market.description}
-          </p>
         </div>
+        <SelectMaturity data={maturityList} />
       </div>
 
       {/* Main grid layout matching the wireframe */}

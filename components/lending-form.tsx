@@ -174,7 +174,7 @@ export function LendingForm({ market }: LendingFormProps) {
                       {estimatedEarnings} {market.name.split("/")[0]}
                     </span>
                   </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
+                  {/* <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Collateral factor
                     </span>
@@ -192,7 +192,7 @@ export function LendingForm({ market }: LendingFormProps) {
                     >
                       Fixed
                     </Badge>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -230,7 +230,7 @@ export function LendingForm({ market }: LendingFormProps) {
                   </div>
                 </div>
 
-                <div className="grid gap-2">
+                {/* <div className="grid gap-2">
                   <Label htmlFor="rate-type">Interest Rate</Label>
                   <RadioGroup
                     value={rateType}
@@ -264,7 +264,7 @@ export function LendingForm({ market }: LendingFormProps) {
                       </Label>
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
 
                 {rateType === "custom" && (
                   <div className="grid gap-2">

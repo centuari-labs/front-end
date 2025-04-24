@@ -52,7 +52,7 @@ export function FaucetDialog({
     console.log("tokens", tokens);
 
     writeContract({
-      address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
+      address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
       abi: FaucetAbi,
       functionName: "requestTokens",
       args: [[2], address],
@@ -61,7 +61,7 @@ export function FaucetDialog({
 
   const handleLastRequest = async () => {
     const result = await writeContract({
-      address: "0x27743e6494F76f46f34dbbEDF7443891A7FD64a0",
+      address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
       abi: FaucetAbi,
       functionName: "lastRequestTime",
       args: [address],

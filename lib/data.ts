@@ -37,6 +37,22 @@ export interface IMarketDataProps {
   borrowTokenUrl: string;
 }
 
+export interface IVaultData {
+  id: string;
+  name: string;
+  collateral_token: string;
+  lend_token: string;
+  maturityDate: string;
+  lendTokenUrl: string;
+  icon: string;
+  apy: number;
+  ltv: number;
+  marketVolume: number;
+  status: string;
+  lastUpdated: string;
+  description: string;
+}
+
 export const tokenIcon = {
   usdc: "https://etherscan.io/token/images/usdc_ofc_32.svg",
   wbtc: "https://etherscan.io/token/images/wrappedbtc_ofc_32.svg",
@@ -56,6 +72,39 @@ export const tokenIcon = {
   eth: "https://etherscan.io/images/svg/brands/ethereum-original.svg",
   bgb: "https://etherscan.io/token/images/bitgetrplce_32.svg",
 };
+
+export const vaults: IVaultData[] = [
+  {
+    id: "vault-1",
+    name: "USDC Vault",
+    collateral_token: "USDC",
+    lend_token: "ETH",
+    maturityDate: "2023-09-30T00:00:00Z",
+    lendTokenUrl: tokenIcon.usdc,
+    icon: "/placeholder.svg?height=40&width=40",
+    apy: 3.25,
+    ltv: 820000,
+    marketVolume: 1250000,
+    status: "active",
+    lastUpdated: "2023-09-01T00:00:00Z",
+    description: "USDC Vault for lending and borrowing",
+  },
+  {
+    id: "vault-2",
+    name: "WBTC Vault",
+    collateral_token: "WBTC",
+    lend_token: "ETH",
+    maturityDate: "2023-09-30T00:00:00Z",
+    lendTokenUrl: tokenIcon.wbtc,
+    icon: "/placeholder.svg?height=40&width=40",
+    apy: 2.15,
+    ltv: 520000,
+    marketVolume: 950000,
+    status: "active",
+    lastUpdated: "2023-09-01T00:00:00Z",
+    description: "WBTC Vault for lending and borrowing",
+  },
+];
 
 // Market data
 export const marketData: IMarketDataProps[] = [

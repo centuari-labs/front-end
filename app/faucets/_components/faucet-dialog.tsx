@@ -20,6 +20,7 @@ import FaucetAbi from "@/lib/abis/Faucet.json";
 import { FaucetDataProps } from "@/lib/data";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { FAUCET_TOKEN } from "@/lib/tokenAddress";
 
 export function FaucetDialog({
   data,
@@ -52,7 +53,7 @@ export function FaucetDialog({
     console.log("tokens", tokens);
 
     writeContract({
-      address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
+      address: FAUCET_TOKEN,
       abi: FaucetAbi,
       functionName: "requestTokens",
       args: [[2], address],
@@ -147,7 +148,7 @@ export function FaucetDialog({
           >
             Get Tokens
           </Button>
-          <Button
+          {/* <Button
             type="button"
             variant="colorful"
             size={"lg"}
@@ -155,7 +156,7 @@ export function FaucetDialog({
             onClick={handleLastRequest}
           >
             last request
-          </Button>
+          </Button> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>

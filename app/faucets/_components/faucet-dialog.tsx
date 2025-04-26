@@ -20,7 +20,15 @@ import FaucetAbi from "@/lib/abis/Faucet.json";
 import { FaucetDataProps } from "@/lib/data";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { FAUCET_TOKEN } from "@/lib/tokenAddress";
+import {
+  FAUCET_TOKEN,
+  MAAVE_TOKEN,
+  MBTC_TOKEN,
+  METH_TOKEN,
+  MLINK_TOKEN,
+  MSOL_TOKEN,
+  USDC_TOKEN,
+} from "@/lib/tokenAddress";
 
 export function FaucetDialog({
   data,
@@ -48,15 +56,24 @@ export function FaucetDialog({
   } = useWriteContract();
 
   const handleClick = () => {
-    const tokens = data.map((token) => token.address);
+    const tokenMap = new Map<string, number>([
+      [USDC_TOKEN, 0],
+      [METH_TOKEN, 1],
+      [MBTC_TOKEN, 2],
+      [MSOL_TOKEN, 3],
+      [MLINK_TOKEN, 4],
+      [MAAVE_TOKEN, 5],
+    ]);
 
-    console.log("tokens", tokens);
+    const indexToken = data
+      .map((item) => tokenMap.get(item.address))
+      .filter((value): value is number => value !== undefined);
 
     writeContract({
       address: FAUCET_TOKEN,
       abi: FaucetAbi,
       functionName: "requestTokens",
-      args: [[2], address],
+      args: [indexToken, address],
     });
   };
 

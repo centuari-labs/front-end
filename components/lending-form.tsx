@@ -36,9 +36,15 @@ interface LendingFormProps {
     collateralFactor: number;
     fixedRate: boolean;
   };
+  fixedRate: number;
+  handleFixRatedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function LendingForm({ market }: LendingFormProps) {
+export function LendingForm({
+  market,
+  fixedRate,
+  handleFixRatedChange,
+}: LendingFormProps) {
   const [amount, setAmount] = useState("");
   const [duration, setDuration] = useState(30);
   const [isCollateral, setIsCollateral] = useState(true);
@@ -49,10 +55,6 @@ export function LendingForm({ market }: LendingFormProps) {
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
-  };
-
-  const handleDurationChange = (value: number[]) => {
-    setDuration(value[0]);
   };
 
   const handleCustomRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +100,8 @@ export function LendingForm({ market }: LendingFormProps) {
         (duration / 365)
       ).toFixed(2)
     : "0.00";
+
+  console.log("fixedRate", fixedRate);
 
   return (
     <Card className="card-colorful">
@@ -158,14 +162,6 @@ export function LendingForm({ market }: LendingFormProps) {
                 </div>
 
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground dark:text-muted-dark">
-                      Fixed APY
-                    </span>
-                    <span className="font-medium text-teal">
-                      {market.lendingAPY}%
-                    </span>
-                  </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated earnings
@@ -205,6 +201,22 @@ export function LendingForm({ market }: LendingFormProps) {
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
+                  {/* Fix Rate Input */}
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="fixed-rate">Fixed Rate</Label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="fixed-rate"
+                      placeholder="0.00"
+                      value={fixedRate}
+                      onChange={handleFixRatedChange}
+                      className="flex-1 border-input"
+                      type="number"
+                    />
+                  </div>
+                </div>
+                <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="limit-amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
@@ -229,7 +241,6 @@ export function LendingForm({ market }: LendingFormProps) {
                     </Button>
                   </div>
                 </div>
-
                 {/* <div className="grid gap-2">
                   <Label htmlFor="rate-type">Interest Rate</Label>
                   <RadioGroup
@@ -311,10 +322,10 @@ export function LendingForm({ market }: LendingFormProps) {
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
-                      Your Fixed APY
+                      Fixed Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {rateType === "custom" ? customRate : market.lendingAPY}%
+                      {isNaN(fixedRate) ? 0 : fixedRate}%
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
@@ -324,28 +335,6 @@ export function LendingForm({ market }: LendingFormProps) {
                     <span className="font-medium text-teal">
                       {estimatedEarnings} {market.name.split("/")[0]}
                     </span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground dark:text-muted-dark">
-                      Order type
-                    </span>
-                    <Badge
-                      variant="outline"
-                      className="bg-coral/10 text-coral border-coral/30"
-                    >
-                      Limit Order
-                    </Badge>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground dark:text-muted-dark">
-                      Rate type
-                    </span>
-                    <Badge
-                      variant="outline"
-                      className="bg-blue/10 text-blue border-blue/30"
-                    >
-                      Fixed
-                    </Badge>
                   </div>
                 </div>
               </div>

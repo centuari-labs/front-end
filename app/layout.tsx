@@ -40,6 +40,7 @@ export default async function RootLayout({
             <div className="relative flex min-h-screen dark:bg-background-dark bg-background flex-col">
               <Navbar />
               <main className="flex-1">{children}</main>
+              <Toaster richColors position="top-center" />
               <Footer />
             </div>
           </WalletLayout>
@@ -55,3 +56,4 @@ import { cookieToInitialState } from "wagmi";
 import { getConfig } from "@/lib/wagmi";
 import { headers } from "next/headers";
 import { Footer } from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner";

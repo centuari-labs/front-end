@@ -165,15 +165,6 @@ export function FaucetDialog({
           >
             Get Tokens
           </Button>
-          {/* <Button
-            type="button"
-            variant="colorful"
-            size={"lg"}
-            className="w-full"
-            onClick={handleLastRequest}
-          >
-            last request
-          </Button> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>

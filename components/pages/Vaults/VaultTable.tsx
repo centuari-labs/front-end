@@ -67,7 +67,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
                 {vault.apy}%
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/vault/${vault.id}`}>
+                <Link href={`/vaults/${vault.id}`}>
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

@@ -11,7 +11,13 @@ export const metadata: Metadata = {
   description: "View your feucets",
 };
 
-export default function VaultPage() {
+export default async function VaultPage() {
+  const mengapa = await fetch("http://localhost:3000/api/get-data");
+
+  const oke = await mengapa.json();
+
+  console.log(oke);
+
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="flex flex-col gap-8">

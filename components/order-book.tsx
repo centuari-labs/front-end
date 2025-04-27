@@ -13,21 +13,27 @@ interface Order {
   type: "borrow" | "lend";
 }
 
-export function OrderBook({ marketId }: OrderBookProps) {
+export function OrderBook({
+  orders,
+  handleFixRated,
+}: {
+  orders: Order[];
+  handleFixRated: (value: number) => void;
+}) {
   // In a real app, we would fetch this data based on the marketId
-  const [orders] = useState<Order[]>([
-    { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
-    { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
-    { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
-    { rate: 4.0, amount: 86290, total: 230650, type: "lend" },
-    { rate: 3.5, amount: 71459, total: 302109, type: "lend" },
-    { rate: 3.0, amount: 23688, total: 325797, type: "borrow" },
-    { rate: 2.5, amount: 117884, total: 443681, type: "borrow" },
-    { rate: 2.0, amount: 80478, total: 524159, type: "borrow" },
-    { rate: 1.5, amount: 22846, total: 547005, type: "borrow" },
-    { rate: 1.0, amount: 180369, total: 727374, type: "borrow" },
-    { rate: 0.5, amount: 103038, total: 830412, type: "borrow" },
-  ]);
+  // const [orders] = useState<Order[]>([
+  //   { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
+  //   { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
+  //   { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
+  //   { rate: 4.0, amount: 86290, total: 230650, type: "lend" },
+  //   { rate: 3.5, amount: 71459, total: 302109, type: "lend" },
+  //   { rate: 3.0, amount: 23688, total: 325797, type: "borrow" },
+  //   { rate: 2.5, amount: 117884, total: 443681, type: "borrow" },
+  //   { rate: 2.0, amount: 80478, total: 524159, type: "borrow" },
+  //   { rate: 1.5, amount: 22846, total: 547005, type: "borrow" },
+  //   { rate: 1.0, amount: 180369, total: 727374, type: "borrow" },
+  //   { rate: 0.5, amount: 103038, total: 830412, type: "borrow" },
+  // ]);
 
   // Calculate the maximum amount for bar width scaling
   const maxAmount = useMemo(
@@ -47,7 +53,8 @@ export function OrderBook({ marketId }: OrderBookProps) {
           .map((order) => (
             <div
               key={order.rate}
-              className="relative flex items-center h-8 group"
+              className="relative flex items-center h-8 group cursor-pointer"
+              onClick={() => handleFixRated(order.rate)}
             >
               {/* Background bar */}
               <div
@@ -78,7 +85,8 @@ export function OrderBook({ marketId }: OrderBookProps) {
           .map((order) => (
             <div
               key={order.rate}
-              className="relative flex items-center h-8 group"
+              className="relative flex items-center h-8 group cursor-pointer"
+              onClick={() => handleFixRated(order.rate)}
             >
               {/* Background bar */}
               <div
@@ -99,19 +107,19 @@ export function OrderBook({ marketId }: OrderBookProps) {
       <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-muted-dark border-t border-border/30 pt-4">
         <div>
           <p>
-            Highest Lend:{" "}
+            Highest Borrow:{" "}
             <span className="text-green-300 dark:text-green-600 font-medium">
-              {Math.max(
-                ...orders.filter((o) => o.type === "lend").map((o) => o.rate)
+              {Math.min(
+                ...orders.filter((o) => o.type === "borrow").map((o) => o.rate)
               )}
               %
             </span>
           </p>
           <p>
-            Lowest Borrow:{" "}
+            Lowest Lend:{" "}
             <span className="text-red-300 dark:text-red-600 font-medium">
-              {Math.min(
-                ...orders.filter((o) => o.type === "borrow").map((o) => o.rate)
+              {Math.max(
+                ...orders.filter((o) => o.type === "lend").map((o) => o.rate)
               )}
               %
             </span>

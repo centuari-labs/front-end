@@ -1,3 +1,12 @@
+import {
+  MAAVE_TOKEN,
+  MBTC_TOKEN,
+  METH_TOKEN,
+  MLINK_TOKEN,
+  MSOL_TOKEN,
+  USDC_TOKEN,
+} from "./tokenAddress";
+
 export interface FaucetDataProps {
   id: string;
   name: string;
@@ -416,7 +425,7 @@ export const faucetData: FaucetDataProps[] = [
     explorer: "https://sepholia.etherscan.io",
     faucetUrl: "https://faucet.example.com/wbtc",
     claimLimit: 1000000,
-    address: "0x3cfC20F01894017817Ad1299890182d65A62bad4",
+    address: USDC_TOKEN,
     limitTime: "30",
     limitTimeUnit: "minutes",
     status: "active",
@@ -426,7 +435,7 @@ export const faucetData: FaucetDataProps[] = [
     name: "WETH Faucet",
     tokenName: "WETH",
     chain: "Sepolia",
-    address: "0x44E14005FB00F571C6169a383458B946cAc64508",
+    address: METH_TOKEN,
     chainId: 5,
     tokenIcons: [tokenIcon.weth],
     explorer: "https://goerli.etherscan.io",
@@ -440,7 +449,7 @@ export const faucetData: FaucetDataProps[] = [
     id: "wbtc",
     name: "WBTC Faucet",
     tokenName: "WBTC",
-    address: "0xd3efc1393461800fDd59F7B343a5F74E4A6eC0A6",
+    address: MBTC_TOKEN,
     chain: "Sepolia",
     chainId: 5,
     tokenIcons: [tokenIcon.wbtc],
@@ -456,7 +465,7 @@ export const faucetData: FaucetDataProps[] = [
     name: "Solana Faucet",
     tokenName: "SOL",
     chain: "Goerli",
-    address: "0xF2668073180BDe47De71d4e35Ff9da1a43aA8Ca1",
+    address: MSOL_TOKEN,
     chainId: 5,
     tokenIcons: [tokenIcon.sol],
     explorer: "https://goerli.etherscan.io",
@@ -471,7 +480,7 @@ export const faucetData: FaucetDataProps[] = [
     name: "LINK Faucet",
     tokenName: "LINK",
     chain: "Goerli",
-    address: "0xdB06E847828Ff4fa3144658a7C1A1395dC8921de",
+    address: MLINK_TOKEN,
     chainId: 5,
     tokenIcons: [tokenIcon.link],
     explorer: "https://goerli.etherscan.io",
@@ -487,7 +496,7 @@ export const faucetData: FaucetDataProps[] = [
     tokenName: "AAVE",
     chain: "Goerli",
     chainId: 5,
-    address: "0x16bD2f7D7ea5f85DD089F41bf6d5bE7D70e1e546",
+    address: MAAVE_TOKEN,
     tokenIcons: [tokenIcon.aave],
     explorer: "https://goerli.etherscan.io",
     faucetUrl: "https://faucet.example.com/link",

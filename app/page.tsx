@@ -8,7 +8,11 @@ import { StatsCard } from "@/components/stats-card";
 export default async function HomePage() {
   // const pathname = usePathname();
   const getMarket = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/market`
+    `${
+      process.env.NEXT_PUBLIC_ENV === "localhost"
+        ? process.env.NEXT_PUBLIC_BASE_URL
+        : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    }/api/market`
   );
 
   const marketData = await getMarket.json();

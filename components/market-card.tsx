@@ -25,6 +25,7 @@ export interface MarketCardProps {
   loan_token: IToken;
   collateral_token: IToken;
   maturity_date: Date;
+  maturity: string;
 }
 
 export function MarketCard({

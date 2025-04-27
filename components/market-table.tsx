@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -13,12 +15,22 @@ import {
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
 import { MarketCardProps } from "./market-card";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface MarketTableProps {
   markets: MarketCardProps[];
 }
 
 export function MarketTable({ markets }: MarketTableProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const handleMarketClick = (marketId: string, maturity: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("maturity", maturity);
+    router.push(`/markets/${marketId}?${params.toString()}`);
+  };
+
   return (
     <div className="rounded-md border dark:border-white/20">
       <Table>
@@ -47,6 +59,9 @@ export function MarketTable({ markets }: MarketTableProps) {
                     loanTokenUrl={market.loan_token.image_uri}
                     collateralTokenUrl={market.collateral_token.image_uri}
                     pairName={market.name}
+                    onClick={() =>
+                      handleMarketClick(market.id, market.maturity)
+                    }
                   />
                 </div>
               </TableCell>
@@ -69,7 +84,9 @@ export function MarketTable({ markets }: MarketTableProps) {
                 {parseFloat(market.borrow_apy) / 10 ** 16}%
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/markets/${market.id}`}>
+                <Link
+                  href={`/markets/${market.id}?maturity=${market.maturity}`}
+                >
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

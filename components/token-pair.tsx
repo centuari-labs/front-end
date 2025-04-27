@@ -9,6 +9,7 @@ interface TokenPairProps {
   marketTrending?: number;
   loanToken: string;
   collateralToken: string;
+  onClick?: () => void;
 }
 
 export function TokenPair({
@@ -16,6 +17,7 @@ export function TokenPair({
   collateralTokenUrl,
   loanToken,
   collateralToken,
+  onClick,
 }: TokenPairProps) {
   return (
     <>
@@ -26,14 +28,18 @@ export function TokenPair({
               src={loanTokenUrl}
               alt={`Loan Token`}
               fill
-              className="rounded-full object-cover"
+              className="rounded-full object-cover cursor-pointer"
+              onClick={onClick}
             />
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
               Lend Token
             </p>
-            <h3 className="font-semibold dark:text-primary-dark">
+            <h3
+              className="font-semibold dark:text-primary-dark cursor-pointer"
+              onClick={onClick}
+            >
               {loanToken}
             </h3>
           </div>
@@ -44,14 +50,18 @@ export function TokenPair({
               src={collateralTokenUrl}
               alt={`Collateral Token`}
               fill
-              className="rounded-full object-cover"
+              className="rounded-full object-cover cursor-pointer"
+              onClick={onClick}
             />
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
               Collateral Token
             </p>
-            <h3 className="font-semibold dark:text-primary-dark">
+            <h3
+              className="font-semibold dark:text-primary-dark cursor-pointer"
+              onClick={onClick}
+            >
               {collateralToken}
             </h3>
           </div>

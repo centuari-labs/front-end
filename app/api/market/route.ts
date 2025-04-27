@@ -40,6 +40,7 @@ FROM
       symbol: market.collateral_token_symbol,
     },
     maturity_date: new Date(Number(market.maturity) * 1000),
+    maturity: market.maturity,
   }));
 
   return NextResponse.json(marketData);

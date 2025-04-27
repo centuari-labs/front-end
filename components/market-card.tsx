@@ -78,7 +78,7 @@ export function MarketCard({
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
-              LTV
+              LLTV
             </p>
             <p className="font-medium dark:text-primary-dark">
               ${ltv.toLocaleString()}

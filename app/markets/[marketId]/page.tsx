@@ -91,7 +91,7 @@ export default function MarketDetailPage({
               </div>
               <div className="flex flex-col gap-1 items-center">
                 <span className="text-sm font-medium text-muted-foreground dark:text-muted-dark">
-                  LTV
+                  LLTV
                 </span>
                 <span className="text-sm font-bold">
                   ${market.ltv.toLocaleString()}

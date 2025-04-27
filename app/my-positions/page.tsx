@@ -47,7 +47,7 @@ export default function MyPositionsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="border border-muted/40 dark:border-muted-dark/40">
+          <Card className="border border-muted-dark/40 dark:border-muted-dark/40">
             <CardHeader className="pb-3">
               <CardTitle>Active Supply</CardTitle>
               <CardDescription>Across all markets</CardDescription>
@@ -59,7 +59,7 @@ export default function MyPositionsPage() {
               </p> */}
             </CardContent>
           </Card>
-          <Card className="border border-muted/40 dark:border-muted-dark/40">
+          <Card className="border border-muted-dark/40 dark:border-muted-dark/40">
             <CardHeader className="pb-3">
               <CardTitle>Active Borrow</CardTitle>
               <CardDescription>Across all markets</CardDescription>
@@ -68,7 +68,7 @@ export default function MyPositionsPage() {
               <div className="text-2xl font-bold">$5,280.42</div>
             </CardContent>
           </Card>
-          <Card className="border border-muted/40 dark:border-muted-dark/40">
+          <Card className="border border-muted-dark/40 dark:border-muted-dark/40">
             <CardHeader className="pb-3">
               <CardTitle>Active Vault</CardTitle>
               <CardDescription>Across all markets</CardDescription>
@@ -82,7 +82,7 @@ export default function MyPositionsPage() {
         <Accordion type="multiple" className="w-full space-y-4">
           <AccordionItem
             value="item-1"
-            className="border border-muted/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
+            className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
           >
             <AccordionTrigger className="text-start">
               <div>
@@ -90,7 +90,7 @@ export default function MyPositionsPage() {
                 <p className="text-xs font-light">0 Position</p>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="border-t border-muted/40 dark:border-muted-dark/40 pt-4 bg-card dark:bg-card-dark">
+            <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4 bg-card dark:bg-card-dark">
               <div className="flex flex-col gap-3 h-52 items-center justify-center">
                 <p>No Position Yet</p>
                 <Button variant={"colorful"}>View Vault</Button>
@@ -99,7 +99,7 @@ export default function MyPositionsPage() {
           </AccordionItem>
           <AccordionItem
             value="item-2"
-            className="border border-muted/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
+            className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
           >
             <AccordionTrigger className="text-start">
               <div>
@@ -107,8 +107,8 @@ export default function MyPositionsPage() {
                 <p className="text-xs font-light">1 Position</p>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="border-t border-muted/40 dark:border-muted-dark/40 pt-4">
-              <div className="rounded-md border border-muted/40 dark:border-muted-dark/40">
+            <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4">
+              <div className="rounded-md border border-muted-dark/40 dark:border-muted-dark/40">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -166,7 +166,7 @@ export default function MyPositionsPage() {
           </AccordionItem>
           <AccordionItem
             value="item-3"
-            className="border border-muted/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
+            className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
           >
             <AccordionTrigger className="text-start">
               <div>
@@ -174,8 +174,8 @@ export default function MyPositionsPage() {
                 <p className="text-xs font-light">1 Position</p>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="border-t border-muted/40 dark:border-muted-dark/40 pt-4">
-              <div className="rounded-md border border-muted/40 dark:border-muted-dark/40">
+            <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4">
+              <div className="rounded-md border border-muted-dark/40 dark:border-muted-dark/40">
                 <Table>
                   <TableHeader>
                     <TableRow>

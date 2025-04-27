@@ -7,43 +7,46 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
 
-interface MarketCardProps {
+interface IToken {
+  address: string;
+  name: string;
+  image_uri: string;
+  decimal: number;
+  symbol: string;
+}
+
+export interface MarketCardProps {
   id: string;
   name: string;
-  lendingAPY: number;
-  borrowingAPY: number;
-  marketVolume: number;
-  ltv: number;
-  trending: number;
-  lendTokenUrl: string;
-  borrowTokenUrl: string;
-  lendToken: string;
-  collateralToken: string;
+  lltv: string;
+  lending_apy: string;
+  borrow_apy: string;
+  market_volume: string;
+  loan_token: IToken;
+  collateral_token: IToken;
+  maturity_date: Date;
 }
 
 export function MarketCard({
   id,
   name,
-  lendingAPY,
-  borrowingAPY,
-  marketVolume,
-  ltv,
-  trending,
-  lendTokenUrl,
-  borrowTokenUrl,
-  lendToken,
-  collateralToken,
+  lltv,
+  market_volume,
+  lending_apy,
+  borrow_apy,
+  loan_token,
+  collateral_token,
+  maturity_date,
 }: MarketCardProps) {
   return (
     <Card className="overflow-hidden card-colorful animate-float">
       <CardContent className="p-6">
         <TokenPair
-          lendTokenUrl={lendTokenUrl}
-          borrowTokenUrl={borrowTokenUrl}
+          loanTokenUrl={loan_token.image_uri}
+          collateralTokenUrl={collateral_token.image_uri}
           pairName={name}
-          marketTrending={trending}
-          lendToken={lendToken}
-          collateralToken={collateralToken}
+          loanToken={loan_token.name}
+          collateralToken={collateral_token.name}
         />
         <Separator className="my-4" />
         <div className="grid grid-cols-2 gap-4">
@@ -54,10 +57,12 @@ export function MarketCard({
             <p
               className={cn(
                 "text-lg font-bold",
-                lendingAPY > 5 ? "text-teal" : "dark:text-primary-dark"
+                parseFloat(lending_apy) > 5
+                  ? "text-teal"
+                  : "dark:text-primary-dark"
               )}
             >
-              {lendingAPY}%
+              {lending_apy}%
             </p>
           </div>
           <div>
@@ -65,7 +70,7 @@ export function MarketCard({
               Borrowing APY
             </p>
             <p className="text-lg font-bold dark:text-primary-dark">
-              {borrowingAPY}%
+              {parseFloat(borrow_apy) / 10 ** 16}%
             </p>
           </div>
           <div>
@@ -73,7 +78,7 @@ export function MarketCard({
               Market Volume
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${marketVolume.toLocaleString()}
+              ${market_volume.toLocaleString()}
             </p>
           </div>
           <div>
@@ -81,7 +86,7 @@ export function MarketCard({
               LLTV
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${ltv.toLocaleString()}
+              ${(parseFloat(lltv) / 10 ** 16).toLocaleString()}
             </p>
           </div>
         </div>

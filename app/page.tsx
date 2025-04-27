@@ -2,11 +2,19 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { MarketCard } from "@/components/market-card";
+import { MarketCard, MarketCardProps } from "@/components/market-card";
 import { StatsCard } from "@/components/stats-card";
-import { marketData } from "@/lib/data";
 
-export default function HomePage() {
+export default async function HomePage() {
+  // const pathname = usePathname();
+  const getMarket = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/market`
+  );
+
+  const marketData = await getMarket.json();
+
+  console.log({ marketData });
+
   return (
     <div className="flex flex-col gap-8 pb-8">
       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-background to-muted dark:bg-gradient-to-r dark:from-background-dark dark:to-background-dark">
@@ -85,20 +93,18 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {marketData.slice(0, 6).map((market) => (
+            {marketData.map((market: MarketCardProps) => (
               <MarketCard
                 key={market.id}
                 id={market.id}
                 name={market.name}
-                lendToken={market.lend_token}
-                collateralToken={market.collateral_token}
-                lendingAPY={market.lendingAPY}
-                borrowingAPY={market.borrowingAPY}
-                marketVolume={market.marketVolume}
-                ltv={market.ltv}
-                trending={market.trending}
-                lendTokenUrl="https://etherscan.io/token/images/usdc_ofc_32.svg"
-                borrowTokenUrl="https://etherscan.io/token/images/weth_28.png?v=2"
+                loan_token={market.loan_token}
+                collateral_token={market.collateral_token}
+                lending_apy={market.lending_apy}
+                borrow_apy={market.borrow_apy}
+                market_volume={market.market_volume}
+                lltv={market.lltv}
+                maturity_date={market.maturity_date}
               />
             ))}
           </div>

@@ -3,20 +3,18 @@ import { Badge } from "./ui/badge";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface TokenPairProps {
-  lendTokenUrl: string;
-  borrowTokenUrl: string;
+  loanTokenUrl: string;
+  collateralTokenUrl: string;
   pairName: string;
-  marketTrending: number;
-  lendToken: string;
+  marketTrending?: number;
+  loanToken: string;
   collateralToken: string;
 }
 
 export function TokenPair({
-  lendTokenUrl,
-  borrowTokenUrl,
-  pairName,
-  marketTrending,
-  lendToken,
+  loanTokenUrl,
+  collateralTokenUrl,
+  loanToken,
   collateralToken,
 }: TokenPairProps) {
   return (
@@ -25,8 +23,8 @@ export function TokenPair({
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
             <Image
-              src={lendTokenUrl}
-              alt={`Lend Token`}
+              src={loanTokenUrl}
+              alt={`Loan Token`}
               fill
               className="rounded-full object-cover"
             />
@@ -36,15 +34,15 @@ export function TokenPair({
               Lend Token
             </p>
             <h3 className="font-semibold dark:text-primary-dark">
-              {lendToken}
+              {loanToken}
             </h3>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
             <Image
-              src={borrowTokenUrl}
-              alt={`Borrow Token`}
+              src={collateralTokenUrl}
+              alt={`Collateral Token`}
               fill
               className="rounded-full object-cover"
             />

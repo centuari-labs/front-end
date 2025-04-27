@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 
@@ -20,7 +18,9 @@ import { OpenOrders } from "@/components/open-orders";
 import { marketData } from "@/lib/data";
 import { SelectMaturity } from "./_components/select-maturity";
 import { maturityList } from "./_data/maturity-list";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { BASE_URL, MARKET_DETAIL_API, MARKET_MATURITIES } from "@/lib/api";
 
 interface Order {
   rate: number;
@@ -29,42 +29,65 @@ interface Order {
   type: "borrow" | "lend";
 }
 
-export default function MarketDetailPage({
+// In a real app, we would fetch this data based on the marketId
+// const market = marketData.find((m) => m.id === "usdc-eth") || marketData[0];
+
+const orders = [
+  { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
+  { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
+  { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
+  { rate: 4.0, amount: 86290, total: 230650, type: "lend" },
+  { rate: 3.5, amount: 71459, total: 302109, type: "lend" },
+  { rate: 3.0, amount: 23688, total: 325797, type: "borrow" },
+  { rate: 2.5, amount: 117884, total: 443681, type: "borrow" },
+  { rate: 2.0, amount: 80478, total: 524159, type: "borrow" },
+  { rate: 1.5, amount: 22846, total: 547005, type: "borrow" },
+  { rate: 1.0, amount: 180369, total: 727374, type: "borrow" },
+  { rate: 0.5, amount: 103038, total: 830412, type: "borrow" },
+];
+
+async function getMarketData(id: string) {
+  const res = await fetch(`${BASE_URL}/api/market/${id}`);
+  if (!res.ok) return undefined;
+  return res.json();
+}
+
+export default async function MarketDetailPage({
   params,
+  searchParams,
 }: {
-  params: { marketId: string };
+  params: { id: string };
+  searchParams: { maturity: string };
 }) {
-  // In a real app, we would fetch this data based on the marketId
-  const market =
-    marketData.find((m) => m.id === params.marketId) || marketData[0];
+  const { id: marketId } = await params;
+  const market = await getMarketData(marketId);
 
-  const [orders] = useState<Order[]>([
-    { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
-    { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
-    { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
-    { rate: 4.0, amount: 86290, total: 230650, type: "lend" },
-    { rate: 3.5, amount: 71459, total: 302109, type: "lend" },
-    { rate: 3.0, amount: 23688, total: 325797, type: "borrow" },
-    { rate: 2.5, amount: 117884, total: 443681, type: "borrow" },
-    { rate: 2.0, amount: 80478, total: 524159, type: "borrow" },
-    { rate: 1.5, amount: 22846, total: 547005, type: "borrow" },
-    { rate: 1.0, amount: 180369, total: 727374, type: "borrow" },
-    { rate: 0.5, amount: 103038, total: 830412, type: "borrow" },
-  ]);
-  const [fixedRate, setFixedRate] = useState<number>(0);
+  // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
 
-  const handleFixRated = (value: number | string) => {
-    setFixedRate(parseFloat(value.toString()));
-  };
+  // const getMarketDetail = await fetch(`${BASE_URL}/api/market/${id}`);
+  // const marketDetail = await getMarketDetail.json();
 
-  const handleFixRatedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(e.target.value);
-    if (!isNaN(newValue)) {
-      setFixedRate(parseFloat(newValue.toFixed(2)));
-    } else {
-      setFixedRate(0);
-    }
-  };
+  // const marketDetailApi = useCallback(
+  //   (): string => MARKET_DETAIL_API(id),
+  //   [id]
+  // );
+
+  // console.log({ marketDetail });
+
+  // const [fixedRate, setFixedRate] = useState<number>(0);
+
+  // const handleFixRated = (value: number | string) => {
+  //   setFixedRate(parseFloat(value.toString()));
+  // };
+
+  // const handleFixRatedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newValue = parseFloat(e.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setFixedRate(parseFloat(newValue.toFixed(2)));
+  //   } else {
+  //     setFixedRate(0);
+  //   }
+  // };
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -78,9 +101,7 @@ export default function MarketDetailPage({
           </Link>
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight">
-                {market.name}
-              </h1>
+              <h1 className="text-2xl font-bold tracking-tight">{market.id}</h1>
               <Link
                 href={`https://etherscan.io/address/${market.contractAddress}`}
                 target="_blank"
@@ -118,7 +139,7 @@ export default function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  ${market.marketVolume.toLocaleString()}
+                  ${market.market_volume.toLocaleString()}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -132,7 +153,7 @@ export default function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  ${market.ltv.toLocaleString()}
+                  ${market.lltv.toLocaleString()}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -141,7 +162,7 @@ export default function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {market.lendingAPY}%
+                    {market.lending_apy}%
                   </span>
                 </div>
               </div>
@@ -151,7 +172,7 @@ export default function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {market.borrowingAPY}%
+                    {market.borrow_apy}%
                   </span>
                 </div>
               </div>
@@ -167,7 +188,10 @@ export default function MarketDetailPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <OrderBook orders={orders} handleFixRated={handleFixRated} />
+            {/* <OrderBook
+              orders={orders as Order[]}
+              handleFixRated={handleFixRated}
+            /> */}
           </CardContent>
         </Card>
 
@@ -194,18 +218,18 @@ export default function MarketDetailPage({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="lend" className="m-0">
-                <LendingForm
+                {/* <LendingForm
                   market={market}
                   fixedRate={fixedRate}
                   handleFixRatedChange={handleFixRatedChange}
-                />
+                /> */}
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
-                <BorrowingForm
+                {/* <BorrowingForm
                   market={market}
                   fixedRate={fixedRate}
                   handleFixRatedChange={handleFixRatedChange}
-                />
+                /> */}
               </TabsContent>
             </Tabs>
           </CardContent>

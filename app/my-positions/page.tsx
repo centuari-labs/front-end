@@ -66,9 +66,6 @@ export default function MyPositionsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">$5,280.42</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -$120.15 (2.23%) today
-              </p> */}
             </CardContent>
           </Card>
           <Card className="border border-muted/40 dark:border-muted-dark/40">
@@ -78,9 +75,6 @@ export default function MyPositionsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">$8,280.42</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -$120.15 (2.23%) today
-              </p> */}
             </CardContent>
           </Card>
         </div>
@@ -129,6 +123,9 @@ export default function MyPositionsPage() {
                       <TableHead>Collateral</TableHead>
                       <TableHead>Maturity</TableHead>
                       <TableHead>Health Factor</TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Actions
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -149,6 +146,18 @@ export default function MyPositionsPage() {
                       <TableCell>USDT</TableCell>
                       <TableCell>September 30, 2023</TableCell>
                       <TableCell>1.85</TableCell>
+                      <TableCell className="flex items-center gap-2">
+                        <Button
+                          variant={"destructive"}
+                          size="sm"
+                          className="w-full"
+                        >
+                          Repay
+                        </Button>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Withdraw
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -179,6 +188,7 @@ export default function MyPositionsPage() {
                         APY
                       </TableHead>
                       <TableHead>Maturity</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -197,6 +207,18 @@ export default function MyPositionsPage() {
                       <TableCell>$10,000</TableCell>
                       <TableCell>+3.25%</TableCell>
                       <TableCell>September 30, 2023</TableCell>
+                      <TableCell className="flex items-center gap-2">
+                        <Button
+                          variant={"destructive"}
+                          size="sm"
+                          className="w-full"
+                        >
+                          Repay
+                        </Button>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Withdraw
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

@@ -4,20 +4,12 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MarketCard, MarketCardProps } from "@/components/market-card";
 import { StatsCard } from "@/components/stats-card";
+import { MARKET_API } from "@/lib/api";
 
 export default async function HomePage() {
-  // const pathname = usePathname();
-  const getMarket = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_ENV === "localhost"
-        ? process.env.NEXT_PUBLIC_BASE_URL
-        : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    }/api/market`
-  );
+  const getMarket = await fetch(MARKET_API);
 
   const marketData = await getMarket.json();
-
-  console.log({ marketData });
 
   return (
     <div className="flex flex-col gap-8 pb-8">

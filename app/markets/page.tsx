@@ -3,9 +3,12 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MarketTable } from "@/components/market-table";
-import { marketData } from "@/lib/data";
+import { MARKET_API } from "@/lib/api";
 
-export default function MarketsPage() {
+export default async function MarketsPage() {
+  const getMarket = await fetch(MARKET_API);
+  const marketData = await getMarket.json();
+
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="flex flex-col gap-8">

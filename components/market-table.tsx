@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
-import { IMarketDataProps } from "@/lib/data";
+import { MarketCardProps } from "./market-card";
 
 interface MarketTableProps {
-  markets: IMarketDataProps[];
+  markets: MarketCardProps[];
 }
 
 export function MarketTable({ markets }: MarketTableProps) {
@@ -42,32 +42,31 @@ export function MarketTable({ markets }: MarketTableProps) {
               <TableCell>
                 <div className="flex justify-center">
                   <TokenPair
-                    lendToken={market.lend_token}
-                    collateralToken={market.collateral_token}
-                    lendTokenUrl={market.lendTokenUrl}
-                    borrowTokenUrl={market.borrowTokenUrl}
+                    loanToken={market.loan_token.name}
+                    collateralToken={market.collateral_token.name}
+                    loanTokenUrl={market.loan_token.image_uri}
+                    collateralTokenUrl={market.collateral_token.image_uri}
                     pairName={market.name}
-                    marketTrending={market.trending}
                   />
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                ${market.marketVolume.toLocaleString()}
+                ${market.market_volume.toLocaleString()}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                ${market.ltv.toLocaleString()}
+                ${(parseFloat(market.lltv) / 10 ** 16).toLocaleString()}
               </TableCell>
               <TableCell
                 className={cn(
-                  market.lendingAPY > 5
+                  parseFloat(market.lending_apy) / 10 ** 16 > 5
                     ? "text-green-500 font-medium text-center"
                     : "text-center"
                 )}
               >
-                {market.lendingAPY}%
+                {parseFloat(market.lending_apy) / 10 ** 16}%
               </TableCell>
               <TableCell className="text-center">
-                {market.borrowingAPY}%
+                {parseFloat(market.borrow_apy) / 10 ** 16}%
               </TableCell>
               <TableCell className="text-center">
                 <Link href={`/markets/${market.id}`}>

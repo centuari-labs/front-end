@@ -14,11 +14,11 @@ import { MarketChart } from "@/components/market-chart";
 import { LendingForm } from "@/components/lending-form";
 import { OpenOrders } from "@/components/open-orders";
 import { marketData } from "@/lib/data";
-import { SelectMaturity } from "./_components/select-maturity";
+import { SelectMaturity } from "../_components/select-maturity";
 import { maturityList } from "./_data/maturity-list";
 import { BASE_URL } from "@/lib/api";
 import { useChainId, useConfig } from "wagmi";
-import { MarketTitle } from "./_components/market-title";
+import { MarketTitle } from "../_components/market-title";
 
 interface Order {
   rate: number;

@@ -9,8 +9,8 @@ export async function GET(
 
   const sql = neon(process.env.DATABASE_URL ?? "");
   const market = await sql`SELECT 
-  m.loan_token as loan_token_address, m.id, lt.name as loan_token_name, lt.symbol as loan_token_symbol, lt.decimal as loan_token_decimal,
-  m.collateral_token as collateral_token_address,  ct.name as collateral_token_name, ct.symbol as collateral_token_symbol, ct.decimal as collateral_token_decimal,
+  m.loan_token, lt.name as loan_token_name, lt.symbol as loan_token_symbol, lt.decimal as loan_token_decimal, lt.image_uri as loan_token_image_uri,
+  m.collateral_token,  ct.name as collateral_token_name, ct.symbol as collateral_token_symbol, ct.decimal as collateral_token_decimal, ct.image_uri as collateral_token_image_uri,
   maturity, lltv, market_volume, borrow_apy, lending_apy
 FROM market m
   LEFT JOIN token lt ON lower(lt.address) = lower(m.loan_token)
@@ -23,7 +23,6 @@ WHERE
 
   const marketDetail = {
     id: marketDataDetail?.id,
-    name: marketDataDetail?.name,
     lltv: marketDataDetail?.lltv,
     market_volume: marketDataDetail?.market_volume,
     borrow_apy: marketDataDetail?.borrow_apy,
@@ -45,6 +44,8 @@ WHERE
     maturity_date: new Date(Number(marketDataDetail?.maturity) * 1000),
     maturity: marketDataDetail?.maturity,
   };
+
+  console.log({ marketDetail });
 
   return NextResponse.json(marketDetail);
 }

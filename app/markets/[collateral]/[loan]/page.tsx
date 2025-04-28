@@ -16,8 +16,8 @@ import { OpenOrders } from "@/components/open-orders";
 import { marketData } from "@/lib/data";
 import { BASE_URL } from "@/lib/api";
 import { useChainId, useConfig } from "wagmi";
-import { MarketTitle } from "../../id/_components/market-title";
-import { Maturity, SelectMaturity } from "../../id/_components/select-maturity";
+import { MarketTitle } from "../../_components/market-title";
+import { Maturity, SelectMaturity } from "../../_components/select-maturity";
 import { maturityList } from "../../id/_data/maturity-list";
 import { BorrowingForm } from "@/components/borrowing-form";
 import { OrderBook } from "@/components/order-book";
@@ -78,17 +78,19 @@ export default async function MarketDetailPage({
 
   // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
 
-  const getMarketDetail = await fetch(
-    `${BASE_URL}/api/market/${maturities[0].market_id}`
-  );
-  const market = await getMarketDetail.json();
+  console.log({ maturities });
+
+  // const getMarketDetail = await fetch(
+  //   `${BASE_URL}/api/market/${maturities[0].market_id}`
+  // );
+  // const market = await getMarketDetail.json();
 
   // const marketDetailApi = useCallback(
   //   (): string => MARKET_DETAIL_API(id),
   //   [id]
   // );
 
-  console.log({ market });
+  // console.log({ market });
 
   // const [fixedRate, setFixedRate] = useState<number>(0);
 
@@ -121,7 +123,7 @@ export default async function MarketDetailPage({
             </Button>
           </Link>
           <div className="flex flex-col gap-1">
-            <MarketTitle market={market} />
+            {/* <MarketTitle market={market} /> */}
           </div>
         </div>
         <SelectMaturity data={maturities} />
@@ -137,7 +139,7 @@ export default async function MarketDetailPage({
           </CardHeader>
           <CardContent>
             <div className="h-[350px]">
-              <MarketChart marketId={market.id} />
+              {/* <MarketChart marketId={market.id} /> */}
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
               <div className="flex flex-col gap-1 items-center">
@@ -145,7 +147,7 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  ${parseFloat(market.market_volume).toLocaleString()}
+                  {/* ${parseFloat(market.market_volume).toLocaleString()} */}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -153,12 +155,12 @@ export default async function MarketDetailPage({
                   Maturity
                 </span>
                 <span className="text-sm font-bold">
-                  {new Date(market.maturity_date)
+                  {/* {new Date(market.maturity_date)
                     .toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
                     })
-                    .toUpperCase()}
+                    .toUpperCase()} */}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -166,7 +168,7 @@ export default async function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  {parseFloat(market.lltv) / 10 ** 16} %
+                  {/* {parseFloat(market.lltv) / 10 ** 16} % */}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -175,7 +177,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {parseFloat(market.lending_apy) / 10 ** 16} %
+                    {/* {parseFloat(market.lending_apy) / 10 ** 16} % */}
                   </span>
                 </div>
               </div>
@@ -185,7 +187,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {parseFloat(market.borrow_apy) / 10 ** 16} %
+                    {/* {parseFloat(market.borrow_apy) / 10 ** 16} % */}
                   </span>
                 </div>
               </div>
@@ -231,11 +233,11 @@ export default async function MarketDetailPage({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="lend" className="m-0">
-                <LendingForm
+                {/* <LendingForm
                   market={market}
                   // fixedRate={fixedRate}
                   // handleFixRatedChange={handleFixRatedChange}
-                />
+                /> */}
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
                 {/* <BorrowingForm
@@ -253,9 +255,7 @@ export default async function MarketDetailPage({
             <CardTitle>Open Orders</CardTitle>
             <CardDescription>Your active orders in this market</CardDescription>
           </CardHeader>
-          <CardContent>
-            <OpenOrders marketId={market.id} />
-          </CardContent>
+          <CardContent>{/* <OpenOrders marketId={market.id} /> */}</CardContent>
         </Card>
       </div>
     </div>

@@ -20,20 +20,25 @@ export interface Maturity {
 }
 
 export function SelectMaturity({ data }: { data: Maturity[] }) {
+  const [value] = React.useState();
   const router = useRouter();
 
-  const handleSelectMaturity = async (maturity: Maturity) => {
-    console.log({ maturity });
-    const getMarketDetail = await fetch(
-      `${BASE_URL}/api/market/${maturity.market_id}`
-    );
+  const handleValueChange = async (value: string) => {
+    const getMarketDetail = await fetch(`${BASE_URL}/api/market/${value}`);
     const market = await getMarketDetail.json();
 
-    router.push(`/markets/${market.collateral_token}/${market.loan_token}`);
+    console.log({
+      col: market.collateral_token,
+      loan: market.loan_token,
+    });
+
+    router.push(
+      `/markets/${market.collateral_token.address}/${market.loan_token.address}`
+    );
   };
 
   return (
-    <Select>
+    <Select onValueChange={handleValueChange} value={value}>
       <SelectTrigger className="w-[440px] bg-background/95 dark:bg-[#1a1b2f] border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-white text-black">
         <SelectValue
           placeholder={`Maturity ${new Date(data[0]?.maturity * 1000)
@@ -49,14 +54,7 @@ export function SelectMaturity({ data }: { data: Maturity[] }) {
         <SelectGroup>
           <SelectLabel>Select Maturity</SelectLabel>
           {data.map((item: Maturity, index: number) => (
-            <SelectItem
-              key={index}
-              value={item.market_id}
-              onClick={() => {
-                console.log("masuk item", { item });
-                handleSelectMaturity(item);
-              }}
-            >
+            <SelectItem key={index} value={item.market_id}>
               Maturity {` `}
               {new Date(item?.maturity * 1000)
                 .toLocaleString("en-US", {

@@ -8,8 +8,9 @@ import { MARKET_API } from "@/lib/api";
 
 export default async function HomePage() {
   const getMarket = await fetch(MARKET_API);
-
   const marketData = await getMarket.json();
+
+  console.log({ marketData });
 
   return (
     <div className="flex flex-col gap-8 pb-8">
@@ -92,6 +93,7 @@ export default async function HomePage() {
             {marketData.map((market: MarketCardProps) => (
               <MarketCard
                 key={market.id}
+                maturity={market.maturity}
                 id={market.id}
                 name={market.name}
                 loan_token={market.loan_token}

@@ -24,13 +24,15 @@ export function TokenPair({
       <div className="grid grid-cols-2 gap-4">
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
-            <Image
-              src={loanTokenUrl}
-              alt={`Loan Token`}
-              fill
-              className="rounded-full object-cover cursor-pointer"
-              onClick={onClick}
-            />
+            {loanTokenUrl && (
+              <Image
+                src={loanTokenUrl}
+                alt={`Loan Token`}
+                fill
+                className="rounded-full object-cover cursor-pointer"
+                onClick={onClick}
+              />
+            )}
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
@@ -46,13 +48,15 @@ export function TokenPair({
         </div>
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
-            <Image
-              src={collateralTokenUrl}
-              alt={`Collateral Token`}
-              fill
-              className="rounded-full object-cover cursor-pointer"
-              onClick={onClick}
-            />
+            {collateralTokenUrl && (
+              <Image
+                src={collateralTokenUrl}
+                alt={`Collateral Token`}
+                fill
+                className="rounded-full object-cover cursor-pointer"
+                onClick={onClick}
+              />
+            )}
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">

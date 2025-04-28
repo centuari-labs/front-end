@@ -22,13 +22,13 @@ interface MarketTableProps {
 }
 
 export function MarketTable({ markets }: MarketTableProps) {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
-  const handleMarketClick = (marketId: string, maturity: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("maturity", maturity);
-    router.push(`/markets/${marketId}?${params.toString()}`);
+  const handleMarketClick = (
+    collateral_address: string,
+    loan_address: string
+  ) => {
+    router.push(`/markets/${collateral_address}/${loan_address}`);
   };
 
   return (
@@ -41,7 +41,7 @@ export function MarketTable({ markets }: MarketTableProps) {
               Market Volume
             </TableHead>
             <TableHead className="hidden md:table-cell text-center">
-              LTV
+              LLTV
             </TableHead>
             <TableHead className="text-center">Lending APY</TableHead>
             <TableHead className="text-center">Borrowing APY</TableHead>
@@ -52,7 +52,7 @@ export function MarketTable({ markets }: MarketTableProps) {
           {markets.map((market) => (
             <TableRow key={market.id}>
               <TableCell>
-                <div className="flex justify-center">
+                <div className="flex justify-start">
                   <TokenPair
                     loanToken={market.loan_token.name}
                     collateralToken={market.collateral_token.name}
@@ -60,16 +60,19 @@ export function MarketTable({ markets }: MarketTableProps) {
                     collateralTokenUrl={market.collateral_token.image_uri}
                     pairName={market.name}
                     onClick={() =>
-                      handleMarketClick(market.id, market.maturity)
+                      handleMarketClick(
+                        market.collateral_token.address,
+                        market.loan_token.address
+                      )
                     }
                   />
                 </div>
               </TableCell>
-              <TableCell className="hidden md:table-cell text-center">
-                ${market.market_volume.toLocaleString()}
+              <TableCell className="hidden md:table-cell ">
+                ${parseFloat(market.market_volume).toLocaleString()}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                ${(parseFloat(market.lltv) / 10 ** 16).toLocaleString()}
+                {parseFloat(market.lltv) / 10 ** 16} %
               </TableCell>
               <TableCell
                 className={cn(
@@ -84,9 +87,7 @@ export function MarketTable({ markets }: MarketTableProps) {
                 {parseFloat(market.borrow_apy) / 10 ** 16}%
               </TableCell>
               <TableCell className="text-center">
-                <Link
-                  href={`/markets/${market.id}?maturity=${market.maturity}`}
-                >
+                <Link href={`/markets/${market.id}`}>
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

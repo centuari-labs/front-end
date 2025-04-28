@@ -9,12 +9,42 @@ export async function GET(
 
   const sql = neon(process.env.DATABASE_URL ?? "");
   const market = await sql`SELECT 
-    m.*
-  FROM 
-      market m
-  WHERE
-      m.id = ${id}
+  m.loan_token as loan_token_address, m.id, lt.name as loan_token_name, lt.symbol as loan_token_symbol, lt.decimal as loan_token_decimal,
+  m.collateral_token as collateral_token_address,  ct.name as collateral_token_name, ct.symbol as collateral_token_symbol, ct.decimal as collateral_token_decimal,
+  maturity, lltv, market_volume, borrow_apy, lending_apy
+FROM market m
+  LEFT JOIN token lt ON lower(lt.address) = lower(m.loan_token)
+  LEFT JOIN token ct ON lower(ct.address) = lower(m.collateral_token)
+WHERE
+  m.id = ${id}
     `;
 
-  return NextResponse.json(market.length > 0 ? market[0] : null);
+  const marketDataDetail = market.length > 0 ? market[0] : null;
+
+  const marketDetail = {
+    id: marketDataDetail?.id,
+    name: marketDataDetail?.name,
+    lltv: marketDataDetail?.lltv,
+    market_volume: marketDataDetail?.market_volume,
+    borrow_apy: marketDataDetail?.borrow_apy,
+    lending_apy: marketDataDetail?.lending_apy,
+    loan_token: {
+      address: marketDataDetail?.loan_token,
+      name: marketDataDetail?.loan_token_name,
+      image_uri: marketDataDetail?.loan_token_image_uri,
+      decimal: marketDataDetail?.loan_token_decimal,
+      symbol: marketDataDetail?.loan_token_symbol,
+    },
+    collateral_token: {
+      address: marketDataDetail?.collateral_token,
+      name: marketDataDetail?.collateral_token_name,
+      image_uri: marketDataDetail?.collateral_token_image_uri,
+      decimal: marketDataDetail?.collateral_token_decimal,
+      symbol: marketDataDetail?.collateral_token_symbol,
+    },
+    maturity_date: new Date(Number(marketDataDetail?.maturity) * 1000),
+    maturity: marketDataDetail?.maturity,
+  };
+
+  return NextResponse.json(marketDetail);
 }

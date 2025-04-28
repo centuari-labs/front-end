@@ -63,7 +63,7 @@ export function MarketCard({
                   : "dark:text-primary-dark"
               )}
             >
-              {lending_apy}%
+              {parseFloat(lending_apy) / 10 ** 16}%
             </p>
           </div>
           <div>
@@ -79,7 +79,7 @@ export function MarketCard({
               Market Volume
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${market_volume.toLocaleString()}
+              $ {parseFloat(market_volume).toLocaleString()}
             </p>
           </div>
           <div>
@@ -87,13 +87,16 @@ export function MarketCard({
               LLTV
             </p>
             <p className="font-medium dark:text-primary-dark">
-              ${(parseFloat(lltv) / 10 ** 16).toLocaleString()}
+              {parseFloat(lltv) / 10 ** 16} %
             </p>
           </div>
         </div>
       </CardContent>
       <CardFooter className="bg-muted/50 dark:bg-card-dark p-4">
-        <Link href={`/markets/${id}`} className="w-full">
+        <Link
+          href={`/markets/${collateral_token.address}/${loan_token.address}`}
+          className="w-full"
+        >
           <Button className="w-full" variant={"colorful"}>
             View Market
             <ArrowUpRight className="ml-2 h-4 w-4" />

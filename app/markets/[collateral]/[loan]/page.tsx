@@ -21,8 +21,9 @@ import { Maturity, SelectMaturity } from "../../_components/select-maturity";
 import { maturityList } from "../../id/_data/maturity-list";
 import { BorrowingForm } from "@/components/borrowing-form";
 import { OrderBook } from "@/components/order-book";
+import { OrderBookCard } from "../../_components/card-order-book";
 
-interface Order {
+export interface Order {
   rate: number;
   amount: number;
   total: number;
@@ -32,7 +33,7 @@ interface Order {
 // In a real app, we would fetch this data based on the marketId
 // const market = marketData.find((m) => m.id === "usdc-eth") || marketData[0];
 
-const orders = [
+const orders: Order[] = [
   { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
   { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
   { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
@@ -198,20 +199,7 @@ export default async function MarketDetailPage({
           </CardContent>
         </Card>
 
-        <Card className="card-colorful">
-          <CardHeader className="pb-3">
-            <CardTitle>Order Book</CardTitle>
-            <CardDescription>
-              Current lending and borrowing orders
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* <OrderBook
-              orders={orders as Order[]}
-              handleFixRated={handleFixRated}
-            /> */}
-          </CardContent>
-        </Card>
+        <OrderBookCard orders={orders} />
 
         {/* Bottom row */}
         <Card className="card-colorful">

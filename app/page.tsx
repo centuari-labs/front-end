@@ -10,8 +10,6 @@ export default async function HomePage() {
   const getMarket = await fetch(MARKET_API);
   const marketData = await getMarket.json();
 
-  console.log({ marketData });
-
   return (
     <div className="flex flex-col gap-8 pb-8">
       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-background to-muted dark:bg-gradient-to-r dark:from-background-dark dark:to-background-dark">

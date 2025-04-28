@@ -31,6 +31,8 @@ export function MarketTable({ markets }: MarketTableProps) {
     router.push(`/markets/${collateral_address}/${loan_address}`);
   };
 
+  console.log({ markets });
+
   return (
     <div className="rounded-md border dark:border-white/20">
       <Table>
@@ -49,8 +51,8 @@ export function MarketTable({ markets }: MarketTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {markets.map((market) => (
-            <TableRow key={market.id}>
+          {markets.map((market, i) => (
+            <TableRow key={i}>
               <TableCell>
                 <div className="flex justify-start">
                   <TokenPair

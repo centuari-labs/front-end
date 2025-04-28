@@ -12,7 +12,7 @@ export async function GET(
   id as market_id, maturity
 FROM market m
 WHERE
-  m.loan_token = ${collateral} and m.collateral_token = ${loan} and maturity > CAST(EXTRACT(epoch FROM NOW()) AS INT)
+  m.loan_token = ${loan} and m.collateral_token = ${collateral} and maturity > CAST(EXTRACT(epoch FROM NOW()) AS INT)
 order by maturity asc
 `;
 

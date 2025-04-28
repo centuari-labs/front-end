@@ -52,6 +52,12 @@ async function getMarketData(id: string) {
   return res.json();
 }
 
+async function getOrderBookData(id: string) {
+  const res = await fetch(`${BASE_URL}/api/market/order-book/${id}`);
+  if (!res.ok) return undefined;
+  return res.json();
+}
+
 export default async function MarketDetailPage({
   params,
   searchParams,
@@ -61,6 +67,8 @@ export default async function MarketDetailPage({
 }) {
   const { id: marketId } = await params;
   const market = await getMarketData(marketId);
+
+  const orderBook = await getOrderBookData(marketId);
 
   // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
 
@@ -88,6 +96,13 @@ export default async function MarketDetailPage({
   //     setFixedRate(0);
   //   }
   // };
+
+  // console.log("orderBook", orderBook);
+  if (!marketData && !orderBook) {
+    return <p>Loading</p>;
+  }
+
+  console.log("orderbook", marketId);
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -218,11 +233,11 @@ export default async function MarketDetailPage({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="lend" className="m-0">
-                {/* <LendingForm
+                <LendingForm
                   market={market}
-                  fixedRate={fixedRate}
-                  handleFixRatedChange={handleFixRatedChange}
-                /> */}
+                  // fixedRate={fixedRate}
+                  // handleFixRatedChange={handleFixRatedChange}
+                />
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
                 {/* <BorrowingForm

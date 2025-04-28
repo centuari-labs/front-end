@@ -26,30 +26,32 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { usePlaceOrder } from "@/hooks/use-place-order";
+import { useAccount } from "wagmi";
 
 interface LendingFormProps {
   market: {
     id: string;
     name: string;
-    lendingAPY: number;
+    lending_apy: number;
     marketVolume: number;
     collateralFactor: number;
     fixedRate: boolean;
   };
-  fixedRate: number;
-  handleFixRatedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // fixedRate: number;
+  // handleFixRatedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function LendingForm({
   market,
-  fixedRate,
-  handleFixRatedChange,
-}: LendingFormProps) {
+}: // fixedRate,
+// handleFixRatedChange,
+LendingFormProps) {
   const [amount, setAmount] = useState("");
   const [duration, setDuration] = useState(30);
   const [isCollateral, setIsCollateral] = useState(true);
   const [isTokenized, setIsTokenized] = useState(false);
-  const [customRate, setCustomRate] = useState(market.lendingAPY.toString());
+  const [customRate, setCustomRate] = useState(market.lending_apy.toString());
   const [rateType, setRateType] = useState("market");
   const [activeTab, setActiveTab] = useState("market");
 
@@ -61,53 +63,101 @@ export function LendingForm({
     setCustomRate(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, we would submit the lending order here
-    console.log({
-      amount,
-      duration,
-      isCollateral,
-      isTokenized,
-      orderType: activeTab,
-      customRate: rateType === "custom" ? customRate : null,
-    });
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // In a real app, we would submit the lending order here
+  //   console.log({
+  //     amount,
+  //     duration,
+  //     isCollateral,
+  //     isTokenized,
+  //     orderType: activeTab,
+  //     customRate: rateType === "custom" ? customRate : null,
+  //   });
 
-    if (activeTab === "market") {
-      alert(
-        `Market order submitted for ${amount} ${
-          market.name.split("/")[0]
-        } at market rate`
-      );
-    } else {
-      alert(
-        `Limit order submitted for ${amount} ${
-          market.name.split("/")[0]
-        } at ${customRate}% APY`
-      );
-    }
+  //   if (activeTab === "market") {
+  //     alert(
+  //       `Market order submitted for ${amount}
+  //       at market rate`
+  //     );
+  //   } else {
+  //     alert(`Limit order submitted for ${amount} at ${customRate}% APY`);
+  //   }
+  // };
+
+  // // Calculate estimated earnings based on amount, APY, and duration
+  // const rateToUse =
+  //   rateType === "custom"
+  //     ? Number.parseFloat(customRate) || market.lending_apy
+  //     : market.lending_apy;
+  // const estimatedEarnings = amount
+  //   ? (
+  //       Number.parseFloat(amount) *
+  //       (rateToUse / 100) *
+  //       (duration / 365)
+  //     ).toFixed(2)
+  //   : "0.00";
+
+  const { address } = useAccount();
+
+  const {
+    placeOrder: placeOrderLend,
+    isPending: isPendingLend,
+    isSuccess: isSuccessLend,
+    isError: isErrorLend,
+    simulateError: simulateErrorLend,
+    writeError: writeErrorLend,
+    txHash: txHashLend,
+  } = usePlaceOrder({
+    address: address as `0x${string}`,
+    config: {
+      amount: BigInt(1194095083),
+      collateralAmount: BigInt("1135561116146701431"),
+      collateralToken: "0x16bd2f7d7ea5f85dd089f41bf6d5be7d70e1e546",
+      loanToken: "0x3cfc20f01894017817ad1299890182d65a62bad4",
+      maturity: BigInt(1776948836),
+      rate: BigInt("10000000000000000"),
+      side: 0,
+    },
+  });
+
+  const {
+    placeOrder: placeOrderBorrow,
+    isPending,
+    isSuccess,
+    isError,
+    simulateError,
+    writeError,
+    txHash,
+  } = usePlaceOrder({
+    address: address as `0x${string}`,
+    config: {
+      amount: BigInt(1194095083),
+      collateralAmount: BigInt("1135561116146701431"),
+      collateralToken: "0x16bd2f7d7ea5f85dd089f41bf6d5be7d70e1e546",
+      loanToken: "0x3cfc20f01894017817ad1299890182d65a62bad4",
+      maturity: BigInt(1776948836),
+      rate: BigInt("10000000000000000"),
+      side: 1,
+    },
+  });
+
+  const handleSubmitLend = (e: React.FormEvent) => {
+    e.preventDefault();
+    placeOrderLend();
   };
 
-  // Calculate estimated earnings based on amount, APY, and duration
-  const rateToUse =
-    rateType === "custom"
-      ? Number.parseFloat(customRate) || market.lendingAPY
-      : market.lendingAPY;
-  const estimatedEarnings = amount
-    ? (
-        Number.parseFloat(amount) *
-        (rateToUse / 100) *
-        (duration / 365)
-      ).toFixed(2)
-    : "0.00";
-
-  console.log("fixedRate", fixedRate);
+  const handleSubmitBorrow = (e: React.FormEvent) => {
+    e.preventDefault();
+    placeOrderLend();
+  };
 
   return (
     <Card className="card-colorful">
       <CardHeader>
         <CardTitle className="gradient-blue-text font-bold">
-          Lend {market.name}
+          {/* Lend {market.name} */}
+          Lend
         </CardTitle>
         <CardDescription>Supply assets and earn interest</CardDescription>
       </CardHeader>
@@ -133,13 +183,13 @@ export function LendingForm({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="market" className="mt-4">
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Balance: 1,000 {market.name.split("/")[0]}
+                      {/* Balance: 1,000 {market.name.split("/")[0]} */}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -167,7 +217,7 @@ export function LendingForm({
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
-                      {estimatedEarnings} {market.name.split("/")[0]}
+                      {/* {estimatedEarnings} {market.name.split("/")[0]} */}
                     </span>
                   </div>
                   {/* <div className="mt-2 flex items-center justify-between text-sm">
@@ -192,13 +242,19 @@ export function LendingForm({
                 </div>
               </div>
 
-              <Button type="submit" className="mt-6 w-full" variant="colorful">
-                Lend {market.name.split("/")[0]}
+              <Button
+                type="button"
+                className="mt-6 w-full"
+                variant="colorful"
+                onClick={handleSubmitLend}
+              >
+                {/* Lend {market.name.split("/")[0]} */}
+                Lend
               </Button>
             </form>
           </TabsContent>
           <TabsContent value="limit" className="mt-4">
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   {/* Fix Rate Input */}
@@ -209,8 +265,8 @@ export function LendingForm({
                     <Input
                       id="fixed-rate"
                       placeholder="0.00"
-                      value={fixedRate}
-                      onChange={handleFixRatedChange}
+                      // value={fixedRate}
+                      // onChange={handleFixRatedChange}
                       className="flex-1 border-input"
                       type="number"
                     />
@@ -220,7 +276,7 @@ export function LendingForm({
                   <div className="flex items-center justify-between">
                     <Label htmlFor="limit-amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Balance: 1,000 {market.name.split("/")[0]}
+                      {/* Balance: 1,000 {market.name.split("/")[0]} */}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -313,7 +369,7 @@ export function LendingForm({
                       className="border-input"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground dark:text-muted-dark">
-                      <span>Market rate: {market.lendingAPY}%</span>
+                      <span>Market rate: {market.lending_apy}%</span>
                       <span>Your rate: {customRate}%</span>
                     </div>
                   </div>
@@ -325,7 +381,7 @@ export function LendingForm({
                       Fixed Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {isNaN(fixedRate) ? 0 : fixedRate}%
+                      {/* {isNaN(fixedRate) ? 0 : fixedRate}% */}
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
@@ -333,13 +389,18 @@ export function LendingForm({
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
-                      {estimatedEarnings} {market.name.split("/")[0]}
+                      {/* {estimatedEarnings} {market.name.split("/")[0]} */}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <Button type="submit" className="mt-6 w-full" variant="colorful">
+              <Button
+                type="button"
+                className="mt-6 w-full"
+                variant="colorful"
+                onClick={handleSubmitBorrow}
+              >
                 Create Limit Order
               </Button>
             </form>

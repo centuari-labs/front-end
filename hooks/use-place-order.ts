@@ -1,7 +1,7 @@
 import { useSimulateContract, useWriteContract } from "wagmi";
 import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface UsePlaceOrderProps {
   address: `0x${string}`;
@@ -32,6 +32,8 @@ export const usePlaceOrder = ({
     errorMessage: "Failed to place order",
   },
 }: UsePlaceOrderProps) => {
+  const toastIdRef = useRef<any>("");
+
   const {
     data: simulateData,
     error: simulateError,
@@ -42,14 +44,14 @@ export const usePlaceOrder = ({
     functionName: "placeOrder",
     args: [
       {
-        loanToken: "0x..." as `0x${string}`,
-        collateralToken: "0x..." as `0x${string}`,
-        maturity: BigInt(1700000000),
+        loanToken: config?.loanToken as `0x${string}`,
+        collateralToken: config?.collateralToken as `0x${string}`,
+        maturity: config?.maturity,
       },
-      BigInt(5_000), // rate
-      0, // 1 = borrow, 0 = lend
-      BigInt(1_000_000), // amount
-      BigInt(2_000_000), // collateralAmount
+      config?.rate, // rate
+      config?.side, // 1 = borrow, 0 = lend
+      config?.amount, // amount
+      config?.collateralAmount, // collateralAmount
     ],
     query: {
       enabled: false,
@@ -66,10 +68,9 @@ export const usePlaceOrder = ({
   } = useWriteContract();
 
   const placeOrder = async () => {
-    let toastId: string | number | undefined;
     try {
       if (toastOptions.showToast) {
-        toastId = toast.loading(
+        toastIdRef.current = toast.loading(
           toastOptions.pendingMessage || "Processing transaction..."
         );
       }
@@ -82,11 +83,12 @@ export const usePlaceOrder = ({
 
       writeContract(data.request);
     } catch (error) {
-      if (toastOptions.showToast && toastId) {
+      if (toastOptions.showToast && toastIdRef.current) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
-          id: toastId,
+          id: toastIdRef.current,
           description: (error as Error)?.message || "Unknown error",
         });
+        toastIdRef.current = undefined;
       }
       console.error("Transaction error:", error);
     }
@@ -95,19 +97,23 @@ export const usePlaceOrder = ({
   useEffect(() => {
     if (!toastOptions.showToast) return;
 
-    if (isSuccess && txHash) {
+    if (isSuccess && txHash && toastIdRef.current) {
       toast.success(toastOptions.successMessage || "Transaction successful", {
+        id: toastIdRef.current,
         description: `Transaction Hash: ${txHash.slice(0, 10)}...${txHash.slice(
           -8
         )}`,
       });
+      toastIdRef.current = undefined;
     }
 
-    if (isError && (simulateError || writeError)) {
+    if (isError && (simulateError || writeError) && toastIdRef.current) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
+        id: toastIdRef.current,
         description:
           simulateError?.message || writeError?.message || "Unknown error",
       });
+      toastIdRef.current = undefined;
     }
   }, [
     isSuccess,

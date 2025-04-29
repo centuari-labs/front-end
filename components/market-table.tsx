@@ -71,7 +71,8 @@ export function MarketTable({ markets }: MarketTableProps) {
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell ">
-                ${parseToAmount(market.market_volume, market.loan_token.decimal)}
+                $
+                {parseToAmount(market.market_volume, market.loan_token.decimal)}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
                 {parseToRate(market.lltv)}%
@@ -89,7 +90,9 @@ export function MarketTable({ markets }: MarketTableProps) {
                 {parseToRate(market.borrow_apy)}%
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/markets/${market.id}`}>
+                <Link
+                  href={`/markets/${market.collateral_token.address}/${market.loan_token.address}`}
+                >
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

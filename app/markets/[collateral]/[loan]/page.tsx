@@ -80,10 +80,8 @@ export default async function MarketDetailPage({
 
   const maturities = await getMaturities(collateral, loan);
   const orderBook = await getOrderBookData(
-    "0x008b543035fb8d70a0d1125cfa53fe63d35358d57fb85a2b70308c1b5657b65c"
+    market_id ?? maturities[0].market_id
   );
-
-  // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
 
   console.log({ orderBook });
   console.log({ maturities });

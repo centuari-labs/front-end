@@ -1,23 +1,26 @@
-"use client";
-
-import { useState, useMemo } from "react";
+import { parseToAmount, parseToRate } from "@/lib/helper";
+import { useMemo } from "react";
 
 interface OrderBookProps {
   marketId: string;
 }
 
 interface Order {
-  rate: number;
-  amount: number;
-  total: number;
-  type: "borrow" | "lend";
+  borrow: {
+    rate: number;
+    amount: number;
+  }[];
+  lend: {
+    rate: number;
+    amount: number;
+  }[];
 }
 
 export function OrderBook({
   orders,
   handleFixRated,
 }: {
-  orders: Order[];
+  orders: Order;
   handleFixRated: (value: number) => void;
 }) {
   // In a real app, we would fetch this data based on the marketId
@@ -36,8 +39,13 @@ export function OrderBook({
   // ]);
 
   // Calculate the maximum amount for bar width scaling
-  const maxAmount = useMemo(
-    () => Math.max(...orders.map((order) => order.amount)),
+  const maxAmountBorrow = useMemo(
+    () => Math.max(...orders.borrow.map((order) => order.amount)),
+    [orders]
+  );
+
+  const maxAmountLend = useMemo(
+    () => Math.max(...orders.lend.map((order) => order.amount)),
     [orders]
   );
 
@@ -48,28 +56,28 @@ export function OrderBook({
         <h3 className="text-sm font-medium text-muted-foreground dark:text-muted-dark mb-2">
           Lend Orders
         </h3>
-        {orders
-          .filter((order) => order.type === "lend")
-          .map((order) => (
+        {orders.lend.map((order) => (
+          <div
+            key={order.rate}
+            className="relative flex items-center h-8 group cursor-pointer"
+            onClick={() => handleFixRated(order.rate)}
+          >
+            {/* Background bar */}
             <div
-              key={order.rate}
-              className="relative flex items-center h-8 group cursor-pointer"
-              onClick={() => handleFixRated(order.rate)}
-            >
-              {/* Background bar */}
-              <div
-                className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-300 dark:bg-green-700"
-                style={{ width: `${(order.amount / maxAmount) * 100}%` }}
-              />
-              {/* Content */}
-              <div className="relative flex justify-between w-full px-2 text-sm">
-                <span className="font-medium">{order.rate}%</span>
-                <span className="font-medium">
-                  {order.amount.toLocaleString()} USDC
-                </span>
-              </div>
+              className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-300 dark:bg-green-700"
+              style={{ width: `${(order.amount / maxAmountLend) * 100}%` }}
+            />
+            {/* Content */}
+            <div className="relative flex justify-between w-full px-2 text-sm">
+              <span className="font-medium">
+                {parseToRate(order.rate.toLocaleString())}%
+              </span>
+              <span className="font-medium">
+                {parseToAmount(order.amount.toLocaleString(), 6)} USDC
+              </span>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
 
       {/* Spread/Middle line */}
@@ -80,28 +88,28 @@ export function OrderBook({
         <h3 className="text-sm font-medium text-muted-foreground dark:text-muted-dark mb-2">
           Borrow Orders
         </h3>
-        {orders
-          .filter((order) => order.type === "borrow")
-          .map((order) => (
+        {orders.borrow.map((order) => (
+          <div
+            key={order.rate}
+            className="relative flex items-center h-8 group cursor-pointer"
+            onClick={() => handleFixRated(order.rate)}
+          >
+            {/* Background bar */}
             <div
-              key={order.rate}
-              className="relative flex items-center h-8 group cursor-pointer"
-              onClick={() => handleFixRated(order.rate)}
-            >
-              {/* Background bar */}
-              <div
-                className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-300 dark:bg-red-700"
-                style={{ width: `${(order.amount / maxAmount) * 100}%` }}
-              />
-              {/* Content */}
-              <div className="relative flex justify-between w-full px-2 text-sm">
-                <span className="font-medium">{order.rate}%</span>
-                <span className="font-medium">
-                  {order.amount.toLocaleString()} USDC
-                </span>
-              </div>
+              className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-300 dark:bg-red-700"
+              style={{ width: `${(order.amount / maxAmountBorrow) * 100}%` }}
+            />
+            {/* Content */}
+            <div className="relative flex justify-between w-full px-2 text-sm">
+              <span className="font-medium">
+                {parseToRate(order.rate.toLocaleString())}%
+              </span>
+              <span className="font-medium">
+                {parseToAmount(order.amount.toLocaleString(), 6)} USDC
+              </span>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-muted-dark border-t border-border/30 pt-4">
@@ -109,8 +117,10 @@ export function OrderBook({
           <p>
             Highest Borrow:{" "}
             <span className="text-green-300 dark:text-green-600 font-medium">
-              {Math.min(
-                ...orders.filter((o) => o.type === "borrow").map((o) => o.rate)
+              {Math.max(
+                ...orders.borrow.map((o) =>
+                  parseFloat(parseToRate(o.rate.toLocaleString()))
+                )
               )}
               %
             </span>
@@ -118,8 +128,10 @@ export function OrderBook({
           <p>
             Lowest Lend:{" "}
             <span className="text-red-300 dark:text-red-600 font-medium">
-              {Math.max(
-                ...orders.filter((o) => o.type === "lend").map((o) => o.rate)
+              {Math.min(
+                ...orders.lend.map((o: any) =>
+                  parseFloat(parseToRate(o.rate.toLocaleString()))
+                )
               )}
               %
             </span>
@@ -128,20 +140,28 @@ export function OrderBook({
         <div className="text-right">
           <p>
             Total Lend Volume:{" "}
-            <span className="font-medium">
-              {orders
-                .filter((o) => o.type === "lend")
-                .reduce((acc, curr) => acc + curr.amount, 0)
+            <span className="font-medium text-xs">
+              {orders.lend
+                .reduce(
+                  (acc, curr) =>
+                    acc +
+                    Number(parseToAmount(curr.amount.toLocaleString(), 16)),
+                  0
+                )
                 .toLocaleString()}{" "}
               USDC
             </span>
           </p>
           <p>
             Total Borrow Volume:{" "}
-            <span className="font-medium">
-              {orders
-                .filter((o) => o.type === "borrow")
-                .reduce((acc, curr) => acc + curr.amount, 0)
+            <span className="font-medium text-xs">
+              {orders.borrow
+                .reduce(
+                  (acc, curr) =>
+                    acc +
+                    Number(parseToAmount(curr.amount.toLocaleString(), 16)),
+                  0
+                )
                 .toLocaleString()}{" "}
               USDC
             </span>

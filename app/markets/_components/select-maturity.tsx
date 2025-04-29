@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { BASE_URL } from "@/lib/api";
 import { useRouter } from "next/navigation";
-
 export interface Maturity {
   market_id: string;
   maturity: number;

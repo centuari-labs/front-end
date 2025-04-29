@@ -12,7 +12,7 @@ export function parseToAmount(
   }
 
   // Divide by token decimals
-  const result = num / (10 ** decimals);
+  const result = num / 10 ** decimals;
 
   // Format to M/B/T notation with thousand separators
   if (result >= 1_000_000_000_000) {
@@ -31,11 +31,15 @@ export function parseToAmount(
 
 export function parseToRate(value: string): string {
   const num = parseFloat(value);
+
+  // Check if it's a valid number
   if (isNaN(num)) {
     return "Invalid number";
   }
-  const result = num / (10 ** 16);
-  return result.toFixed(2)
+
+  // Divide by 10^16 and format to 2 decimal places
+  const result = num / 10 ** 16;
+  return result.toFixed(2);
 }
 
 /**
@@ -44,8 +48,7 @@ export function parseToRate(value: string): string {
  * @returns Formatted string with thousand separators
  */
 function addThousandSeparators(value: string): string {
-  const parts = value.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return parts.join('.');
+  const parts = value.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 }
-

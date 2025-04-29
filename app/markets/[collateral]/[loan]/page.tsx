@@ -63,7 +63,7 @@ async function getMaturities(collateral_token: string, loan_token: string) {
 }
 
 async function getOrderBookData(id: string) {
-  const res = await fetch(`${BASE_URL}/api/market/order-book/${id}`);
+  const res = await fetch(`${BASE_URL}/api/order-book/${id}`);
   if (!res.ok) return undefined;
   return res.json();
 }
@@ -79,10 +79,13 @@ export default async function MarketDetailPage({
   const market_id = (await searchParams).market_id;
 
   const maturities = await getMaturities(collateral, loan);
-  // const orderBook = await getOrderBookData(marketId);
+  const orderBook = await getOrderBookData(
+    "0x008b543035fb8d70a0d1125cfa53fe63d35358d57fb85a2b70308c1b5657b65c"
+  );
 
   // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
 
+  console.log({ orderBook });
   console.log({ maturities });
 
   const getMarketDetail = await fetch(
@@ -116,6 +119,8 @@ export default async function MarketDetailPage({
   // if (!marketData && !orderBook) {
   //   return <p>Loading</p>;
   // }
+
+  console.log("market", market);
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -200,7 +205,7 @@ export default async function MarketDetailPage({
           </CardContent>
         </Card>
 
-        <OrderBookCard orders={orders} />
+        <OrderBookCard orders={orderBook} />
 
         {/* Bottom row */}
         <Card className="card-colorful">

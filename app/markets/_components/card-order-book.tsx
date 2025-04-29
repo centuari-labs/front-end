@@ -8,9 +8,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Order } from "../[collateral]/[loan]/page";
 
-export const OrderBookCard = ({ orders }: { orders: Order[] }) => {
+interface Order {
+  borrow: {
+    rate: number;
+    amount: number;
+  }[];
+  lend: {
+    rate: number;
+    amount: number;
+  }[];
+}
+
+export const OrderBookCard = ({ orders }: { orders: Order }) => {
   const handleFixRated = (rate: number) => {
     console.log("Fix rated", rate);
   };
@@ -22,7 +32,7 @@ export const OrderBookCard = ({ orders }: { orders: Order[] }) => {
         <CardDescription>Current lending and borrowing orders</CardDescription>
       </CardHeader>
       <CardContent>
-        <OrderBook orders={orders as Order[]} handleFixRated={handleFixRated} />
+        <OrderBook orders={orders} handleFixRated={handleFixRated} />
       </CardContent>
     </Card>
   );

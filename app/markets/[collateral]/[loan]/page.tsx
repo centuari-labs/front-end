@@ -22,6 +22,7 @@ import { maturityList } from "../../id/_data/maturity-list";
 import { BorrowingForm } from "@/components/borrowing-form";
 import { OrderBook } from "@/components/order-book";
 import { OrderBookCard } from "../../_components/card-order-book";
+import { parseToRate } from "@/lib/helper";
 
 export interface Order {
   rate: number;
@@ -172,7 +173,7 @@ export default async function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  {parseFloat(market.lltv) / 10 ** 16} %
+                  {parseToRate(market.lltv)}%
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -181,7 +182,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {parseFloat(market.lending_apy) / 10 ** 16} %
+                    {parseToRate(market.lending_apy)}%
                   </span>
                 </div>
               </div>
@@ -191,7 +192,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {parseFloat(market.borrow_apy) / 10 ** 16} %
+                    {parseToRate(market.borrow_apy)}%
                   </span>
                 </div>
               </div>

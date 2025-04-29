@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
+import { parseToRate, parseToAmount } from "@/lib/helper";
 
 interface IToken {
   address: string;
@@ -63,7 +64,7 @@ export function MarketCard({
                   : "dark:text-primary-dark"
               )}
             >
-              {parseFloat(lending_apy) / 10 ** 16}%
+              {parseToRate(lending_apy)}%
             </p>
           </div>
           <div>
@@ -71,7 +72,7 @@ export function MarketCard({
               Borrowing APY
             </p>
             <p className="text-lg font-bold dark:text-primary-dark">
-              {parseFloat(borrow_apy) / 10 ** 16}%
+              {parseToRate(borrow_apy)}%
             </p>
           </div>
           <div>
@@ -79,7 +80,7 @@ export function MarketCard({
               Market Volume
             </p>
             <p className="font-medium dark:text-primary-dark">
-              $ {parseFloat(market_volume).toLocaleString()}
+              $ {parseToAmount(market_volume, loan_token.decimal)}
             </p>
           </div>
           <div>
@@ -87,7 +88,7 @@ export function MarketCard({
               LLTV
             </p>
             <p className="font-medium dark:text-primary-dark">
-              {parseFloat(lltv) / 10 ** 16} %
+              {parseToRate(lltv)}%
             </p>
           </div>
         </div>

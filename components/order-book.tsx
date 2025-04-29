@@ -141,28 +141,32 @@ export function OrderBook({
           <p>
             Total Lend Volume:{" "}
             <span className="font-medium text-xs">
-              {orders.lend
-                .reduce(
-                  (acc, curr) =>
-                    acc +
-                    Number(parseToAmount(curr.amount.toLocaleString(), 16)),
-                  0
-                )
-                .toLocaleString()}{" "}
+              {parseToAmount(
+                orders.lend
+                  .reduce(
+                    (acc, curr) => acc + parseFloat(curr.amount.toString()),
+                    0
+                  )
+                  .toString(),
+                3,
+                3
+              )}{" "}
               USDC
             </span>
           </p>
           <p>
             Total Borrow Volume:{" "}
             <span className="font-medium text-xs">
-              {orders.borrow
-                .reduce(
-                  (acc, curr) =>
-                    acc +
-                    Number(parseToAmount(curr.amount.toLocaleString(), 16)),
-                  0
-                )
-                .toLocaleString()}{" "}
+              {parseToAmount(
+                orders.borrow
+                  .reduce(
+                    (acc, curr) => acc + parseFloat(curr.amount.toString()),
+                    0
+                  )
+                  .toString(),
+                3,
+                3
+              )}{" "}
               USDC
             </span>
           </p>

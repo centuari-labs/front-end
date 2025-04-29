@@ -211,7 +211,7 @@ LendingFormProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-white/20">
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated earnings

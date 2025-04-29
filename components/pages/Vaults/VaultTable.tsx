@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { IVaultData } from "@/lib/data";
 import { TokenSingle } from "@/components/token-single";
-import { parseToAmount } from "@/lib/helper";
+import { parseToAmount, parseToRate } from "@/lib/helper";
 
 interface IVaultTableProps {
   vaults: IVaultData[];
@@ -66,7 +66,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
                     : "text-center"
                 )}
               >
-                {parseFloat(vault.apy)}%
+                {parseToRate(vault.apy)}%
               </TableCell>
               <TableCell className="text-center">
                 <Link href={`/vaults/${vault.address}`}>

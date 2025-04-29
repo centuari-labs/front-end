@@ -17,7 +17,7 @@ import { BASE_URL } from "@/lib/api";
 import { MarketTitle } from "../../_components/market-title";
 import { Maturity, SelectMaturity } from "../../_components/select-maturity";
 import { OrderBookCard } from "../../_components/card-order-book";
-import { parseToRate } from "@/lib/helper";
+import { parseToAmount, parseToRate } from "@/lib/helper";
 
 export interface Order {
   rate: number;
@@ -150,7 +150,7 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  ${parseFloat(market.market_volume).toLocaleString()}
+                  {parseToAmount(market.market_volume, 3, 3)}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">

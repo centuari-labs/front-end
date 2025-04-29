@@ -10,3 +10,5 @@ export const MARKET_MATURITIES = (id: string, maturity: string) =>
 export const MARKET_DETAIL_API = (id: string) => `${BASE_URL}/api/market/${id}`;
 
 export const VAULT_API = `${BASE_URL}/api/vault`;
+export const VAULT_DETAIL_API = (address: string) => `${BASE_URL}/api/vault/${address}`;
+export const VAULT_DETAIL_MARKET_API = (address: string) => `${BASE_URL}/api/vault/${address}/markets`;

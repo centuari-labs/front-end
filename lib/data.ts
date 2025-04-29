@@ -50,12 +50,16 @@ export interface IVaultData {
   address: string;
   name: string;
   token: string;
+  token_name: string;
   token_symbol: string;
   token_image_uri: string;
   token_decimals: number;
   deposit: string;
   apy: string;
   curator: string;
+  centuari_prime_token: string;
+  centuari_prime_token_symbol: string;
+  centuari_prime_token_name: string;
 }
 
 export interface IVaultMarketDataProps {
@@ -68,10 +72,9 @@ export interface IVaultMarketDataProps {
   collateral_token_image_uri: string;
   collateral_token_decimals: number;
   maturity: string;
-  rate: number;
-  cap: number;
-  allocation: number;
-  total_supply: number;
+  rate: string;
+  cap: string;
+  index: number;
 }
 
 export const tokenIcon = {
@@ -93,39 +96,6 @@ export const tokenIcon = {
   eth: "https://etherscan.io/images/svg/brands/ethereum-original.svg",
   bgb: "https://etherscan.io/token/images/bitgetrplce_32.svg",
 };
-
-export const vaults: IVaultData[] = [
-  {
-    id: "vault-1",
-    name: "USDC Vault",
-    collateral_token: "USDC",
-    lend_token: "ETH",
-    maturityDate: "2023-09-30T00:00:00Z",
-    lendTokenUrl: tokenIcon.usdc,
-    icon: "/placeholder.svg?height=40&width=40",
-    apy: 3.25,
-    ltv: 820000,
-    marketVolume: 1250000,
-    status: "active",
-    lastUpdated: "2023-09-01T00:00:00Z",
-    description: "USDC Vault for lending and borrowing",
-  },
-  {
-    id: "vault-2",
-    name: "WBTC Vault",
-    collateral_token: "WBTC",
-    lend_token: "ETH",
-    maturityDate: "2023-09-30T00:00:00Z",
-    lendTokenUrl: tokenIcon.wbtc,
-    icon: "/placeholder.svg?height=40&width=40",
-    apy: 2.15,
-    ltv: 520000,
-    marketVolume: 950000,
-    status: "active",
-    lastUpdated: "2023-09-01T00:00:00Z",
-    description: "WBTC Vault for lending and borrowing",
-  },
-];
 
 // Market data
 export const marketData: IMarketDataProps[] = [

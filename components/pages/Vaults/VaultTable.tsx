@@ -53,7 +53,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
                 {parseFloat(vault.deposit) > 0
-                  ? `$${parseToAmount(vault.deposit, vault.token_decimals)}`
+                  ? `${parseToAmount(vault.deposit, vault.token_decimals)} ${vault.token_symbol}`
                   : "-"}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
@@ -61,7 +61,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
               </TableCell>
               <TableCell
                 className={cn(
-                  parseFloat(vault.apy) > 5
+                  parseFloat(parseToRate(vault.apy)) > 5
                     ? "text-green-500 font-medium text-center"
                     : "text-center"
                 )}

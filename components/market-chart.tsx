@@ -1,5 +1,6 @@
 "use client";
 
+import { parseToRate } from "@/lib/helper";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import {
@@ -18,7 +19,7 @@ interface MarketChartProps {
 }
 
 // Update the MarketChart to remove utilization rate tab and focus on fixed rates
-export function MarketChart({ marketId }: MarketChartProps) {
+export function MarketChart({ market }: any) {
   const [chartData, setChartData] = useState<any[]>([]);
   const { theme } = useTheme();
 
@@ -33,8 +34,10 @@ export function MarketChart({ marketId }: MarketChartProps) {
         const date = new Date(now);
         date.setDate(date.getDate() - i);
 
-        const lendingAPY = 3 + Math.random() * 0.5; // Less variation for fixed rates
-        const borrowingAPY = 5 + Math.random() * 0.5; // Less variation for fixed rates
+        const lendingAPY =
+          3 + Math.random() * Number(parseToRate(market.lending_apy)); // Less variation for fixed rates
+        const borrowingAPY =
+          5 + Math.random() * Number(parseToRate(market.borrow_apy)); // Less variation for fixed rates
         const totalSupply = 1000000 + Math.random() * 200000 - 100000;
         const totalBorrowed = 600000 + Math.random() * 100000 - 50000;
 
@@ -51,7 +54,7 @@ export function MarketChart({ marketId }: MarketChartProps) {
     };
 
     setChartData(generateData());
-  }, [marketId]);
+  }, [market]);
 
   return (
     <ResponsiveContainer width="100%" height="100%">

@@ -52,3 +52,39 @@ function addThousandSeparators(value: string): string {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
 }
+
+/**
+ * Converts a Unix timestamp to a relative time string (e.g., "2 hours ago")
+ * @param unixTimestamp - Unix timestamp in seconds
+ * @returns A string representing the relative time
+ */
+export function formatRelativeTime(unixTimestamp: number): string {
+  const date = new Date(unixTimestamp * 1000);
+  const now = new Date();
+
+  const diffMs = now.getTime() - date.getTime();
+
+  const diffSeconds = Math.floor(diffMs / 1000);
+
+  if (diffSeconds < 60) {
+    return `${diffSeconds} seconds ago`;
+  } else if (diffSeconds < 3600) {
+    const minutes = Math.floor(diffSeconds / 60);
+    return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
+  } else if (diffSeconds < 86400) {
+    const hours = Math.floor(diffSeconds / 3600);
+    return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+  } else if (diffSeconds < 604800) {
+    const days = Math.floor(diffSeconds / 86400);
+    return `${days} ${days === 1 ? "day" : "days"} ago`;
+  } else if (diffSeconds < 2592000) {
+    const weeks = Math.floor(diffSeconds / 604800);
+    return `${weeks} ${weeks === 1 ? "week" : "weeks"} ago`;
+  } else if (diffSeconds < 31536000) {
+    const months = Math.floor(diffSeconds / 2592000);
+    return `${months} ${months === 1 ? "month" : "months"} ago`;
+  } else {
+    const years = Math.floor(diffSeconds / 31536000);
+    return `${years} ${years === 1 ? "year" : "years"} ago`;
+  }
+}

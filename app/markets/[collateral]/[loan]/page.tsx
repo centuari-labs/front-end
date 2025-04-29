@@ -63,6 +63,12 @@ async function getOrderBookData(id: string) {
   return res.json();
 }
 
+async function getOpenOrderData(id: string, trader: string) {
+  const res = await fetch(`${BASE_URL}/api/open-orders/${id}/${trader}`);
+  if (!res.ok) return undefined;
+  return res.json();
+}
+
 export default async function MarketDetailPage({
   params,
   searchParams,
@@ -77,9 +83,10 @@ export default async function MarketDetailPage({
   const orderBook = await getOrderBookData(
     market_id ?? maturities[0].market_id
   );
-
-  console.log({ orderBook });
-  console.log({ maturities });
+  const openOrders = await getOpenOrderData(
+    "0x008b543035fb8d70a0d1125cfa53fe63d35358d57fb85a2b70308c1b5657b65c",
+    "0xf53e86ee3498321e5a9131f1405b957fde0b28bc"
+  );
 
   const getMarketDetail = await fetch(
     `${BASE_URL}/api/market/${market_id ?? maturities[0].market_id}`
@@ -113,8 +120,6 @@ export default async function MarketDetailPage({
   //   return <p>Loading</p>;
   // }
 
-  console.log("market", market);
-
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="flex justify-between items-center gap-4 mb-8">
@@ -142,7 +147,7 @@ export default async function MarketDetailPage({
           </CardHeader>
           <CardContent>
             <div className="h-[350px]">
-              <MarketChart marketId={market.id} />
+              <MarketChart market={market} />
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
               <div className="flex flex-col gap-1 items-center">
@@ -246,7 +251,7 @@ export default async function MarketDetailPage({
             <CardDescription>Your active orders in this market</CardDescription>
           </CardHeader>
           <CardContent>
-            <OpenOrders marketId={market.id} />
+            <OpenOrders data={openOrders} />
           </CardContent>
         </Card>
       </div>

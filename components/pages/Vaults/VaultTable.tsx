@@ -34,7 +34,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
             </TableHead>
             <TableHead className="text-center">Curator</TableHead>
             <TableHead className="text-center">APY</TableHead>
-            <TableHead className="text-center"></TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -57,7 +57,7 @@ export function VaultTable({ vaults }: IVaultTableProps) {
                   : "-"}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                {vault.curator}
+                {vault.curator_name}
               </TableCell>
               <TableCell
                 className={cn(

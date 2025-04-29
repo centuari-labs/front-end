@@ -121,6 +121,8 @@ export default async function VaultPage({ params }: { params: { id: string } }) 
             </div>
           </div>
             <VaultDepositForm
+              curatorAddress={vaultData.curator}
+              vaultName={vaultData.name}
               vaultTokenAddress={vaultData.token}
               vaultTokenSymbol={vaultData.token_symbol}
               vaultTokenDecimals={vaultData.token_decimals}

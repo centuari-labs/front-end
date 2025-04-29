@@ -57,6 +57,7 @@ export interface IVaultData {
   deposit: string;
   apy: string;
   curator: string;
+  curator_name: string;
   centuari_prime_token: string;
   centuari_prime_token_symbol: string;
   centuari_prime_token_name: string;

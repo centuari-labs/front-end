@@ -20,13 +20,14 @@ export async function GET(
     FROM vault v
     LEFT JOIN token t ON lower(v.token) = lower(t.address)
     WHERE v.vault = ${address}`;
-    
+  
   const vaultDataDetail = vault.length > 0 ? vault[0] : null;
-
+  
   const vaultData: IVaultData = {
     address: vaultDataDetail?.vault,
     name: vaultDataDetail?.name,
-    curator: "Centuari",
+    curator: vaultDataDetail?.curator,
+    curator_name: vaultDataDetail?.curator_name ?? "Centuari",
     token: vaultDataDetail?.token,
     token_name: vaultDataDetail?.token_name,
     token_symbol: vaultDataDetail?.token_symbol,

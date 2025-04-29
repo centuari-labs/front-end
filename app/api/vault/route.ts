@@ -16,7 +16,8 @@ export async function GET() {
   const vaultData: IVaultData[] = vaults.map((vault) => ({
     address: vault.vault,
     name: vault.name,
-    curator: "Centuari",
+    curator: vault.curator,
+    curator_name: vault.curator_name ?? "Centuari",
     token: vault.token,
     token_name: vault.token_name,
     token_symbol: vault.token_symbol,

@@ -16,8 +16,10 @@ import { OpenOrders } from "@/components/open-orders";
 import { BASE_URL } from "@/lib/api";
 import { MarketTitle } from "../../_components/market-title";
 import { Maturity, SelectMaturity } from "../../_components/select-maturity";
+import { OrderBookCard } from "../../_components/card-order-book";
+import { parseToRate } from "@/lib/helper";
 
-interface Order {
+export interface Order {
   rate: number;
   amount: number;
   total: number;
@@ -27,7 +29,7 @@ interface Order {
 // In a real app, we would fetch this data based on the marketId
 // const market = marketData.find((m) => m.id === "usdc-eth") || marketData[0];
 
-const orders = [
+const orders: Order[] = [
   { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
   { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
   { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
@@ -56,7 +58,7 @@ async function getMaturities(collateral_token: string, loan_token: string) {
 }
 
 async function getOrderBookData(id: string) {
-  const res = await fetch(`${BASE_URL}/api/market/order-book/${id}`);
+  const res = await fetch(`${BASE_URL}/api/order-book/${id}`);
   if (!res.ok) return undefined;
   return res.json();
 }
@@ -72,10 +74,11 @@ export default async function MarketDetailPage({
   const market_id = (await searchParams).market_id;
 
   const maturities = await getMaturities(collateral, loan);
-  // const orderBook = await getOrderBookData(marketId);
+  const orderBook = await getOrderBookData(
+    market_id ?? maturities[0].market_id
+  );
 
-  // const marketDetailUrl = useMemo(() => MARKET_DETAIL_API(id), []);
-
+  console.log({ orderBook });
   console.log({ maturities });
 
   const getMarketDetail = await fetch(
@@ -109,6 +112,8 @@ export default async function MarketDetailPage({
   // if (!marketData && !orderBook) {
   //   return <p>Loading</p>;
   // }
+
+  console.log("market", market);
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -166,7 +171,7 @@ export default async function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  {parseFloat(market.lltv) / 10 ** 16} %
+                  {parseToRate(market.lltv)}%
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -175,7 +180,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {parseFloat(market.lending_apy) / 10 ** 16} %
+                    {parseToRate(market.lending_apy)}%
                   </span>
                 </div>
               </div>
@@ -185,7 +190,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {parseFloat(market.borrow_apy) / 10 ** 16} %
+                    {parseToRate(market.borrow_apy)}%
                   </span>
                 </div>
               </div>
@@ -193,20 +198,7 @@ export default async function MarketDetailPage({
           </CardContent>
         </Card>
 
-        <Card className="card-colorful">
-          <CardHeader className="pb-3">
-            <CardTitle>Order Book</CardTitle>
-            <CardDescription>
-              Current lending and borrowing orders
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* <OrderBook
-              orders={orders as Order[]}
-              handleFixRated={handleFixRated}
-            /> */}
-          </CardContent>
-        </Card>
+        <OrderBookCard orders={orderBook} />
 
         {/* Bottom row */}
         <Card className="card-colorful">

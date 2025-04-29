@@ -47,19 +47,31 @@ export interface IMarketDataProps {
 }
 
 export interface IVaultData {
-  id: string;
+  address: string;
   name: string;
+  token: string;
+  token_symbol: string;
+  token_image_uri: string;
+  token_decimals: number;
+  deposit: string;
+  apy: string;
+  curator: string;
+}
+
+export interface IVaultMarketDataProps {
+  loan_token: string;
+  loan_token_symbol: string;
+  loan_token_image_uri: string;
+  loan_token_decimals: number;
   collateral_token: string;
-  lend_token: string;
-  maturityDate: string;
-  lendTokenUrl: string;
-  icon: string;
-  apy: number;
-  ltv: number;
-  marketVolume: number;
-  status: string;
-  lastUpdated: string;
-  description: string;
+  collateral_token_symbol: string;
+  collateral_token_image_uri: string;
+  collateral_token_decimals: number;
+  maturity: string;
+  rate: number;
+  cap: number;
+  allocation: number;
+  total_supply: number;
 }
 
 export const tokenIcon = {

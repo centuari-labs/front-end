@@ -18,6 +18,7 @@ import { SelectMaturity } from "../_components/select-maturity";
 import { maturityList } from "./_data/maturity-list";
 import { BASE_URL } from "@/lib/api";
 import { MarketTitle } from "../_components/market-title";
+import { parseToRate, parseToAmount } from "@/lib/helper";
 
 interface Order {
   rate: number;
@@ -131,7 +132,7 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  ${parseFloat(market.market_volume).toLocaleString()}
+                  ${parseToAmount(market.market_volume, market.loan_token.decimal)}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -152,7 +153,7 @@ export default async function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  {parseFloat(market.lltv) / 10 ** 16} %
+                  {parseToRate(market.lltv)}%
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -161,7 +162,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {parseFloat(market.lending_apy) / 10 ** 16} %
+                    {parseToRate(market.lending_apy)}%
                   </span>
                 </div>
               </div>
@@ -171,7 +172,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {parseFloat(market.borrow_apy) / 10 ** 16} %
+                    {parseToRate(market.borrow_apy)}%
                   </span>
                 </div>
               </div>

@@ -2,16 +2,18 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { VaultList } from "@/components/pages/Vaults/VaultList";
 import { VaultTable } from "@/components/pages/Vaults/VaultTable";
-import { vaults } from "@/lib/data";
+import { VAULT_API } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Vaults - DeFi Lending & Borrowing",
-  description: "View your feucets",
+  description: "View all vaults on the platform",
 };
 
 export default async function VaultPage() {
+  const getVault = await fetch(VAULT_API);
+  const vaults = await getVault.json();
+
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="flex flex-col gap-8">

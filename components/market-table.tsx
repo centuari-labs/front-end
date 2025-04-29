@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
 import { MarketCardProps } from "./market-card";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { parseToAmount, parseToRate } from "@/lib/helper";
 interface MarketTableProps {
   markets: MarketCardProps[];
 }
@@ -39,7 +39,7 @@ export function MarketTable({ markets }: MarketTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead className="text-center">Asset</TableHead>
-            <TableHead className="hidden md:table-cell text-center">
+            <TableHead className="hidden md:table-cell text-left">
               Market Volume
             </TableHead>
             <TableHead className="hidden md:table-cell text-center">
@@ -71,25 +71,28 @@ export function MarketTable({ markets }: MarketTableProps) {
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell ">
-                ${parseFloat(market.market_volume).toLocaleString()}
+                $
+                {parseToAmount(market.market_volume, market.loan_token.decimal)}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                {parseFloat(market.lltv) / 10 ** 16} %
+                {parseToRate(market.lltv)}%
               </TableCell>
               <TableCell
                 className={cn(
-                  parseFloat(market.lending_apy) / 10 ** 16 > 5
+                  parseFloat(market.lending_apy) > 5
                     ? "text-green-500 font-medium text-center"
                     : "text-center"
                 )}
               >
-                {parseFloat(market.lending_apy) / 10 ** 16}%
+                {parseToRate(market.lending_apy)}%
               </TableCell>
               <TableCell className="text-center">
-                {parseFloat(market.borrow_apy) / 10 ** 16}%
+                {parseToRate(market.borrow_apy)}%
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/markets/${market.id}`}>
+                <Link
+                  href={`/markets/${market.collateral_token.address}/${market.loan_token.address}`}
+                >
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

@@ -13,14 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MarketChart } from "@/components/market-chart";
 import { LendingForm } from "@/components/lending-form";
 import { OpenOrders } from "@/components/open-orders";
-import { marketData } from "@/lib/data";
 import { BASE_URL } from "@/lib/api";
-import { useChainId, useConfig } from "wagmi";
 import { MarketTitle } from "../../_components/market-title";
 import { Maturity, SelectMaturity } from "../../_components/select-maturity";
-import { maturityList } from "../../id/_data/maturity-list";
-import { BorrowingForm } from "@/components/borrowing-form";
-import { OrderBook } from "@/components/order-book";
 
 interface Order {
   rate: number;

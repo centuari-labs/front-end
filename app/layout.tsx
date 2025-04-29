@@ -1,10 +1,15 @@
 import type React from "react";
+import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import Link from "next/link";
-import "./globals.css";
+import { cookieToInitialState } from "wagmi";
+import { getConfig } from "@/lib/wagmi";
+import { headers } from "next/headers";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
-import type { Metadata } from "next";
+import WalletLayout from "@/components/wallet-connect";
+import { Footer } from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Centuari",
@@ -49,11 +54,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-import "./globals.css";
-import WalletLayout from "@/components/wallet-connect";
-import { cookieToInitialState } from "wagmi";
-import { getConfig } from "@/lib/wagmi";
-import { headers } from "next/headers";
-import { Footer } from "@/components/footer";
-import { Toaster } from "@/components/ui/sonner";

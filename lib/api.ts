@@ -8,3 +8,5 @@ export const MARKET_MATURITIES = (id: string, maturity: string) =>
   `${BASE_URL}/api/market/${id}/maturities?maturity=${maturity}`;
 
 export const MARKET_DETAIL_API = (id: string) => `${BASE_URL}/api/market/${id}`;
+
+export const VAULT_API = `${BASE_URL}/api/vault`;

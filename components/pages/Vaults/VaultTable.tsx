@@ -11,9 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { TokenPair } from "@/components/token-pair";
 import { IVaultData } from "@/lib/data";
 import { TokenSingle } from "@/components/token-single";
+import { parseToAmount } from "@/lib/helper";
 
 interface IVaultTableProps {
   vaults: IVaultData[];
@@ -25,49 +25,51 @@ export function VaultTable({ vaults }: IVaultTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="text-center">Vault</TableHead>
+            <TableHead className="hidden md:table-cell text-center">
+              Token
+            </TableHead>
+            <TableHead className="hidden md:table-cell text-center">
+              Deposit
+            </TableHead>
             <TableHead className="text-center">Curator</TableHead>
-            <TableHead className="hidden md:table-cell text-center">
-              Loan
-            </TableHead>
-            <TableHead className="hidden md:table-cell text-center">
-              LTV
-            </TableHead>
-            <TableHead className="text-center">Liquidity</TableHead>
             <TableHead className="text-center">APY</TableHead>
             <TableHead className="text-center"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {vaults.map((vault) => (
-            <TableRow key={vault.id}>
+            <TableRow key={vault.address}>
               <TableCell>
                 <div className="flex justify-center">{vault.name}</div>
               </TableCell>
               <TableCell>
                 <div className="flex justify-center">
                   <TokenSingle
-                    name={vault.lend_token}
-                    tokenUrl={vault.lendTokenUrl}
+                    name={vault.token_symbol}
+                    tokenUrl={vault.token_image_uri}
                   />
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                ${vault.marketVolume.toLocaleString()}
+                {parseFloat(vault.deposit) > 0
+                  ? `$${parseToAmount(vault.deposit, vault.token_decimals)}`
+                  : "-"}
               </TableCell>
               <TableCell className="hidden md:table-cell text-center">
-                ${vault.ltv.toLocaleString()}
+                {vault.curator}
               </TableCell>
               <TableCell
                 className={cn(
-                  vault.apy > 5
+                  parseFloat(vault.apy) > 5
                     ? "text-green-500 font-medium text-center"
                     : "text-center"
                 )}
               >
-                {vault.apy}%
+                {parseFloat(vault.apy)}%
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/vaults/${vault.id}`}>
+                <Link href={`/vaults/${vault.address}`}>
                   <Button variant="ghost" size="sm">
                     Details
                     <ArrowUpRight className="ml-1 h-3 w-3" />

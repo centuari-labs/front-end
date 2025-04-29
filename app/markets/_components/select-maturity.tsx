@@ -33,7 +33,7 @@ export function SelectMaturity({ data }: { data: Maturity[] }) {
     });
 
     router.push(
-      `/markets/${market.collateral_token.address}/${market.loan_token.address}`
+      `/markets/${market.collateral_token.address}/${market.loan_token.address}?market_id=${value}`
     );
   };
 

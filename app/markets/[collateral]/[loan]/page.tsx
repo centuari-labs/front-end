@@ -21,8 +21,9 @@ import { Maturity, SelectMaturity } from "../../_components/select-maturity";
 import { maturityList } from "../../id/_data/maturity-list";
 import { BorrowingForm } from "@/components/borrowing-form";
 import { OrderBook } from "@/components/order-book";
+import { OrderBookCard } from "../../_components/card-order-book";
 
-interface Order {
+export interface Order {
   rate: number;
   amount: number;
   total: number;
@@ -32,7 +33,7 @@ interface Order {
 // In a real app, we would fetch this data based on the marketId
 // const market = marketData.find((m) => m.id === "usdc-eth") || marketData[0];
 
-const orders = [
+const orders: Order[] = [
   { rate: 5.5, amount: 41996, total: 41996, type: "lend" },
   { rate: 5.0, amount: 5216, total: 47212, type: "lend" },
   { rate: 4.5, amount: 97148, total: 144360, type: "lend" },
@@ -68,10 +69,13 @@ async function getOrderBookData(id: string) {
 
 export default async function MarketDetailPage({
   params,
+  searchParams,
 }: {
   params: { collateral: string; loan: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { collateral, loan } = await params;
+  const market_id = (await searchParams).market_id;
 
   const maturities = await getMaturities(collateral, loan);
   // const orderBook = await getOrderBookData(marketId);
@@ -80,10 +84,10 @@ export default async function MarketDetailPage({
 
   console.log({ maturities });
 
-  // const getMarketDetail = await fetch(
-  //   `${BASE_URL}/api/market/${maturities[0].market_id}`
-  // );
-  // const market = await getMarketDetail.json();
+  const getMarketDetail = await fetch(
+    `${BASE_URL}/api/market/${market_id ?? maturities[0].market_id}`
+  );
+  const market = await getMarketDetail.json();
 
   // const marketDetailApi = useCallback(
   //   (): string => MARKET_DETAIL_API(id),
@@ -123,7 +127,7 @@ export default async function MarketDetailPage({
             </Button>
           </Link>
           <div className="flex flex-col gap-1">
-            {/* <MarketTitle market={market} /> */}
+            <MarketTitle market={market} />
           </div>
         </div>
         <SelectMaturity data={maturities} />
@@ -139,7 +143,7 @@ export default async function MarketDetailPage({
           </CardHeader>
           <CardContent>
             <div className="h-[350px]">
-              {/* <MarketChart marketId={market.id} /> */}
+              <MarketChart marketId={market.id} />
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
               <div className="flex flex-col gap-1 items-center">
@@ -147,7 +151,7 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  {/* ${parseFloat(market.market_volume).toLocaleString()} */}
+                  ${parseFloat(market.market_volume).toLocaleString()}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -155,12 +159,12 @@ export default async function MarketDetailPage({
                   Maturity
                 </span>
                 <span className="text-sm font-bold">
-                  {/* {new Date(market.maturity_date)
+                  {new Date(market.maturity_date)
                     .toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
                     })
-                    .toUpperCase()} */}
+                    .toUpperCase()}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -168,7 +172,7 @@ export default async function MarketDetailPage({
                   LLTV
                 </span>
                 <span className="text-sm font-bold">
-                  {/* {parseFloat(market.lltv) / 10 ** 16} % */}
+                  {parseFloat(market.lltv) / 10 ** 16} %
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -177,7 +181,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold text-green-500">
-                    {/* {parseFloat(market.lending_apy) / 10 ** 16} % */}
+                    {parseFloat(market.lending_apy) / 10 ** 16} %
                   </span>
                 </div>
               </div>
@@ -187,7 +191,7 @@ export default async function MarketDetailPage({
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-sm font-bold">
-                    {/* {parseFloat(market.borrow_apy) / 10 ** 16} % */}
+                    {parseFloat(market.borrow_apy) / 10 ** 16} %
                   </span>
                 </div>
               </div>
@@ -195,20 +199,7 @@ export default async function MarketDetailPage({
           </CardContent>
         </Card>
 
-        <Card className="card-colorful">
-          <CardHeader className="pb-3">
-            <CardTitle>Order Book</CardTitle>
-            <CardDescription>
-              Current lending and borrowing orders
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* <OrderBook
-              orders={orders as Order[]}
-              handleFixRated={handleFixRated}
-            /> */}
-          </CardContent>
-        </Card>
+        <OrderBookCard orders={orders} />
 
         {/* Bottom row */}
         <Card className="card-colorful">
@@ -233,17 +224,17 @@ export default async function MarketDetailPage({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="lend" className="m-0">
-                {/* <LendingForm
+                <LendingForm
                   market={market}
                   // fixedRate={fixedRate}
                   // handleFixRatedChange={handleFixRatedChange}
-                /> */}
+                />
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
                 {/* <BorrowingForm
                   market={market}
-                  fixedRate={fixedRate}
-                  handleFixRatedChange={handleFixRatedChange}
+                  // fixedRate={fixedRate}
+                  // handleFixRatedChange={handleFixRatedChange}
                 /> */}
               </TabsContent>
             </Tabs>
@@ -255,7 +246,9 @@ export default async function MarketDetailPage({
             <CardTitle>Open Orders</CardTitle>
             <CardDescription>Your active orders in this market</CardDescription>
           </CardHeader>
-          <CardContent>{/* <OpenOrders marketId={market.id} /> */}</CardContent>
+          <CardContent>
+            <OpenOrders marketId={market.id} />
+          </CardContent>
         </Card>
       </div>
     </div>

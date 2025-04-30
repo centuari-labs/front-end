@@ -28,6 +28,9 @@ import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { usePlaceOrder } from "@/hooks/use-place-order";
 import { useAccount } from "wagmi";
+import { useApproval } from "@/hooks/use-approval";
+import { parseUnits } from "viem";
+import { CENTUARI_CLOB } from "@/lib/tokenAddress";
 
 interface LendingFormProps {
   market: {
@@ -54,6 +57,15 @@ LendingFormProps) {
   const [customRate, setCustomRate] = useState(market.lending_apy.toString());
   const [rateType, setRateType] = useState("market");
   const [activeTab, setActiveTab] = useState("market");
+
+  const { approve, isApproving } = useApproval({
+    onSuccess: (result) => {
+      console.log("Approve successfully:", result);
+    },
+    onError: (error) => {
+      console.error("Error approve:", error);
+    },
+  });
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
@@ -142,8 +154,13 @@ LendingFormProps) {
     },
   });
 
-  const handleSubmitLend = (e: React.FormEvent) => {
+  const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
+    await approve({
+      amount: parseUnits("1194095083", 6),
+      spender: CENTUARI_CLOB,
+      address: "0x3cfc20f01894017817ad1299890182d65a62bad4" as `0x${string}`,
+    });
     placeOrderLend();
   };
 

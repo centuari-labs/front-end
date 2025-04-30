@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { erc20Abi } from "viem";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 
 interface ApproveParams {
   spender: `0x${string}`;
@@ -21,13 +20,14 @@ export const useApproval = () => {
   const approve = async ({ address, amount, spender }: ApproveParams) => {
     setIsApproving(true);
     try {
-      console.log("amount", amount);
-      await writeContract({
+      const hash = await writeContract({
         abi: erc20Abi,
         address,
         functionName: "approve",
         args: [spender, amount],
       });
+      
+      return hash;
     } catch (err) {
       console.error("Approve error:", err);
       setError("Approve transaction failed.");

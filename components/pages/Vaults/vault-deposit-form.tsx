@@ -7,6 +7,8 @@ import { useVaultDeposit } from "@/hooks/use-vault-deposit";
 import { parseToAmount } from "@/lib/helper";
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { CENTUARI_PRIME } from "@/lib/tokenAddress";
+import { useApproval } from "@/hooks/use-approval";
 
 interface IVaultDepositFormProps {
     curatorAddress: string;
@@ -28,7 +30,12 @@ export function VaultDepositForm({
             centuariPrimeTokenSymbol  
         }: IVaultDepositFormProps) 
     {
+
+    const { address } = useAccount();
     const [depositAmount, setDepositAmount] = useState(0);
+    
+    const approvalHandler = useApproval();
+    
     const { balance: centuariPrimeBalance } = useTokenBalance({
         tokenAddress: centuariPrimeTokenAddress as `0x${string}`
     });
@@ -39,8 +46,6 @@ export function VaultDepositForm({
 
     const { 
         deposit,
-        simulateData,
-        simulateError,
         txHash,
         writeError,
         isPending,
@@ -55,8 +60,23 @@ export function VaultDepositForm({
         }
     });
 
-    const handleDeposit = () => {
-        deposit();
+    const handleDeposit = async () => {
+        if (!address || !depositAmount || depositAmount <= 0) {
+            console.error("Invalid deposit parameters");
+            return;
+        }
+        
+        try {
+            const result = await approvalHandler.approve({
+                spender: CENTUARI_PRIME as `0x${string}`,
+                amount: BigInt(depositAmount * 10 ** vaultTokenDecimals),
+                address: vaultTokenAddress as `0x${string}`,
+            });
+            
+            await deposit();
+        } catch (error) {
+            console.error("Deposit process failed:", error);
+        }
     }
 
     return (

@@ -37,7 +37,7 @@ export default async function VaultPage({ params }: { params: { id: string } }) 
           <h1 className="text-3xl font-bold tracking-tight">{vaultData.name}</h1>
           <p className="text-muted-foreground dark:text-muted-dark">
             This vault is designed to efficiently allocate {vaultData.token_symbol} liquidity to various markets. <br />
-            Managed by {vaultData.curator}, it aims to optimize returns while maintaining balanced risk exposure across different lending opportunities.
+            Managed by {vaultData.curator_name}, it aims to optimize returns while maintaining balanced risk exposure across different lending opportunities.
           </p>
         </div>
 

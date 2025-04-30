@@ -1,6 +1,6 @@
 'use client'
 
-import { useSimulateContract, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import CentuariPrimeAbi from "@/lib/abis/CentuariPrime.json";
 import { toast } from "sonner";
 import { useEffect, useRef } from "react";
@@ -33,38 +33,6 @@ export const useVaultDeposit = ({
   const toastIdRef = useRef<any>("");
 
   const {
-    data: simulateData,
-    error: simulateError,
-    refetch,
-  } = useSimulateContract({
-    address: CENTUARI_PRIME,
-    abi: CentuariPrimeAbi,
-    functionName: "deposit",
-    args: [
-      {
-        curator: config?.curator as `0x${string}`,
-        token: config?.token as `0x${string}`,
-        name: config?.name,
-      },
-      config?.amount,
-    ],
-    query: {
-      enabled: false,
-    },
-  });
-
-  useEffect(() => {
-    if (config) {
-      console.log("Deposit config:", {
-        curator: config.curator,
-        token: config.token,
-        name: config.name,
-        amount: config.amount,
-      });
-    }
-  }, [config]);
-
-  const {
     writeContract,
     data: txHash,
     error: writeError,
@@ -75,20 +43,32 @@ export const useVaultDeposit = ({
 
   const deposit = async () => {
     try {
+      if (!config?.curator || !config?.token || !config?.name || !config?.amount) {
+        throw new Error("Missing vault deposit parameters");
+      }
+
       if (toastOptions.showToast) {
         toastIdRef.current = toast.loading(
           toastOptions.pendingMessage || "Processing transaction..."
         );
       }
 
-      const { data } = await refetch();
-      console.log("Simulation data:", data);
-
-      if (!data?.request) {
-        throw new Error("Failed to simulate transaction");
-      }
-
-      writeContract(data.request);
+      // Direct contract write without simulation
+      const hash = await writeContract({
+        address: CENTUARI_PRIME as `0x${string}`,
+        abi: CentuariPrimeAbi,
+        functionName: "deposit",
+        args: [
+          {
+            curator: config.curator as `0x${string}`,
+            token: config.token as `0x${string}`,
+            name: config.name,
+          },
+          config.amount,
+        ],
+      });
+      
+      return hash;
     } catch (error) {
       if (toastOptions.showToast && toastIdRef.current) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
@@ -97,7 +77,7 @@ export const useVaultDeposit = ({
         });
         toastIdRef.current = undefined;
       }
-      console.error("Transaction error:", error);
+      console.error("Deposit transaction error details:", error);
     }
   };
 
@@ -114,11 +94,10 @@ export const useVaultDeposit = ({
       toastIdRef.current = undefined;
     }
 
-    if (isError && (simulateError || writeError) && toastIdRef.current) {
+    if (isError && writeError && toastIdRef.current) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
         id: toastIdRef.current,
-        description:
-          simulateError?.message || writeError?.message || "Unknown error",
+        description: writeError?.message || "Unknown error",
       });
       toastIdRef.current = undefined;
     }
@@ -126,7 +105,6 @@ export const useVaultDeposit = ({
     isSuccess,
     isError,
     txHash,
-    simulateError,
     writeError,
     toastOptions.showToast,
     toastOptions.successMessage,
@@ -135,8 +113,6 @@ export const useVaultDeposit = ({
 
   return {
     deposit,
-    simulateData,
-    simulateError,
     txHash,
     writeError,
     isPending,

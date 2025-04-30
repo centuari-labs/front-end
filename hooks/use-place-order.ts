@@ -1,4 +1,4 @@
-import { useSimulateContract, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 import { toast } from "sonner";
 import { useEffect, useRef } from "react";
@@ -35,30 +35,6 @@ export const usePlaceOrder = ({
   const toastIdRef = useRef<any>("");
 
   const {
-    data: simulateData,
-    error: simulateError,
-    refetch,
-  } = useSimulateContract({
-    address,
-    abi: CentuariClobAbi,
-    functionName: "placeOrder",
-    args: [
-      {
-        loanToken: config?.loanToken as `0x${string}`,
-        collateralToken: config?.collateralToken as `0x${string}`,
-        maturity: config?.maturity,
-      },
-      config?.rate, // rate
-      config?.side, // 1 = borrow, 0 = lend
-      config?.amount, // amount
-      config?.collateralAmount, // collateralAmount
-    ],
-    query: {
-      enabled: false,
-    },
-  });
-
-  const {
     writeContract,
     data: txHash,
     error: writeError,
@@ -75,13 +51,22 @@ export const usePlaceOrder = ({
         );
       }
 
-      const { data } = await refetch();
-
-      if (!data?.request) {
-        throw new Error("Failed to simulate transaction");
-      }
-
-      writeContract(data.request);
+      writeContract({
+        address,
+        abi: CentuariClobAbi,
+        functionName: "placeOrder",
+        args: [
+          {
+            loanToken: config?.loanToken as `0x${string}`,
+            collateralToken: config?.collateralToken as `0x${string}`,
+            maturity: config?.maturity,
+          },
+          config?.rate, // rate
+          config?.side, // 1 = borrow, 0 = lend
+          config?.amount, // amount
+          config?.collateralAmount, // collateralAmount
+        ],
+      });
     } catch (error) {
       if (toastOptions.showToast && toastIdRef.current) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
@@ -107,11 +92,10 @@ export const usePlaceOrder = ({
       toastIdRef.current = undefined;
     }
 
-    if (isError && (simulateError || writeError) && toastIdRef.current) {
+    if (isError && writeError && toastIdRef.current) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
         id: toastIdRef.current,
-        description:
-          simulateError?.message || writeError?.message || "Unknown error",
+        description: writeError?.message || "Unknown error",
       });
       toastIdRef.current = undefined;
     }
@@ -119,7 +103,6 @@ export const usePlaceOrder = ({
     isSuccess,
     isError,
     txHash,
-    simulateError,
     writeError,
     toastOptions.showToast,
     toastOptions.successMessage,
@@ -128,8 +111,6 @@ export const usePlaceOrder = ({
 
   return {
     placeOrder,
-    simulateData,
-    simulateError,
     txHash,
     writeError,
     isPending,

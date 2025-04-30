@@ -117,16 +117,15 @@ LendingFormProps) {
     isPending: isPendingLend,
     isSuccess: isSuccessLend,
     isError: isErrorLend,
-    simulateError: simulateErrorLend,
     writeError: writeErrorLend,
     txHash: txHashLend,
   } = usePlaceOrder({
     address: address as `0x${string}`,
     config: {
-      amount: BigInt(1194095083),
+      amount: parseUnits("1194095083", 6),
       collateralAmount: BigInt("1135561116146701431"),
       collateralToken: "0x16bd2f7d7ea5f85dd089f41bf6d5be7d70e1e546",
-      loanToken: "0x3cfc20f01894017817ad1299890182d65a62bad4",
+      loanToken: "0x7A6a5dB0Bb0529f7454dd0194230971cCe7c87a8",
       maturity: BigInt(1776948836),
       rate: BigInt("10000000000000000"),
       side: 0,
@@ -138,7 +137,6 @@ LendingFormProps) {
     isPending,
     isSuccess,
     isError,
-    simulateError,
     writeError,
     txHash,
   } = usePlaceOrder({
@@ -161,7 +159,7 @@ LendingFormProps) {
       spender: CENTUARI_CLOB,
       address: "0x3cfc20f01894017817ad1299890182d65a62bad4" as `0x${string}`,
     });
-    placeOrderLend();
+    await placeOrderLend();
   };
 
   const handleSubmitBorrow = (e: React.FormEvent) => {

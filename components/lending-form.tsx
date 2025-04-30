@@ -30,7 +30,7 @@ import { usePlaceOrder } from "@/hooks/use-place-order";
 import { useAccount } from "wagmi";
 import { useApproval } from "@/hooks/use-approval";
 import { parseUnits } from "viem";
-import { CENTUARI_CLOB } from "@/lib/tokenAddress";
+import { CENTUARI_CLOB, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 
 interface LendingFormProps {
   market: {
@@ -58,15 +58,6 @@ LendingFormProps) {
   const [rateType, setRateType] = useState("market");
   const [activeTab, setActiveTab] = useState("market");
 
-  const { approve, isApproving } = useApproval({
-    onSuccess: (result) => {
-      console.log("Approve successfully:", result);
-    },
-    onError: (error) => {
-      console.error("Error approve:", error);
-    },
-  });
-
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
   };
@@ -75,97 +66,35 @@ LendingFormProps) {
     setCustomRate(e.target.value);
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // In a real app, we would submit the lending order here
-  //   console.log({
-  //     amount,
-  //     duration,
-  //     isCollateral,
-  //     isTokenized,
-  //     orderType: activeTab,
-  //     customRate: rateType === "custom" ? customRate : null,
-  //   });
-
-  //   if (activeTab === "market") {
-  //     alert(
-  //       `Market order submitted for ${amount}
-  //       at market rate`
-  //     );
-  //   } else {
-  //     alert(`Limit order submitted for ${amount} at ${customRate}% APY`);
-  //   }
-  // };
-
-  // // Calculate estimated earnings based on amount, APY, and duration
-  // const rateToUse =
-  //   rateType === "custom"
-  //     ? Number.parseFloat(customRate) || market.lending_apy
-  //     : market.lending_apy;
-  // const estimatedEarnings = amount
-  //   ? (
-  //       Number.parseFloat(amount) *
-  //       (rateToUse / 100) *
-  //       (duration / 365)
-  //     ).toFixed(2)
-  //   : "0.00";
-
   const { address } = useAccount();
+  const { approve, error, isApproving } = useApproval();
 
-  const {
-    placeOrder: placeOrderLend,
-    isPending: isPendingLend,
-    isSuccess: isSuccessLend,
-    isError: isErrorLend,
-    writeError: writeErrorLend,
-    txHash: txHashLend,
-  } = usePlaceOrder({
-    address: address as `0x${string}`,
-    config: {
-      amount: parseUnits("1194095083", 6),
-      collateralAmount: BigInt("1135561116146701431"),
-      collateralToken: "0x16bd2f7d7ea5f85dd089f41bf6d5be7d70e1e546",
-      loanToken: "0x7A6a5dB0Bb0529f7454dd0194230971cCe7c87a8",
-      maturity: BigInt(1776948836),
-      rate: BigInt("10000000000000000"),
-      side: 0,
-    },
-  });
-
-  const {
-    placeOrder: placeOrderBorrow,
-    isPending,
-    isSuccess,
-    isError,
-    writeError,
-    txHash,
-  } = usePlaceOrder({
-    address: address as `0x${string}`,
-    config: {
-      amount: BigInt(1194095083),
-      collateralAmount: BigInt("1135561116146701431"),
-      collateralToken: "0x16bd2f7d7ea5f85dd089f41bf6d5be7d70e1e546",
-      loanToken: "0x3cfc20f01894017817ad1299890182d65a62bad4",
-      maturity: BigInt(1776948836),
-      rate: BigInt("10000000000000000"),
-      side: 1,
-    },
+  const { placeOrder: placeOrderLend } = usePlaceOrder({
+    address: CENTUARI_CLOB as `0x${string}`,
   });
 
   const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
     await approve({
-      amount: parseUnits("1194095083", 6),
+      amount: BigInt("83138790259"),
       spender: CENTUARI_CLOB,
-      address: "0x3cfc20f01894017817ad1299890182d65a62bad4" as `0x${string}`,
+      address: USDC_TOKEN as `0x${string}`,
     });
-    await placeOrderLend();
+    await placeOrderLend({
+      loanToken: USDC_TOKEN,
+      collateralToken: METH_TOKEN,
+      amount: BigInt("1194"), // contoh 1194 USDC
+      collateralAmount: BigInt("0"), // contoh collateral
+      maturity: BigInt(1753981200),
+      rate: BigInt("60000000000000000"),
+      side: 0, // lend
+    });
   };
 
-  const handleSubmitBorrow = (e: React.FormEvent) => {
-    e.preventDefault();
-    placeOrderLend();
-  };
+  // const handleSubmitBorrow = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   placeOrderLend();
+  // };
 
   return (
     <Card className="card-colorful">
@@ -414,7 +343,7 @@ LendingFormProps) {
                 type="button"
                 className="mt-6 w-full"
                 variant="colorful"
-                onClick={handleSubmitBorrow}
+                // onClick={handleSubmitBorrow}
               >
                 Create Limit Order
               </Button>

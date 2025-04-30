@@ -1,38 +1,14 @@
 import { useWriteContract } from "wagmi";
-import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 import { toast } from "sonner";
 import { useEffect, useRef } from "react";
+import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 
 interface UsePlaceOrderProps {
   address: `0x${string}`;
-  config?: {
-    loanToken?: `0x${string}`;
-    collateralToken?: `0x${string}`;
-    maturity?: bigint;
-    rate?: bigint;
-    side?: number;
-    amount?: bigint;
-    collateralAmount?: bigint;
-  };
-  toastOptions?: {
-    showToast?: boolean;
-    pendingMessage?: string;
-    successMessage?: string;
-    errorMessage?: string;
-  };
 }
 
-export const usePlaceOrder = ({
-  address,
-  config,
-  toastOptions = {
-    showToast: true,
-    pendingMessage: "Placing order...",
-    successMessage: "Order placed successfully!",
-    errorMessage: "Failed to place order",
-  },
-}: UsePlaceOrderProps) => {
-  const toastIdRef = useRef<any>("");
+export const usePlaceOrder = ({ address }: UsePlaceOrderProps) => {
+  const toastIdRef = useRef<any>(undefined);
 
   const {
     writeContract,
@@ -43,76 +19,68 @@ export const usePlaceOrder = ({
     isError,
   } = useWriteContract();
 
-  const placeOrder = async () => {
+  const placeOrder = async ({
+    loanToken,
+    collateralToken,
+    maturity,
+    rate,
+    side,
+    amount,
+    collateralAmount,
+  }: {
+    loanToken: `0x${string}`;
+    collateralToken: `0x${string}`;
+    maturity: bigint;
+    rate: bigint;
+    side: number;
+    amount: bigint;
+    collateralAmount: bigint;
+  }) => {
     try {
-      if (toastOptions.showToast) {
-        toastIdRef.current = toast.loading(
-          toastOptions.pendingMessage || "Processing transaction..."
-        );
-      }
+      toastIdRef.current = toast.loading("Placing order...");
 
-      writeContract({
+      await writeContract({
         address,
         abi: CentuariClobAbi,
         functionName: "placeOrder",
         args: [
-          {
-            loanToken: config?.loanToken as `0x${string}`,
-            collateralToken: config?.collateralToken as `0x${string}`,
-            maturity: config?.maturity,
-          },
-          config?.rate, // rate
-          config?.side, // 1 = borrow, 0 = lend
-          config?.amount, // amount
-          config?.collateralAmount, // collateralAmount
+          { loanToken, collateralToken, maturity },
+          rate,
+          side,
+          amount,
+          collateralAmount,
         ],
       });
+
+      console.log("writeError", writeError);
     } catch (error) {
-      if (toastOptions.showToast && toastIdRef.current) {
-        toast.error(toastOptions.errorMessage || "Transaction failed", {
-          id: toastIdRef.current,
-          description: (error as Error)?.message || "Unknown error",
-        });
-        toastIdRef.current = undefined;
+      if (toastIdRef.current) {
+        toast.error("Failed to place order", { id: toastIdRef.current });
       }
-      console.error("Transaction error:", error);
+      throw error;
     }
   };
 
   useEffect(() => {
-    if (!toastOptions.showToast) return;
-
     if (isSuccess && txHash && toastIdRef.current) {
-      toast.success(toastOptions.successMessage || "Transaction successful", {
+      toast.success("Order placed successfully!", {
         id: toastIdRef.current,
-        description: `Transaction Hash: ${txHash.slice(0, 10)}...${txHash.slice(
-          -8
-        )}`,
+        description: `Tx Hash: ${txHash.slice(0, 6)}...${txHash.slice(-4)}`,
       });
       toastIdRef.current = undefined;
     }
 
     if (isError && writeError && toastIdRef.current) {
-      toast.error(toastOptions.errorMessage || "Transaction failed", {
+      toast.error("Order placement failed", {
         id: toastIdRef.current,
         description: writeError?.message || "Unknown error",
       });
       toastIdRef.current = undefined;
     }
-  }, [
-    isSuccess,
-    isError,
-    txHash,
-    writeError,
-    toastOptions.showToast,
-    toastOptions.successMessage,
-    toastOptions.errorMessage,
-  ]);
+  }, [isSuccess, isError, txHash, writeError]);
 
   return {
     placeOrder,
-    txHash,
-    writeError,
     isPending,
     isSuccess,
     isError,

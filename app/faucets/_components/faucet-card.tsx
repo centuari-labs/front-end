@@ -18,16 +18,7 @@ export function FaucetCard({
   handleFaucetSelect,
   selectedFaucet,
 }: FaucetCardProps) {
-  const {
-    id,
-    name,
-    tokenIcons,
-    claimLimit,
-    limitTime,
-    limitTimeUnit,
-    address,
-    tokenName,
-  } = data;
+  const { name, address, decimal, image_uri, symbol } = data;
 
   const addTokenAddress = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -38,7 +29,6 @@ export function FaucetCard({
       alert("Wallet not found");
       return;
     }
-    const tokenDecimals = 18;
 
     try {
       await window.ethereum.request({
@@ -48,7 +38,7 @@ export function FaucetCard({
           options: {
             address: token.address,
             symbol: token.symbol,
-            decimals: tokenDecimals,
+            decimals: decimal,
           },
         },
       });
@@ -61,20 +51,20 @@ export function FaucetCard({
     <Card
       className={cn(
         "card-colorful",
-        selectedFaucet.includes(id) && "bg-slate-100 dark:bg-slate-900"
+        selectedFaucet.includes(symbol) && "bg-slate-100 dark:bg-slate-900"
       )}
-      onClick={() => handleFaucetSelect(id)}
+      onClick={() => handleFaucetSelect(symbol)}
     >
       <CardContent className="p-6">
         <div className="flex justify-between">
-          <TokenPair icons={tokenIcons} />
+          <TokenPair image={image_uri} />
           <Button
             size={"sm"}
             className="p-2 rounded-xl"
             onClick={(e) =>
               addTokenAddress(e, {
                 address: address,
-                symbol: tokenName,
+                symbol: symbol,
               })
             }
           >
@@ -84,9 +74,7 @@ export function FaucetCard({
         <div className="flex flex-col gap-1 mt-3">
           <p className="font-semibold dark:text-primary-dark">{name}</p>
           <div className="flex items-center gap-1">
-            <p className="text-sm font-light">
-              {claimLimit.toLocaleString("en-US")} / {limitTime} {limitTimeUnit}
-            </p>
+            <p className="text-sm font-light">1,000,00 / 30 Minutes</p>
           </div>
         </div>
       </CardContent>

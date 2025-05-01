@@ -33,9 +33,13 @@ import {
 export function FaucetDialog({
   data,
   handleRemoveFaucet,
+  setDialogOpen,
+  dialogOpen,
 }: {
   data: FaucetDataProps[];
   handleRemoveFaucet: (id: string) => void;
+  setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  dialogOpen: boolean;
 }) {
   const { address } = useAccount();
 
@@ -55,28 +59,6 @@ export function FaucetDialog({
     error: errorLast,
   } = useWriteContract();
 
-  const handleClick = () => {
-    const tokenMap = new Map<string, number>([
-      [USDC_TOKEN, 0],
-      [METH_TOKEN, 1],
-      [MBTC_TOKEN, 2],
-      [MSOL_TOKEN, 3],
-      [MLINK_TOKEN, 4],
-      [MAAVE_TOKEN, 5],
-    ]);
-
-    const indexToken = data
-      .map((item) => tokenMap.get(item.address))
-      .filter((value): value is number => value !== undefined);
-
-    writeContract({
-      address: FAUCET_TOKEN,
-      abi: FaucetAbi,
-      functionName: "requestTokens",
-      args: [indexToken, address],
-    });
-  };
-
   const handleLastRequest = async () => {
     const result = await writeContract({
       address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
@@ -84,8 +66,58 @@ export function FaucetDialog({
       functionName: "lastRequestTime",
       args: [address],
     });
+  };
 
-    console.log("handleLastRequest", { result });
+  const handleClick = async () => {
+    setDialogOpen(false);
+    try {
+      const lastRequest = await lastWriteRequest({
+        address: address as `0x${string}`,
+        abi: FaucetAbi,
+        functionName: "lastRequestTime",
+        args: [address],
+      });
+
+      console.log("lastRequest", lastRequest);
+
+      const lastTime = Number(lastRequest);
+      const now = Math.floor(Date.now() / 1000);
+      const timeDiff = now - lastTime;
+
+      if (timeDiff < 1800) {
+        const minutesLeft = Math.ceil((1800 - timeDiff) / 60);
+        alert(
+          `Tunggu ${minutesLeft} menit lagi sebelum melakukan faucet lagi.`
+        );
+        return;
+      }
+
+      const tokenMap = new Map<string, number>([
+        [USDC_TOKEN, 0],
+        [METH_TOKEN, 1],
+        [MBTC_TOKEN, 2],
+        [MSOL_TOKEN, 3],
+        [MLINK_TOKEN, 4],
+        [MAAVE_TOKEN, 5],
+      ]);
+
+      const indexToken = data
+        .map((item) => tokenMap.get(item.address))
+        .filter((value): value is number => value !== undefined);
+
+      writeContract({
+        address: FAUCET_TOKEN,
+        abi: FaucetAbi,
+        functionName: "requestTokens",
+        args: [indexToken, address],
+      });
+    } catch (err: any) {
+      console.error(
+        "Error fetching lastRequestTime or sending transaction:",
+        err.message
+      );
+      alert("Terjadi kesalahan saat memproses permintaan faucet.");
+    }
   };
 
   useEffect(() => {
@@ -113,7 +145,7 @@ export function FaucetDialog({
   }, [isPendingLast, isSuccessLast, errorLast, txDataData]);
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
         <Button size={"sm"} className="bg-[#0C63BA]">
           Continue
@@ -131,10 +163,10 @@ export function FaucetDialog({
           <div>
             <div className="grid gap-4 max-h-[300px] overflow-y-auto mt-1">
               {data.map((faucet) => (
-                <div key={faucet.id} className={cn("flex flex-col gap-4")}>
+                <div key={faucet.symbol} className={cn("flex flex-col gap-4")}>
                   <div className="flex items-center gap-2 text-base">
                     <TokenPair
-                      icons={faucet.tokenIcons}
+                      image={faucet.image_uri}
                       className="h-10 border-0 w-10"
                     />
                     <div className="flex flex-col">
@@ -142,7 +174,7 @@ export function FaucetDialog({
                         {faucet.name}
                       </p>
                       <p className="text-sm dark:text-primary-dark">
-                        {faucet.claimLimit.toLocaleString("en-US")}
+                        1,000,000
                       </p>
                     </div>
                   </div>

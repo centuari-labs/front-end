@@ -3,13 +3,22 @@ import { Search } from "lucide-react";
 import { Metadata } from "next";
 import { faucetData } from "@/lib/data";
 import { FaucetList } from "./_components/faucet-list";
+import { BASE_URL } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Faucets - DeFi Lending & Borrowing",
   description: "View your faucets",
 };
 
-export default function FaucetsPage() {
+async function getTokenData() {
+  const res = await fetch(`${BASE_URL}/api/tokens`);
+  if (!res.ok) return undefined;
+  return res.json();
+}
+
+export default async function FaucetsPage() {
+  const tokens = await getTokenData();
+
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12 relative">
       <div className="flex flex-col gap-8">
@@ -30,7 +39,7 @@ export default function FaucetsPage() {
             />
           </div>
         </div>
-        <FaucetList faucets={faucetData} />
+        <FaucetList faucets={tokens} />
       </div>
     </div>
   );

@@ -29,5 +29,9 @@ export async function GET(
       orderBookData.borrow.push({ rate, amount });
     }
   });
+
+  orderBookData.lend.sort((a: any, b: any) => b.rate - a.rate);
+  orderBookData.borrow.sort((a: any, b: any) => b.rate - a.rate);
+
   return NextResponse.json(orderBookData);
 }

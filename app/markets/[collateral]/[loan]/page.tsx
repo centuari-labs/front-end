@@ -18,6 +18,7 @@ import { MarketTitle } from "../../_components/market-title";
 import { Maturity, SelectMaturity } from "../../_components/select-maturity";
 import { OrderBookCard } from "../../_components/card-order-book";
 import { parseToAmount, parseToRate } from "@/lib/helper";
+import { BorrowingForm } from "@/components/borrowing-form";
 
 export interface Order {
   rate: number;
@@ -65,31 +66,6 @@ export default async function MarketDetailPage({
     `${BASE_URL}/api/market/${market_id ?? maturities[0].market_id}`
   );
   const market = await getMarketDetail.json();
-
-  // const marketDetailApi = useCallback(
-  //   (): string => MARKET_DETAIL_API(id),
-  //   [id]
-  // );
-
-  // const [fixedRate, setFixedRate] = useState<number>(0);
-
-  // const handleFixRated = (value: number | string) => {
-  //   setFixedRate(parseFloat(value.toString()));
-  // };
-
-  // const handleFixRatedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = parseFloat(e.target.value);
-  //   if (!isNaN(newValue)) {
-  //     setFixedRate(parseFloat(newValue.toFixed(2)));
-  //   } else {
-  //     setFixedRate(0);
-  //   }
-  // };
-
-  // console.log("orderBook", { maturities });
-  // if (!marketData && !orderBook) {
-  //   return <p>Loading</p>;
-  // }
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -205,16 +181,12 @@ export default async function MarketDetailPage({
               <TabsContent value="lend" className="m-0">
                 <LendingForm
                   market={market}
-                  // fixedRate={fixedRate}
-                  // handleFixRatedChange={handleFixRatedChange}
                 />
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
-                {/* <BorrowingForm
+                <BorrowingForm
                   market={market}
-                  // fixedRate={fixedRate}
-                  // handleFixRatedChange={handleFixRatedChange}
-                /> */}
+                />
               </TabsContent>
             </Tabs>
           </CardContent>

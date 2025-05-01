@@ -94,18 +94,27 @@ LendingFormProps) {
 
   const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Calculate amount as BigInt with proper decimal handling
+    const amountInSmallestUnit = Math.floor(parseFloat(amount) * 10 ** market.loan_token.decimal);
+    
+    // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
+    // This helps avoid floating-point precision issues
+    const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 14);
+    
     await approve({
-      amount: BigInt(parseFloat(amount) * 10 ** market.loan_token.decimal),
+      amount: BigInt(amountInSmallestUnit),
       spender: CENTUARI_CLOB,
       address: market.loan_token.address as `0x${string}`,
     });
+    
     await placeOrderLend({
       loanToken: market.loan_token.address as `0x${string}`,
       collateralToken: market.collateral_token.address as `0x${string}`,
-      amount: BigInt(parseFloat(amount) * 10 ** market.loan_token.decimal),
+      amount: BigInt(amountInSmallestUnit),
       collateralAmount: BigInt("0"),
       maturity: BigInt(market.maturity),
-      rate: BigInt(parseFloat(fixedRate) * 10 ** 14),
+      rate: BigInt(rateInSmallestUnit),
       side: 0, // lend
     });
 

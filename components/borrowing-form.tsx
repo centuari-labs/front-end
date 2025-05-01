@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
 interface BorrowingFormProps {
@@ -33,12 +32,9 @@ interface BorrowingFormProps {
 
 export function BorrowingForm({
   market,
-  fixedRate,
-  handleFixRatedChange,
 }: BorrowingFormProps) {
   const [collateralAmount, setCollateralAmout] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
-  const [duration, setDuration] = useState(30);
   const [activeTab, setActiveTab] = useState("market");
 
   const handleCollateralAmoutChange = (
@@ -49,20 +45,6 @@ export function BorrowingForm({
 
   const handleBorrowAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBorrowAmount(e.target.value);
-  };
-
-  const handleDurationChange = (value: number[]) => {
-    setDuration(value[0]);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, we would submit the borrowing order here
-    alert(
-      `Borrowing order submitted for ${collateralAmount} ${
-        market.name.split("/")[0]
-      }`
-    );
   };
 
   // Calculate estimated cost based on amount, APY, and duration
@@ -88,7 +70,7 @@ export function BorrowingForm({
     <Card className="card-colorful">
       <CardHeader>
         <CardTitle className="gradient-coral-text font-bold">
-          Borrow {market.name}
+          Borrow
         </CardTitle>
         <CardDescription>Borrow assets using your collateral</CardDescription>
       </CardHeader>
@@ -114,7 +96,7 @@ export function BorrowingForm({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="market" className="mt-4">
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid gap-4">
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
@@ -148,7 +130,6 @@ export function BorrowingForm({
                     <Label htmlFor="collateral">Collateral</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Max: 1222.00
-                      {market.name.split("/")[0]}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -175,7 +156,7 @@ export function BorrowingForm({
                     <Label htmlFor="borrowAmount">Borrow</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Max: 2222.00
-                      {market.name.split("/")[0]}
+                      {/* {market.name.split("/")[0]} */}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -261,7 +242,7 @@ export function BorrowingForm({
               </div>
 
               <Button type="submit" className="mt-6 w-full" variant="colorful">
-                Borrow {market.name.split("/")[0]}
+                Borrow
               </Button>
             </form>
           </TabsContent>
@@ -276,7 +257,7 @@ export function BorrowingForm({
                 rate set by lenders.
               </p>
             </div> */}
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid gap-4">
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
@@ -310,14 +291,14 @@ export function BorrowingForm({
                     <Label htmlFor="fixed-rate">Fixed Rate</Label>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Input
+                    {/* <Input
                       id="fixed-rate"
                       placeholder="0.00"
                       value={fixedRate}
                       onChange={handleFixRatedChange}
                       className="flex-1 border-input"
                       type="number"
-                    />
+                    /> */}
                   </div>
                 </div>
                 {/* Collateral */}
@@ -326,7 +307,7 @@ export function BorrowingForm({
                     <Label htmlFor="collateral">Collateral</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Max: 1222.00
-                      {market.name.split("/")[0]}
+                      {/* {market.name.split("/")[0]} */}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -353,7 +334,6 @@ export function BorrowingForm({
                     <Label htmlFor="borrowAmount">Borrow</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
                       Max: 2222.00
-                      {market.name.split("/")[0]}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -380,7 +360,7 @@ export function BorrowingForm({
                       Fixed Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {isNaN(fixedRate) ? 0 : fixedRate}%
+                      {/* {isNaN(fixedRate) ? 0 : fixedRate}% */}
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
@@ -447,7 +427,7 @@ export function BorrowingForm({
               </div>
 
               <Button type="submit" className="mt-6 w-full" variant="colorful">
-                Borrow {market.name.split("/")[0]}
+                Borrow
               </Button>
             </form>
           </TabsContent>

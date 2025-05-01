@@ -44,24 +44,23 @@ interface LendingFormProps {
       image_uri: string;
       decimal: number;
       symbol: string;
-    },
+    };
     collateral_token: {
       address: string;
       name: string;
       image_uri: string;
       decimal: number;
       symbol: string;
-    },
+    };
     maturity: number;
   };
 }
 
-export function LendingForm({
-  market,
-}:
-LendingFormProps) {
+export function LendingForm({ market }: LendingFormProps) {
   const [amount, setAmount] = useState("");
-  const [fixedRate, setFixedRate] = useState(parseToRate(market.borrow_apy.toString()));
+  const [fixedRate, setFixedRate] = useState(
+    parseToRate(market.borrow_apy.toString())
+  );
   const [activeTab, setActiveTab] = useState("market");
   const [estimatedEarnings, setEstimatedEarnings] = useState(0);
 
@@ -70,18 +69,18 @@ LendingFormProps) {
   };
 
   useEffect(() => {
-    if(isNaN(parseFloat(amount))){
+    if (isNaN(parseFloat(amount))) {
       setEstimatedEarnings(0);
-    }else{
+    } else {
       const convertedAmount = parseFloat(amount);
       const convertedRate = parseFloat(fixedRate) / 100;
-      setEstimatedEarnings(convertedAmount + (convertedAmount * convertedRate));
+      setEstimatedEarnings(convertedAmount + convertedAmount * convertedRate);
     }
   }, [amount, fixedRate]);
 
   const { approve, error, isApproving } = useApproval();
 
-  const {  placeOrder: placeOrderLend, isSuccess } = usePlaceOrder({
+  const { placeOrder: placeOrderLend, isSuccess } = usePlaceOrder({
     address: CENTUARI_CLOB as `0x${string}`,
   });
 
@@ -94,20 +93,22 @@ LendingFormProps) {
 
   const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Calculate amount as BigInt with proper decimal handling
-    const amountInSmallestUnit = Math.floor(parseFloat(amount) * 10 ** market.loan_token.decimal);
-    
+    const amountInSmallestUnit = Math.floor(
+      parseFloat(amount) * 10 ** market.loan_token.decimal
+    );
+
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
     const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 14);
-    
+
     await approve({
       amount: BigInt(amountInSmallestUnit),
       spender: CENTUARI_CLOB,
       address: market.loan_token.address as `0x${string}`,
     });
-    
+
     await placeOrderLend({
       loanToken: market.loan_token.address as `0x${string}`,
       collateralToken: market.collateral_token.address as `0x${string}`,
@@ -129,9 +130,7 @@ LendingFormProps) {
   return (
     <Card className="card-colorful">
       <CardHeader>
-        <CardTitle className="gradient-blue-text font-bold">
-          Lend
-        </CardTitle>
+        <CardTitle className="gradient-blue-text font-bold">Lend</CardTitle>
         <CardDescription>Supply assets and earn interest</CardDescription>
       </CardHeader>
       <CardContent>
@@ -162,7 +161,12 @@ LendingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Balance: {parseToAmount(balance?.toString() ?? "0", market.loan_token.decimal)} {market.loan_token.symbol}
+                      Balance:{" "}
+                      {parseToAmount(
+                        balance?.toString() ?? "0",
+                        market.loan_token.decimal
+                      )}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -198,7 +202,8 @@ LendingFormProps) {
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
-                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)} {market.loan_token.symbol}
+                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>
@@ -226,7 +231,9 @@ LendingFormProps) {
                       id="fixed-rate"
                       placeholder="0.00"
                       value={fixedRate}
-                      onChange={(e) => setFixedRate(parseFloat(e.target.value).toString())}
+                      onChange={(e) =>
+                        setFixedRate(parseFloat(e.target.value).toString())
+                      }
                       className="flex-1 border-input"
                       type="number"
                       min="0.01"
@@ -238,7 +245,12 @@ LendingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="limit-amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Balance: {parseToAmount(balance?.toString() ?? "0", market.loan_token.decimal)} {market.loan_token.symbol}
+                      Balance:{" "}
+                      {parseToAmount(
+                        balance?.toString() ?? "0",
+                        market.loan_token.decimal
+                      )}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -265,16 +277,15 @@ LendingFormProps) {
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Fixed Rate
                     </span>
-                    <span className="font-medium text-teal">
-                      {fixedRate}%
-                    </span>
+                    <span className="font-medium text-teal">{fixedRate}%</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
-                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)} {market.loan_token.symbol}
+                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>

@@ -26,13 +26,9 @@ interface BorrowingFormProps {
     liquidationThreshold: number;
     fixedRate: boolean;
   };
-  fixedRate: number;
-  handleFixRatedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function BorrowingForm({
-  market,
-}: BorrowingFormProps) {
+export function BorrowingForm({ market }: BorrowingFormProps) {
   const [collateralAmount, setCollateralAmout] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
   const [activeTab, setActiveTab] = useState("market");
@@ -69,9 +65,7 @@ export function BorrowingForm({
   return (
     <Card className="card-colorful">
       <CardHeader>
-        <CardTitle className="gradient-coral-text font-bold">
-          Borrow
-        </CardTitle>
+        <CardTitle className="gradient-coral-text font-bold">Borrow</CardTitle>
         <CardDescription>Borrow assets using your collateral</CardDescription>
       </CardHeader>
       <CardContent>

@@ -179,14 +179,10 @@ export default async function MarketDetailPage({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="lend" className="m-0">
-                <LendingForm
-                  market={market}
-                />
+                <LendingForm market={market} />
               </TabsContent>
               <TabsContent value="borrow" className="m-0">
-                <BorrowingForm
-                  market={market}
-                />
+                <BorrowingForm market={market} />
               </TabsContent>
             </Tabs>
           </CardContent>

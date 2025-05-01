@@ -27,6 +27,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
+import { CustomButtonWallet } from "./custom-button-wallet";
 
 interface INavbarLink {
   href: string;
@@ -157,7 +158,7 @@ export function Navbar() {
 
           {/* Connect Wallet Button */}
           <div className="hidden md:flex items-center space-x-2">
-            <ConnectButton />
+            <CustomButtonWallet />
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

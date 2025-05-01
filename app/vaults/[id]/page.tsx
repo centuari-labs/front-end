@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { IVaultMarketDataProps } from "@/lib/data";
@@ -16,7 +15,6 @@ import { VAULT_DETAIL_API, VAULT_DETAIL_MARKET_API } from "@/lib/api";
 import { parseToAmount, parseToRate } from "@/lib/helper";
 import { TokenSingle } from "@/components/token-single";
 import { VaultDepositForm } from "@/components/pages/Vaults/vault-deposit-form";
-
 export const metadata: Metadata = {
   title: "Vaults - DeFi Lending & Borrowing",
   description: "View vault",
@@ -24,10 +22,16 @@ export const metadata: Metadata = {
 
 export default async function VaultPage({ params }: { params: { id: string } }) {
   const { id: vaultAddress } = await params;
-  const vault = await fetch(VAULT_DETAIL_API(vaultAddress));
+  const vault = await fetch(VAULT_DETAIL_API(vaultAddress), { 
+    cache: 'no-store',
+    next: { revalidate: 0 } // Disable cache for this request
+  });
   const vaultData = await vault.json();
 
-  const markets = await fetch(VAULT_DETAIL_MARKET_API(vaultAddress));
+  const markets = await fetch(VAULT_DETAIL_MARKET_API(vaultAddress), {
+    cache: 'no-store',
+    next: { revalidate: 0 } // Disable cache for this request
+  });
   const marketsData = await markets.json();
 
   return (

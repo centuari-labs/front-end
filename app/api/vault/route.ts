@@ -13,7 +13,7 @@ export async function GET() {
     FROM vault v
     LEFT JOIN token t ON lower(v.token) = lower(t.address)`;
 
-  const vaultData: IVaultData[] = vaults.map((vault) => ({
+  const vaultData: IVaultData[] = vaults.length > 0 ? vaults.map((vault) => ({
     address: vault.vault,
     name: vault.name,
     curator: vault.curator,
@@ -28,7 +28,7 @@ export async function GET() {
     centuari_prime_token: vault.centuari_prime_token,
     centuari_prime_token_symbol: vault.centuari_prime_token_symbol,
     centuari_prime_token_name: vault.centuari_prime_token_name
-  }));
+  })) : [];
   
   return NextResponse.json(vaultData);
 }

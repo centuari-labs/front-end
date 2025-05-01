@@ -38,9 +38,10 @@ export function VaultTable({ vaults }: IVaultTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {vaults.map((vault) => (
-            <TableRow key={vault.address}>
-              <TableCell>
+          {vaults.length > 0 ? (  
+            vaults.map((vault) => (
+              <TableRow key={vault.address}>
+                <TableCell>
                 <div className="flex justify-center">{vault.name}</div>
               </TableCell>
               <TableCell>
@@ -77,7 +78,14 @@ export function VaultTable({ vaults }: IVaultTableProps) {
                 </Link>
               </TableCell>
             </TableRow>
-          ))}
+          ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} className="text-center">
+                No vaults found
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

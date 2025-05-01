@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input"
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { useVaultDeposit } from "@/hooks/use-vault-deposit";
 import { parseToAmount } from "@/lib/helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { CENTUARI_PRIME } from "@/lib/tokenAddress";
 import { useApproval } from "@/hooks/use-approval";
+import { useRouter } from 'next/navigation';
 
 interface IVaultDepositFormProps {
     curatorAddress: string;
@@ -18,6 +19,7 @@ interface IVaultDepositFormProps {
     vaultTokenDecimals: number;
     centuariPrimeTokenAddress: string;
     centuariPrimeTokenSymbol: string;
+    onSuccess?: () => void;
 }
 
 export function VaultDepositForm({ 
@@ -27,20 +29,22 @@ export function VaultDepositForm({
             vaultTokenSymbol, 
             vaultTokenDecimals, 
             centuariPrimeTokenAddress, 
-            centuariPrimeTokenSymbol  
+            centuariPrimeTokenSymbol,
+            onSuccess
         }: IVaultDepositFormProps) 
     {
+    const router = useRouter();
 
     const { address } = useAccount();
     const [depositAmount, setDepositAmount] = useState(0);
     
     const approvalHandler = useApproval();
     
-    const { balance: centuariPrimeBalance } = useTokenBalance({
+    const { balance: centuariPrimeBalance, refetch: refetchPrimeBalance } = useTokenBalance({
         tokenAddress: centuariPrimeTokenAddress as `0x${string}`
     });
 
-    const { balance: vaultBalance } = useTokenBalance({
+    const { balance: vaultBalance, refetch: refetchVaultBalance } = useTokenBalance({
         tokenAddress: vaultTokenAddress as `0x${string}`
     });
 
@@ -57,14 +61,29 @@ export function VaultDepositForm({
             token: vaultTokenAddress as `0x${string}`,
             name: vaultName,
             amount: depositAmount * 10 ** vaultTokenDecimals,
+            tokenDecimals: vaultTokenDecimals
         }
     });
+
+    // Effect to handle successful deposits
+    useEffect(() => {
+        if (isSuccess && txHash) {
+            // Reset form and refresh balances
+            setDepositAmount(0);
+            refetchPrimeBalance();
+            refetchVaultBalance();
+            
+            // Refresh the current route
+            router.refresh();
+        }
+    }, [isSuccess, isError, txHash]);
 
     const handleDeposit = async () => {
         if (!address || !depositAmount || depositAmount <= 0) {
             console.error("Invalid deposit parameters");
             return;
         }
+        
         
         try {
             const result = await approvalHandler.approve({
@@ -81,27 +100,27 @@ export function VaultDepositForm({
 
     return (
         <div className="relative w-full max-w-sm">
-            <Input
-                type="text"
-                placeholder={`Deposit ${vaultTokenSymbol}`}
-                className="w-full appearance-none "
-                onChange={(e) => setDepositAmount(Number(e.target.value))}
-            />
-        <div className="mt-8">
-        <div>
-            <div className="text-sm dark:text-white/70">Your position</div>
-            <div>
-            <div className="text-base font-bold">{parseToAmount(centuariPrimeBalance?.toString() ?? "0", 18)} {centuariPrimeTokenSymbol}</div>
+            <div className="flex items-center w-full">
+                <Input
+                    type="text"
+                    placeholder={`Deposit ${vaultTokenSymbol}`}
+                    className="w-full appearance-none"
+                    onChange={(e) => setDepositAmount(Number(e.target.value))}
+                    value={depositAmount || ''}
+                />
+                <span className="ml-2">{vaultTokenSymbol}</span>
             </div>
-        </div>
-        <div className="mt-4">
-            <div className="text-sm dark:text-white/70">Wallet Balance</div>
-            <div>
-            <div className="text-base font-bold">{parseToAmount(vaultBalance?.toString() ?? "0", vaultTokenDecimals)} {vaultTokenSymbol}</div>
+            <div className="mt-4">
+                <div>
+                    <div className="text-sm dark:text-white/70">Your position</div>
+                    <div className="text-base font-bold">{parseToAmount(centuariPrimeBalance?.toString() ?? "0", vaultTokenDecimals)} {centuariPrimeTokenSymbol}</div>
+                </div>
+                <div className="mt-4">
+                    <div className="text-sm dark:text-white/70">Wallet Balance</div>
+                    <div className="text-base font-bold">{parseToAmount(vaultBalance?.toString() ?? "0", vaultTokenDecimals)} {vaultTokenSymbol}</div>
+                </div>
             </div>
-        </div>
-        </div>
-            <Button variant={"colorful"} className="w-full mt-4" onClick={handleDeposit}>
+            <Button variant={"colorful"} className="w-full mt-4" onClick={handleDeposit} disabled={isPending || !depositAmount || depositAmount <= 0}>
                 Deposit
             </Button>
         </div>

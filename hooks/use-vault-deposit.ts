@@ -5,6 +5,7 @@ import CentuariPrimeAbi from "@/lib/abis/CentuariPrime.json";
 import { toast } from "sonner";
 import { useEffect, useRef } from "react";
 import { CENTUARI_PRIME } from "@/lib/tokenAddress";
+import { parseToAmount } from "@/lib/helper";
 
 interface UseVaultDepositProps {
   config?: {
@@ -12,7 +13,8 @@ interface UseVaultDepositProps {
     token: string;
     name: string;
     amount: number;
-  };
+    tokenDecimals: number;
+};
   toastOptions?: {
     showToast?: boolean;
     pendingMessage?: string;
@@ -26,7 +28,7 @@ export const useVaultDeposit = ({
   toastOptions = {
     showToast: true,
     pendingMessage: `Deposit to ${config?.name} vault...`,
-    successMessage: `Deposited ${config?.amount} to ${config?.name} successfully!`,
+    successMessage: `Deposited ${config?.amount ? parseToAmount(config?.amount.toString(), config?.tokenDecimals) : "0"} to ${config?.name} successfully!`,
     errorMessage: "Failed to deposit",
   },
 }: UseVaultDepositProps) => {

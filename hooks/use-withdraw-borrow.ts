@@ -1,4 +1,4 @@
-import { useSimulateContract, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 import { toast } from "sonner";
 import { useEffect } from "react";
@@ -31,28 +31,6 @@ export const useWithdrawBorrow = ({
   },
 }: UseWithdrawBorrowProps) => {
   const {
-    data: simulateData,
-    error: simulateError,
-    refetch,
-  } = useSimulateContract({
-    address,
-    abi: CentuariClobAbi,
-    functionName: "withdrawCollateral",
-    args: [
-      {
-        loanToken: "0x..." as `0x${string}`,
-        collateralToken: "0x..." as `0x${string}`,
-        maturity: BigInt(1700000000),
-      },
-      BigInt(5_000), // rate
-      BigInt(1_000_000), // amount
-    ],
-    query: {
-      enabled: false,
-    },
-  });
-
-  const {
     writeContract,
     data: txHash,
     error: writeError,
@@ -70,13 +48,23 @@ export const useWithdrawBorrow = ({
         );
       }
 
-      const { data } = await refetch();
+      const request = {
+        address,
+        abi: CentuariClobAbi,
+        functionName: "withdrawCollateral",
+        args: [
+          {
+            loanToken: config?.loanToken || ("0x..." as `0x${string}`),
+            collateralToken:
+              config?.collateralToken || ("0x..." as `0x${string}`),
+            maturity: config?.maturity || BigInt(1700000000),
+          },
+          config?.rate || BigInt(5_000),
+          config?.amount || BigInt(1_000_000),
+        ],
+      };
 
-      if (!data?.request) {
-        throw new Error("Failed to simulate transaction");
-      }
-
-      writeContract(data.request);
+      writeContract(request);
     } catch (error) {
       if (toastOptions.showToast && toastId) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
@@ -99,17 +87,15 @@ export const useWithdrawBorrow = ({
       });
     }
 
-    if (isError && (simulateError || writeError)) {
+    if (isError && writeError) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
-        description:
-          simulateError?.message || writeError?.message || "Unknown error",
+        description: writeError?.message || "Unknown error",
       });
     }
   }, [
     isSuccess,
     isError,
     txHash,
-    simulateError,
     writeError,
     toastOptions.showToast,
     toastOptions.successMessage,
@@ -118,8 +104,6 @@ export const useWithdrawBorrow = ({
 
   return {
     withdrawBorrow,
-    simulateData,
-    simulateError,
     txHash,
     writeError,
     isPending,

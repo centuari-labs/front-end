@@ -1,4 +1,4 @@
-import { useSimulateContract, useWriteContract } from "wagmi";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
 import { toast } from "sonner";
 import { useEffect } from "react";
@@ -31,28 +31,6 @@ export const useWithdrawLend = ({
   },
 }: UseWithdrawLendProps) => {
   const {
-    data: simulateData,
-    error: simulateError,
-    refetch,
-  } = useSimulateContract({
-    address,
-    abi: CentuariClobAbi,
-    functionName: "withdraw",
-    args: [
-      {
-        loanToken: "0x..." as `0x${string}`,
-        collateralToken: "0x..." as `0x${string}`,
-        maturity: BigInt(1700000000),
-      },
-      BigInt(5_000), // rate
-      BigInt(1_000_000), // amount
-    ],
-    query: {
-      enabled: false,
-    },
-  });
-
-  const {
     writeContract,
     data: txHash,
     error: writeError,
@@ -60,6 +38,10 @@ export const useWithdrawLend = ({
     isSuccess,
     isError,
   } = useWriteContract();
+
+  const { isLoading: isRepayLoading } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
 
   const withdrawLend = async () => {
     let toastId: string | number | undefined;
@@ -70,13 +52,23 @@ export const useWithdrawLend = ({
         );
       }
 
-      const { data } = await refetch();
+      const request = {
+        address,
+        abi: CentuariClobAbi,
+        functionName: "withdraw",
+        args: [
+          {
+            loanToken: config?.loanToken || ("0x..." as `0x${string}`),
+            collateralToken:
+              config?.collateralToken || ("0x..." as `0x${string}`),
+            maturity: config?.maturity || BigInt(1700000000),
+          },
+          config?.rate || BigInt(5_000),
+          config?.shares || BigInt(1_000_000),
+        ],
+      };
 
-      if (!data?.request) {
-        throw new Error("Failed to simulate transaction");
-      }
-
-      writeContract(data.request);
+      await writeContract(request);
     } catch (error) {
       if (toastOptions.showToast && toastId) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
@@ -99,17 +91,15 @@ export const useWithdrawLend = ({
       });
     }
 
-    if (isError && (simulateError || writeError)) {
+    if (isError && writeError) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
-        description:
-          simulateError?.message || writeError?.message || "Unknown error",
+        description: writeError?.message || "Unknown error",
       });
     }
   }, [
     isSuccess,
     isError,
     txHash,
-    simulateError,
     writeError,
     toastOptions.showToast,
     toastOptions.successMessage,
@@ -118,8 +108,6 @@ export const useWithdrawLend = ({
 
   return {
     withdrawLend,
-    simulateData,
-    simulateError,
     txHash,
     writeError,
     isPending,

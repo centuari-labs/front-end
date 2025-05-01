@@ -1,16 +1,16 @@
-import { useSimulateContract, useWriteContract } from "wagmi";
-import CentuariClobAbi from "@/lib/abis/CentuariCLOB.json";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import CentuariAbi from "@/lib/abis/Centuari.json";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
 interface UseRepayProps {
   address: `0x${string}`;
-  config?: {
-    loanToken?: `0x${string}`;
-    collateralToken?: `0x${string}`;
-    maturity?: bigint;
-    rate?: bigint;
-    amount?: bigint;
+  config: {
+    loanToken: `0x${string}`;
+    collateralToken: `0x${string}`;
+    maturity: bigint;
+    rate: bigint;
+    amount: bigint;
   };
   toastOptions?: {
     showToast?: boolean;
@@ -31,28 +31,6 @@ export const useRepay = ({
   },
 }: UseRepayProps) => {
   const {
-    data: simulateData,
-    error: simulateError,
-    refetch,
-  } = useSimulateContract({
-    address,
-    abi: CentuariClobAbi,
-    functionName: "repay",
-    args: [
-      {
-        loanToken: "0x..." as `0x${string}`,
-        collateralToken: "0x..." as `0x${string}`,
-        maturity: BigInt(1700000000),
-      },
-      BigInt(5_000), // rate
-      BigInt(1_000_000), // amount
-    ],
-    query: {
-      enabled: false,
-    },
-  });
-
-  const {
     writeContract,
     data: txHash,
     error: writeError,
@@ -61,8 +39,13 @@ export const useRepay = ({
     isError,
   } = useWriteContract();
 
+  const { isLoading: isRepayLoading } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
+
   const repay = async () => {
     let toastId: string | number | undefined;
+
     try {
       if (toastOptions.showToast) {
         toastId = toast.loading(
@@ -70,13 +53,22 @@ export const useRepay = ({
         );
       }
 
-      const { data } = await refetch();
+      const { loanToken, collateralToken, maturity } = config;
 
-      if (!data?.request) {
-        throw new Error("Failed to simulate transaction");
-      }
-
-      writeContract(data.request);
+      await writeContract({
+        address,
+        abi: CentuariAbi,
+        functionName: "repay",
+        args: [
+          {
+            loanToken,
+            collateralToken,
+            maturity,
+          },
+          config.rate,
+          config.amount,
+        ],
+      });
     } catch (error) {
       if (toastOptions.showToast && toastId) {
         toast.error(toastOptions.errorMessage || "Transaction failed", {
@@ -99,17 +91,15 @@ export const useRepay = ({
       });
     }
 
-    if (isError && (simulateError || writeError)) {
+    if (isError && writeError) {
       toast.error(toastOptions.errorMessage || "Transaction failed", {
-        description:
-          simulateError?.message || writeError?.message || "Unknown error",
+        description: writeError?.message || "Unknown error",
       });
     }
   }, [
     isSuccess,
     isError,
     txHash,
-    simulateError,
     writeError,
     toastOptions.showToast,
     toastOptions.successMessage,
@@ -118,12 +108,11 @@ export const useRepay = ({
 
   return {
     repay,
-    simulateData,
-    simulateError,
     txHash,
     writeError,
     isPending,
     isSuccess,
     isError,
+    isRepayLoading,
   };
 };

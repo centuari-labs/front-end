@@ -294,98 +294,6 @@
   },
   {
     "type": "function",
-    "name": "getUserBorrowShares",
-    "inputs": [
-      {
-        "name": "config",
-        "type": "tuple",
-        "internalType": "struct MarketConfig",
-        "components": [
-          {
-            "name": "loanToken",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "collateralToken",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "maturity",
-            "type": "uint256",
-            "internalType": "uint256"
-          }
-        ]
-      },
-      {
-        "name": "rate",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "user",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getUserCollateral",
-    "inputs": [
-      {
-        "name": "config",
-        "type": "tuple",
-        "internalType": "struct MarketConfig",
-        "components": [
-          {
-            "name": "loanToken",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "collateralToken",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "maturity",
-            "type": "uint256",
-            "internalType": "uint256"
-          }
-        ]
-      },
-      {
-        "name": "rate",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "user",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "liquidate",
     "inputs": [
       {
@@ -844,31 +752,6 @@
   },
   {
     "type": "event",
-    "name": "BondTokenCreated",
-    "inputs": [
-      {
-        "name": "marketId",
-        "type": "bytes32",
-        "indexed": true,
-        "internalType": "Id"
-      },
-      {
-        "name": "bondToken",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "rate",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "Borrow",
     "inputs": [
       {
@@ -897,6 +780,31 @@
       },
       {
         "name": "assets",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CentuariTokenCreated",
+    "inputs": [
+      {
+        "name": "marketId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "Id"
+      },
+      {
+        "name": "centuariToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rate",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"

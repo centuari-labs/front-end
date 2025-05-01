@@ -78,6 +78,19 @@
   },
   {
     "type": "function",
+    "name": "centuariPrime",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "createDataStore",
     "inputs": [
       {
@@ -214,6 +227,19 @@
     "inputs": [
       {
         "name": "centuariAlpha_",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setCentuariPrime",
+    "inputs": [
+      {
+        "name": "centuariPrime_",
         "type": "address",
         "internalType": "address"
       }
@@ -365,7 +391,7 @@
     "name": "MarketBorrowingRateUpdated",
     "inputs": [
       {
-        "name": "id",
+        "name": "marketId",
         "type": "bytes32",
         "indexed": true,
         "internalType": "Id"
@@ -384,7 +410,7 @@
     "name": "MarketLendingRateUpdated",
     "inputs": [
       {
-        "name": "id",
+        "name": "marketId",
         "type": "bytes32",
         "indexed": true,
         "internalType": "Id"
@@ -403,7 +429,7 @@
     "name": "OrderCancelled",
     "inputs": [
       {
-        "name": "id",
+        "name": "marketId",
         "type": "bytes32",
         "indexed": true,
         "internalType": "Id"
@@ -422,7 +448,7 @@
     "name": "OrderMatched",
     "inputs": [
       {
-        "name": "id",
+        "name": "marketId",
         "type": "bytes32",
         "indexed": true,
         "internalType": "Id"
@@ -453,7 +479,7 @@
     "name": "OrderPlaced",
     "inputs": [
       {
-        "name": "id",
+        "name": "marketId",
         "type": "bytes32",
         "indexed": true,
         "internalType": "Id"
@@ -567,11 +593,6 @@
   {
     "type": "error",
     "name": "InvalidCollateralAmount",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidMarketConfig",
     "inputs": []
   },
   {

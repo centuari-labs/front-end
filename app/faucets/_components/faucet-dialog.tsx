@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { TokenPair } from "./token-pair";
 import { useAccount, useWriteContract } from "wagmi";
 import FaucetAbi from "@/lib/abis/Faucet.json";
-import { FaucetDataProps } from "@/lib/data";
+import { FaucetDataProps, LAST_REQUEST_FAUCET } from "@/lib/data";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import {
@@ -29,6 +29,7 @@ import {
   MSOL_TOKEN,
   USDC_TOKEN,
 } from "@/lib/tokenAddress";
+import { Loader } from "@/components/ui/loader";
 
 export function FaucetDialog({
   data,
@@ -51,47 +52,56 @@ export function FaucetDialog({
     error,
   } = useWriteContract();
 
-  const {
-    writeContract: lastWriteRequest,
-    data: txDataData,
-    isPending: isPendingLast,
-    isSuccess: isSuccessLast,
-    error: errorLast,
-  } = useWriteContract();
+  // const {
+  //   writeContract: lastWriteRequest,
+  //   data: txDataData,
+  //   isPending: isPendingLast,
+  //   isSuccess: isSuccessLast,
+  //   error: errorLast,
+  // } = useWriteContract();
 
-  const handleLastRequest = async () => {
-    const result = await writeContract({
-      address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
-      abi: FaucetAbi,
-      functionName: "lastRequestTime",
-      args: [address],
-    });
-  };
+  // const handleLastRequest = async () => {
+  //   const result = await writeContract({
+  //     address: "0x5243D5e1eB036D7e25E315E45177672C23A5bc9f",
+  //     abi: FaucetAbi,
+  //     functionName: "lastRequestTime",
+  //     args: [address],
+  //   });
+  // };
 
   const handleClick = async () => {
-    setDialogOpen(false);
     try {
-      const lastRequest = await lastWriteRequest({
-        address: address as `0x${string}`,
-        abi: FaucetAbi,
-        functionName: "lastRequestTime",
-        args: [address],
-      });
+      const lastRequest = Number(localStorage.getItem(LAST_REQUEST_FAUCET));
 
-      console.log("lastRequest", lastRequest);
-
-      const lastTime = Number(lastRequest);
       const now = Math.floor(Date.now() / 1000);
-      const timeDiff = now - lastTime;
 
-      if (timeDiff < 1800) {
-        const minutesLeft = Math.ceil((1800 - timeDiff) / 60);
-        alert(
-          `Tunggu ${minutesLeft} menit lagi sebelum melakukan faucet lagi.`
+      if (lastRequest && now - Number(lastRequest) < 30 * 60) {
+        const minutes = Math.floor(
+          (30 * 60 - (now - Number(lastRequest))) / 60
+        );
+        toast.error(
+          `Please wait ${minutes} more minute(s) before requesting again.`
         );
         return;
       }
 
+      // const lastRequest = await lastWriteRequest({
+      //   address: FAUCET_TOKEN as `0x${string}`,
+      //   abi: FaucetAbi,
+      //   functionName: "lastRequestTime",
+      //   args: [address],
+      // });
+      // console.log("lastRequest", lastRequest);
+      // const lastTime = Number(lastRequest);
+      // const now = Math.floor(Date.now() / 1000);
+      // const timeDiff = now - lastTime;
+      // if (timeDiff < 1800) {
+      //   const minutesLeft = Math.ceil((1800 - timeDiff) / 60);
+      //   alert(
+      //     `Tunggu ${minutesLeft} menit lagi sebelum melakukan faucet lagi.`
+      //   );
+      //   return;
+      // }
       const tokenMap = new Map<string, number>([
         [USDC_TOKEN, 0],
         [METH_TOKEN, 1],
@@ -100,12 +110,10 @@ export function FaucetDialog({
         [MLINK_TOKEN, 4],
         [MAAVE_TOKEN, 5],
       ]);
-
       const indexToken = data
         .map((item) => tokenMap.get(item.address))
         .filter((value): value is number => value !== undefined);
-
-      writeContract({
+      await writeContract({
         address: FAUCET_TOKEN,
         abi: FaucetAbi,
         functionName: "requestTokens",
@@ -116,7 +124,7 @@ export function FaucetDialog({
         "Error fetching lastRequestTime or sending transaction:",
         err.message
       );
-      alert("Terjadi kesalahan saat memproses permintaan faucet.");
+      alert("An error occurred while processing the faucet request.");
     }
   };
 
@@ -126,23 +134,26 @@ export function FaucetDialog({
     }
     if (isSuccess) {
       console.log("Transaction confirmed:", txData);
+      toast.success("Faucet request sent with transaction hash: " + txData);
+      setDialogOpen(false);
+      localStorage.setItem(LAST_REQUEST_FAUCET, String(Date.now() / 1000));
     }
     if (error) {
       console.error("Transaction failed:", error.message);
     }
   }, [isPending, isSuccess, error, txData]);
 
-  useEffect(() => {
-    if (isPendingLast) {
-      console.log("Transaction is pending...");
-    }
-    if (isSuccessLast) {
-      console.log("Transaction confirmed:", txDataData);
-    }
-    if (errorLast) {
-      console.error("Transaction failed:", errorLast.message);
-    }
-  }, [isPendingLast, isSuccessLast, errorLast, txDataData]);
+  // useEffect(() => {
+  //   if (isPendingLast) {
+  //     console.log("Transaction is pending...");
+  //   }
+  //   if (isSuccessLast) {
+  //     console.log("Transaction confirmed:", txDataData);
+  //   }
+  //   if (errorLast) {
+  //     console.error("Transaction failed:", errorLast.message);
+  //   }
+  // }, [isPendingLast, isSuccessLast, errorLast, txDataData]);
 
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
@@ -194,8 +205,9 @@ export function FaucetDialog({
             size={"lg"}
             className="w-full"
             onClick={handleClick}
+            disabled={isPending}
           >
-            Get Tokens
+            {isPending ? <Loader /> : <>Get Tokens</>}
           </Button>
         </DialogFooter>
       </DialogContent>

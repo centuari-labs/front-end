@@ -481,3 +481,6 @@ export const faucetData: FaucetDataProps[] = [
     status: "active",
   },
 ];
+
+
+export const LAST_REQUEST_FAUCET = 'last-request-faucet';

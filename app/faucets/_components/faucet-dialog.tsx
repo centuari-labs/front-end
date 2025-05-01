@@ -69,13 +69,16 @@ export function FaucetDialog({
   };
 
   const handleClick = async () => {
+    setDialogOpen(false);
     try {
       const lastRequest = await lastWriteRequest({
-        address: FAUCET_TOKEN,
+        address: address as `0x${string}`,
         abi: FaucetAbi,
         functionName: "lastRequestTime",
         args: [address],
       });
+
+      console.log("lastRequest", lastRequest);
 
       const lastTime = Number(lastRequest);
       const now = Math.floor(Date.now() / 1000);

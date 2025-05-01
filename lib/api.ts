@@ -1,7 +1,7 @@
 export const BASE_URL =
   process.env.NEXT_PUBLIC_ENV === "localhost"
     ? process.env.NEXT_PUBLIC_BASE_URL
-    : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    : `https://${process.env.VERCEL_URL}`;
 
 export const MARKET_API = `${BASE_URL}/api/market`;
 export const MARKET_MATURITIES = (id: string, maturity: string) =>

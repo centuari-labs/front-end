@@ -68,7 +68,7 @@ export function OpenOrders({ data }: { data: OpenOrdersProps[] }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      {/* <div className="flex items-center justify-between mb-4">
         <Button
           variant="outline"
           size="sm"
@@ -76,7 +76,7 @@ export function OpenOrders({ data }: { data: OpenOrdersProps[] }) {
         >
           Cancel All
         </Button>
-      </div>
+      </div> */}
       <div className="space-y-3">
         {data.length > 0 ? (
           data.map((order: OpenOrdersProps, index: any) => (

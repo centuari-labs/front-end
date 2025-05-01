@@ -4,6 +4,8 @@ import { Clock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatRelativeTime, parseToAmount, parseToRate } from "@/lib/helper";
+import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 
 interface OpenOrdersProps {
   loan_token_decimal: number;
@@ -25,44 +27,33 @@ interface OpenOrdersProps {
 //   status: "pending" | "partial" | "open";
 // }
 
-export function OpenOrders({ data }: { data: OpenOrdersProps[] }) {
-  // const orders: OpenOrder[] = [
-  //   {
-  //     id: "order1",
-  //     type: "lend",
-  //     rate: 3.5,
-  //     amount: 10000,
-  //     time: "2 hours ago",
-  //     status: "open",
-  //   },
-  //   {
-  //     id: "order2",
-  //     type: "lend",
-  //     rate: 3.8,
-  //     amount: 5000,
-  //     time: "1 hour ago",
-  //     status: "partial",
-  //   },
-  //   {
-  //     id: "order3",
-  //     type: "borrow",
-  //     rate: 4.2,
-  //     amount: 7500,
-  //     time: "30 mins ago",
-  //     status: "pending",
-  //   },
-  // ];
+export function OpenOrders({ marketId }: { marketId: string }) {
+  const { address } = useAccount();
 
-  // const {
-  //   side,
-  //   rate,
-  //   original_amount,
-  //   loan_token_symbol,
-  //   matched_amount,
-  //   loan_token_decimal,
-  //   timestamp,
-  //   status,
-  // } = data;
+  const [data, setData] = useState<OpenOrdersProps[]>([]);
+
+  async function getOpenOrderData(
+    marketId: string,
+    traderWalletAddress: `0x${string}`
+  ) {
+    const res = await fetch(
+      `/api/open-orders/${marketId}/${traderWalletAddress}`
+    );
+    if (!res.ok) return undefined;
+    return res.json();
+  }
+
+  useEffect(() => {
+    getOpenOrderData(marketId, address as `0x${string}`)
+      .then((data) => {
+        if (data) {
+          setData(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching open orders:", error);
+      });
+  }, []);
 
   return (
     <div>

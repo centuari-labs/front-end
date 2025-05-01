@@ -46,12 +46,6 @@ async function getOrderBookData(id: string) {
   return res.json();
 }
 
-async function getOpenOrderData(id: string, trader: string) {
-  const res = await fetch(`${BASE_URL}/api/open-orders/${id}/${trader}`);
-  if (!res.ok) return undefined;
-  return res.json();
-}
-
 export default async function MarketDetailPage({
   params,
   searchParams,
@@ -65,10 +59,6 @@ export default async function MarketDetailPage({
   const maturities = await getMaturities(collateral, loan);
   const orderBook = await getOrderBookData(
     market_id ?? maturities[0].market_id
-  );
-  const openOrders = await getOpenOrderData(
-    "0x008b543035fb8d70a0d1125cfa53fe63d35358d57fb85a2b70308c1b5657b65c",
-    "0xf53e86ee3498321e5a9131f1405b957fde0b28bc"
   );
 
   const getMarketDetail = await fetch(
@@ -136,7 +126,11 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  {parseToAmount(market.market_volume, market.loan_token.decimal)} {market.loan_token.symbol}
+                  {parseToAmount(
+                    market.market_volume,
+                    market.loan_token.decimal
+                  )}{" "}
+                  {market.loan_token.symbol}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">
@@ -232,7 +226,7 @@ export default async function MarketDetailPage({
             <CardDescription>Your active orders in this market</CardDescription>
           </CardHeader>
           <CardContent>
-            <OpenOrders data={openOrders} />
+            <OpenOrders marketId={market_id ?? maturities[0].market_id} />
           </CardContent>
         </Card>
       </div>

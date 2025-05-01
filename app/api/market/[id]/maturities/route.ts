@@ -8,8 +8,6 @@ export async function GET(
   const { id } = await params;
   const maturity = request.nextUrl.searchParams.get("maturity");
 
-  console.log({ id, maturity });
-
   const sql = neon(process.env.DATABASE_URL ?? "");
   const market = await sql`SELECT 
     m.id,
@@ -22,8 +20,6 @@ export async function GET(
   GROUP BY
     m.maturity
     `;
-
-  console.log({ maturities: market });
 
   // const marketData = markets.map((market) => ({
   //   id: market.id,

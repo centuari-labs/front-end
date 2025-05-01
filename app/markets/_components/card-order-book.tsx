@@ -21,9 +21,7 @@ interface Order {
 }
 
 export const OrderBookCard = ({ orders }: { orders: Order }) => {
-  const handleFixRated = (rate: number) => {
-    console.log("Fix rated", rate);
-  };
+  const handleFixRated = (rate: number) => {};
 
   return (
     <Card className="card-colorful">

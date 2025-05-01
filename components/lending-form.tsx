@@ -2,8 +2,8 @@
 
 import type React from "react";
 
-import { useState } from "react";
-import { Info, HelpCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { HelpCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
@@ -24,13 +22,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { usePlaceOrder } from "@/hooks/use-place-order";
 import { useAccount } from "wagmi";
 import { useApproval } from "@/hooks/use-approval";
-import { parseUnits } from "viem";
-import { CENTUARI_CLOB, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
+import { CENTUARI_CLOB } from "@/lib/tokenAddress";
+import { useTokenBalance } from "@/hooks/use-token-balance";
+import { parseToAmount, parseToRate } from "@/lib/helper";
 
 interface LendingFormProps {
   market: {
@@ -40,67 +37,90 @@ interface LendingFormProps {
     marketVolume: number;
     collateralFactor: number;
     fixedRate: boolean;
+    borrow_apy: number;
+    loan_token: {
+      address: string;
+      name: string;
+      image_uri: string;
+      decimal: number;
+      symbol: string;
+    },
+    collateral_token: {
+      address: string;
+      name: string;
+      image_uri: string;
+      decimal: number;
+      symbol: string;
+    },
+    maturity: number;
   };
-  // fixedRate: number;
-  // handleFixRatedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function LendingForm({
   market,
-}: // fixedRate,
-// handleFixRatedChange,
+}:
 LendingFormProps) {
   const [amount, setAmount] = useState("");
-  const [duration, setDuration] = useState(30);
-  const [isCollateral, setIsCollateral] = useState(true);
-  const [isTokenized, setIsTokenized] = useState(false);
-  const [customRate, setCustomRate] = useState(market.lending_apy.toString());
-  const [rateType, setRateType] = useState("market");
+  const [fixedRate, setFixedRate] = useState(parseToRate(market.borrow_apy.toString()));
   const [activeTab, setActiveTab] = useState("market");
+  const [estimatedEarnings, setEstimatedEarnings] = useState(0);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
   };
 
-  const handleCustomRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCustomRate(e.target.value);
-  };
+  useEffect(() => {
+    if(isNaN(parseFloat(amount))){
+      setEstimatedEarnings(0);
+    }else{
+      const convertedAmount = parseFloat(amount);
+      const convertedRate = parseFloat(fixedRate) / 100;
+      setEstimatedEarnings(convertedAmount + (convertedAmount * convertedRate));
+    }
+  }, [amount, fixedRate]);
 
-  const { address } = useAccount();
   const { approve, error, isApproving } = useApproval();
 
-  const { placeOrder: placeOrderLend } = usePlaceOrder({
+  const {  placeOrder: placeOrderLend, isSuccess } = usePlaceOrder({
     address: CENTUARI_CLOB as `0x${string}`,
   });
+
+  // Effect to set customRate to 0 when activeTab is "market"
+  useEffect(() => {
+    if (activeTab === "market") {
+      setFixedRate(parseToRate(market.borrow_apy.toString()));
+    }
+  }, [activeTab]);
 
   const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
     await approve({
-      amount: BigInt("83138790259"),
+      amount: BigInt(parseFloat(amount) * 10 ** market.loan_token.decimal),
       spender: CENTUARI_CLOB,
-      address: USDC_TOKEN as `0x${string}`,
+      address: market.loan_token.address as `0x${string}`,
     });
     await placeOrderLend({
-      loanToken: USDC_TOKEN,
-      collateralToken: METH_TOKEN,
-      amount: BigInt("1194"), // contoh 1194 USDC
-      collateralAmount: BigInt("0"), // contoh collateral
-      maturity: BigInt(1753981200),
-      rate: BigInt("60000000000000000"),
+      loanToken: market.loan_token.address as `0x${string}`,
+      collateralToken: market.collateral_token.address as `0x${string}`,
+      amount: BigInt(parseFloat(amount) * 10 ** market.loan_token.decimal),
+      collateralAmount: BigInt("0"),
+      maturity: BigInt(market.maturity),
+      rate: BigInt(parseFloat(fixedRate) * 10 ** 14),
       side: 0, // lend
     });
+
+    setAmount("");
+    setFixedRate(parseToRate(market.borrow_apy.toString()));
   };
 
-  // const handleSubmitBorrow = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   placeOrderLend();
-  // };
+  const { balance } = useTokenBalance({
+    tokenAddress: market.loan_token.address as `0x${string}`,
+  });
 
   return (
     <Card className="card-colorful">
       <CardHeader>
         <CardTitle className="gradient-blue-text font-bold">
-          {/* Lend {market.name} */}
           Lend
         </CardTitle>
         <CardDescription>Supply assets and earn interest</CardDescription>
@@ -133,7 +153,7 @@ LendingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      {/* Balance: 1,000 {market.name.split("/")[0]} */}
+                      Balance: {parseToAmount(balance?.toString() ?? "0", market.loan_token.decimal)} {market.loan_token.symbol}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -148,7 +168,7 @@ LendingFormProps) {
                       type="button"
                       size="sm"
                       className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
-                      onClick={() => setAmount("1000")}
+                      onClick={() => setAmount(balance?.toString() ?? "0")}
                     >
                       MAX
                     </Button>
@@ -158,31 +178,20 @@ LendingFormProps) {
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-white/20">
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
-                      Estimated earnings
+                      Highest Borrow Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {/* {estimatedEarnings} {market.name.split("/")[0]} */}
-                    </span>
-                  </div>
-                  {/* <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground dark:text-muted-dark">
-                      Collateral factor
-                    </span>
-                    <span className="font-medium">
-                      {market.collateralFactor}%
+                      {parseToRate(market.borrow_apy.toString())}%
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
-                      Rate type
+                      Estimated earnings
                     </span>
-                    <Badge
-                      variant="outline"
-                      className="bg-blue/10 text-blue border-blue/30"
-                    >
-                      Fixed
-                    </Badge>
-                  </div> */}
+                    <span className="font-medium text-teal">
+                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)} {market.loan_token.symbol}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -192,7 +201,6 @@ LendingFormProps) {
                 variant="colorful"
                 onClick={handleSubmitLend}
               >
-                {/* Lend {market.name.split("/")[0]} */}
                 Lend
               </Button>
             </form>
@@ -201,7 +209,6 @@ LendingFormProps) {
             <form>
               <div className="grid gap-4">
                 <div className="grid gap-2">
-                  {/* Fix Rate Input */}
                   <div className="flex items-center justify-between">
                     <Label htmlFor="fixed-rate">Fixed Rate</Label>
                   </div>
@@ -209,10 +216,12 @@ LendingFormProps) {
                     <Input
                       id="fixed-rate"
                       placeholder="0.00"
-                      // value={fixedRate}
-                      // onChange={handleFixRatedChange}
+                      value={fixedRate}
+                      onChange={(e) => setFixedRate(parseFloat(e.target.value).toString())}
                       className="flex-1 border-input"
                       type="number"
+                      min="0.01"
+                      step="0.01"
                     />
                   </div>
                 </div>
@@ -220,7 +229,7 @@ LendingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="limit-amount">Amount</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      {/* Balance: 1,000 {market.name.split("/")[0]} */}
+                      Balance: {parseToAmount(balance?.toString() ?? "0", market.loan_token.decimal)} {market.loan_token.symbol}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -235,89 +244,12 @@ LendingFormProps) {
                       type="button"
                       size="sm"
                       className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500"
-                      onClick={() => setAmount("1000")}
+                      onClick={() => setAmount(balance?.toString() ?? "0")}
                     >
                       MAX
                     </Button>
                   </div>
                 </div>
-                {/* <div className="grid gap-2">
-                  <Label htmlFor="rate-type">Interest Rate</Label>
-                  <RadioGroup
-                    value={rateType}
-                    onValueChange={setRateType}
-                    className="grid gap-3"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="market"
-                        id="market-rate"
-                        className="border-blue text-blue"
-                      />
-                      <Label
-                        htmlFor="market-rate"
-                        className="flex items-center gap-2"
-                      >
-                        Market Rate ({market.lendingAPY}%)
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="custom"
-                        id="custom-rate"
-                        className="border-coral text-coral"
-                      />
-                      <Label
-                        htmlFor="custom-rate"
-                        className="flex items-center gap-2"
-                      >
-                        Custom Rate
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div> */}
-
-                {rateType === "custom" && (
-                  <div className="grid gap-2">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="custom-rate-input">Your Rate (%)</Label>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-5 w-5"
-                            >
-                              <HelpCircle className="h-3 w-3" />
-                              <span className="sr-only">Help</span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>
-                              Set your own lending rate. Higher rates may take
-                              longer to match with borrowers.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                    <Input
-                      id="custom-rate-input"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      placeholder="Enter APY %"
-                      value={customRate}
-                      onChange={handleCustomRateChange}
-                      className="border-input"
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground dark:text-muted-dark">
-                      <span>Market rate: {market.lending_apy}%</span>
-                      <span>Your rate: {customRate}%</span>
-                    </div>
-                  </div>
-                )}
 
                 <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
                   <div className="flex items-center justify-between text-sm">
@@ -325,7 +257,7 @@ LendingFormProps) {
                       Fixed Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {/* {isNaN(fixedRate) ? 0 : fixedRate}% */}
+                      {fixedRate}%
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
@@ -333,7 +265,7 @@ LendingFormProps) {
                       Estimated earnings
                     </span>
                     <span className="font-medium text-teal">
-                      {/* {estimatedEarnings} {market.name.split("/")[0]} */}
+                      {parseToAmount(estimatedEarnings.toString(), 0, 2, false)} {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>
@@ -343,7 +275,7 @@ LendingFormProps) {
                 type="button"
                 className="mt-6 w-full"
                 variant="colorful"
-                // onClick={handleSubmitBorrow}
+                onClick={handleSubmitLend}
               >
                 Create Limit Order
               </Button>

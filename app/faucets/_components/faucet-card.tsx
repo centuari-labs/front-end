@@ -42,8 +42,6 @@ export function FaucetCard({
           },
         },
       });
-
-      toast.success("Token added to wallet");
     } catch (error: any) {
       toast.error(error.message);
     }

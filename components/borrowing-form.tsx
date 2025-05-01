@@ -58,7 +58,6 @@ export function BorrowingForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, we would submit the borrowing order here
-    console.log({ collateralAmount, duration, orderType: activeTab });
     alert(
       `Borrowing order submitted for ${collateralAmount} ${
         market.name.split("/")[0]

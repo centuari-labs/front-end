@@ -64,8 +64,6 @@ export function OpenOrders({ data }: { data: OpenOrdersProps[] }) {
   //   status,
   // } = data;
 
-  console.log("open order data", data);
-
   return (
     <div>
       {/* <div className="flex items-center justify-between mb-4">

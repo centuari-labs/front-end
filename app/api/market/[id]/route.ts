@@ -45,7 +45,5 @@ WHERE
     maturity: marketDataDetail?.maturity,
   };
 
-  console.log({ marketDetail });
-
   return NextResponse.json(marketDetail);
 }

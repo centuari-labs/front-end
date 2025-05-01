@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BASE_URL } from "@/lib/api";
 import { useRouter } from "next/navigation";
 export interface Maturity {
   market_id: string;
@@ -23,13 +22,8 @@ export function SelectMaturity({ data }: { data: Maturity[] }) {
   const router = useRouter();
 
   const handleValueChange = async (value: string) => {
-    const getMarketDetail = await fetch(`${BASE_URL}/api/market/${value}`);
+    const getMarketDetail = await fetch(`/api/market/${value}`);
     const market = await getMarketDetail.json();
-
-    console.log({
-      col: market.collateral_token,
-      loan: market.loan_token,
-    });
 
     router.push(
       `/markets/${market.collateral_token.address}/${market.loan_token.address}?market_id=${value}`

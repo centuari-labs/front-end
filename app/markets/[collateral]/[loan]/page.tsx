@@ -76,6 +76,8 @@ export default async function MarketDetailPage({
   );
   const market = await getMarketDetail.json();
 
+  console.log({ market_id, maturities, orderBook, openOrders });
+
   // const marketDetailApi = useCallback(
   //   (): string => MARKET_DETAIL_API(id),
   //   [id]

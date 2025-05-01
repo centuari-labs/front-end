@@ -11,6 +11,7 @@ import { FaucetDataProps } from "@/lib/data";
 
 export function FaucetList({ faucets }: { faucets: FaucetDataProps[] }) {
   const [selectedFaucet, setSelectedFaucet] = useState<string[]>([]);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -78,6 +79,8 @@ export function FaucetList({ faucets }: { faucets: FaucetDataProps[] }) {
                 <FaucetDialog
                   data={detailFaucet}
                   handleRemoveFaucet={handleRemoveFaucet}
+                  setDialogOpen={setDialogOpen}
+                  dialogOpen={dialogOpen}
                 />
               </div>
             </div>

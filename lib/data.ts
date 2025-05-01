@@ -8,19 +8,11 @@ import {
 } from "./tokenAddress";
 
 export interface FaucetDataProps {
-  id: string;
-  name: string;
-  tokenName: string;
-  chain: string;
-  chainId: number;
-  tokenIcons: string[];
   address: string;
-  explorer: string;
-  faucetUrl: string;
-  claimLimit: number;
-  limitTime: string;
-  limitTimeUnit: string;
-  status: string;
+  decimal: number;
+  image_uri: string;
+  name: string;
+  symbol: string;
 }
 
 export interface IMarketDataProps {

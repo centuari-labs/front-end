@@ -14,14 +14,14 @@ export function FaucetList({ faucets }: { faucets: FaucetDataProps[] }) {
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
 
-  const handleFaucetSelect = (id: string) => {
+  const handleFaucetSelect = (symbol: string) => {
     if (!address) {
       openConnectModal?.();
     } else {
-      if (selectedFaucet.includes(id)) {
-        setSelectedFaucet(selectedFaucet.filter((faucet) => faucet !== id));
+      if (selectedFaucet.includes(symbol)) {
+        setSelectedFaucet(selectedFaucet.filter((faucet) => faucet !== symbol));
       } else {
-        setSelectedFaucet([...selectedFaucet, id]);
+        setSelectedFaucet([...selectedFaucet, symbol]);
       }
     }
   };
@@ -30,20 +30,22 @@ export function FaucetList({ faucets }: { faucets: FaucetDataProps[] }) {
     setSelectedFaucet([]);
   };
 
-  const handleRemoveFaucet = (id: string) => {
-    setSelectedFaucet(selectedFaucet.filter((faucet) => faucet !== id));
+  const handleRemoveFaucet = (symbol: string) => {
+    setSelectedFaucet(selectedFaucet.filter((faucet) => faucet !== symbol));
   };
 
   const detailFaucet = useMemo(() => {
-    return faucets.filter((faucet) => selectedFaucet.includes(faucet.id));
+    return faucets.filter((faucet: FaucetDataProps) =>
+      selectedFaucet.includes(faucet.symbol)
+    );
   }, [faucets, selectedFaucet]);
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {faucets.map((faucet: any) => (
+        {faucets.map((faucet: FaucetDataProps) => (
           <FaucetCard
-            key={faucet.id}
+            key={faucet.symbol}
             data={faucet}
             handleFaucetSelect={handleFaucetSelect}
             selectedFaucet={selectedFaucet}

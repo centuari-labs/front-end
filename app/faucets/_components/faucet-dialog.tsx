@@ -131,10 +131,10 @@ export function FaucetDialog({
           <div>
             <div className="grid gap-4 max-h-[300px] overflow-y-auto mt-1">
               {data.map((faucet) => (
-                <div key={faucet.id} className={cn("flex flex-col gap-4")}>
+                <div key={faucet.symbol} className={cn("flex flex-col gap-4")}>
                   <div className="flex items-center gap-2 text-base">
                     <TokenPair
-                      icons={faucet.tokenIcons}
+                      image={faucet.image_uri}
                       className="h-10 border-0 w-10"
                     />
                     <div className="flex flex-col">
@@ -142,7 +142,7 @@ export function FaucetDialog({
                         {faucet.name}
                       </p>
                       <p className="text-sm dark:text-primary-dark">
-                        {faucet.claimLimit.toLocaleString("en-US")}
+                        1,000,000
                       </p>
                     </div>
                   </div>

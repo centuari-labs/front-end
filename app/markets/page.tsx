@@ -4,25 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MarketTable } from "@/components/market-table";
 import { MARKET_API } from "@/lib/api";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export default async function MarketsPage() {
   const getMarket = await fetch(MARKET_API);
   let marketData = await getMarket.json();
 
   // Sort markets by lending APY in descending order
-  marketData = marketData.sort((a: any, b: any) => b.lending_apy - a.lending_apy);
+  marketData = marketData.sort(
+    (a: any, b: any) => b.lending_apy - a.lending_apy
+  );
 
   return (
-    <div className="container px-4 py-8 md:px-6 md:py-12">
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Markets</h1>
-          <p className="text-muted-foreground dark:text-muted-dark">
-            Explore all available lending and borrowing markets on the platform.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <PageLayout
+      title="Markets"
+      description="Explore all available lending and borrowing markets on the platform."
+      filter={
+        <>
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-muted-dark" />
             <Input
@@ -39,10 +37,10 @@ export default async function MarketsPage() {
               Sort: APY ↓
             </Button>
           </div>
-        </div>
-
-        <MarketTable markets={marketData} />
-      </div>
-    </div>
+        </>
+      }
+    >
+      <MarketTable markets={marketData} />
+    </PageLayout>
   );
 }

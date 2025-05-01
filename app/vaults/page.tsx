@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { VaultTable } from "@/components/pages/Vaults/VaultTable";
 import { VAULT_API } from "@/lib/api";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export const metadata: Metadata = {
   title: "Vaults - DeFi Lending & Borrowing",
@@ -15,16 +16,11 @@ export default async function VaultPage() {
   const vaults = await getVault.json();
 
   return (
-    <div className="container px-4 py-8 md:px-6 md:py-12">
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Vaults</h1>
-          <p className="text-muted-foreground dark:text-muted-dark">
-            Explore all available vault on the platform.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <PageLayout
+      title="Vaults"
+      description="Explore all available vault on the platform."
+      filter={
+        <>
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-muted-dark" />
             <Input
@@ -41,10 +37,10 @@ export default async function VaultPage() {
               Sort: APY ↓
             </Button>
           </div>
-        </div>
-
-        <VaultTable vaults={vaults} />
-      </div>
-    </div>
+        </>
+      }
+    >
+      <VaultTable vaults={vaults} />
+    </PageLayout>
   );
 }

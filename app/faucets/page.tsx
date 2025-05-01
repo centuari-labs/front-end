@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { faucetData } from "@/lib/data";
 import { FaucetList } from "./_components/faucet-list";
 import { BASE_URL } from "@/lib/api";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export const metadata: Metadata = {
   title: "Faucets - DeFi Lending & Borrowing",
@@ -20,16 +21,11 @@ export default async function FaucetsPage() {
   const tokens = await getTokenData();
 
   return (
-    <div className="container px-4 py-8 md:px-6 md:py-12 relative">
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Choose Faucets</h1>
-          <p className="text-muted-foreground dark:text-muted-dark">
-            Get testnet tokens. Multiple assets available. Experiment with smart
-            contracts today.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <PageLayout
+      title="=Choose Faucets"
+      description="Get testnet tokens."
+      filter={
+        <>
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-muted-dark" />
             <Input
@@ -38,9 +34,10 @@ export default async function FaucetsPage() {
               className="w-full appearance-none pl-8"
             />
           </div>
-        </div>
-        <FaucetList faucets={tokens} />
-      </div>
-    </div>
+        </>
+      }
+    >
+      <FaucetList faucets={tokens} />
+    </PageLayout>
   );
 }

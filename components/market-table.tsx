@@ -31,8 +31,6 @@ export function MarketTable({ markets }: MarketTableProps) {
     router.push(`/markets/${collateral_address}/${loan_address}`);
   };
 
-  console.log({ markets });
-
   return (
     <div className="rounded-md border dark:border-white/20">
       <Table>

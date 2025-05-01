@@ -52,7 +52,6 @@ export const usePlaceOrder = ({ address }: UsePlaceOrderProps) => {
         ],
       });
 
-      console.log("writeError", writeError);
     } catch (error) {
       if (toastIdRef.current) {
         toast.error("Failed to place order", { id: toastIdRef.current });

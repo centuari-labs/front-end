@@ -7,7 +7,10 @@ import { MARKET_API } from "@/lib/api";
 
 export default async function MarketsPage() {
   const getMarket = await fetch(MARKET_API);
-  const marketData = await getMarket.json();
+  let marketData = await getMarket.json();
+
+  // Sort markets by lending APY in descending order
+  marketData = marketData.sort((a: any, b: any) => b.lending_apy - a.lending_apy);
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">

@@ -76,14 +76,10 @@ export default async function MarketDetailPage({
   );
   const market = await getMarketDetail.json();
 
-  console.log({ market_id, maturities, orderBook, openOrders });
-
   // const marketDetailApi = useCallback(
   //   (): string => MARKET_DETAIL_API(id),
   //   [id]
   // );
-
-  // console.log({ market });
 
   // const [fixedRate, setFixedRate] = useState<number>(0);
 
@@ -140,7 +136,7 @@ export default async function MarketDetailPage({
                   Market Volume
                 </span>
                 <span className="text-sm font-bold">
-                  {parseToAmount(market.market_volume, 3, 3)}
+                  {parseToAmount(market.market_volume, market.loan_token.decimal)} {market.loan_token.symbol}
                 </span>
               </div>
               <div className="flex flex-col gap-1 items-center">

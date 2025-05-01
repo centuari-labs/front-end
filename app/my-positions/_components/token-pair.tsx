@@ -32,13 +32,13 @@ export function TokenPair({
             <TooltipTrigger asChild>
               <Image
                 src={lendTokenUrl}
-                alt={`Lend Token`}
+                alt={`Loan Token`}
                 fill
                 className="rounded-full object-cover"
               />
             </TooltipTrigger>
             <TooltipContent>
-              <p>Lend Token</p>
+              <p>Loan Token</p>
             </TooltipContent>
           </Tooltip>
         </div>

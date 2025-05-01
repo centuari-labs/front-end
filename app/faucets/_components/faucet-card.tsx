@@ -40,8 +40,6 @@ export function FaucetCard({
     }
     const tokenDecimals = 18;
 
-    console.log("token", token);
-
     try {
       await window.ethereum.request({
         method: "wallet_watchAsset",
@@ -54,8 +52,6 @@ export function FaucetCard({
           },
         },
       });
-
-      toast.success("Token added to wallet");
     } catch (error: any) {
       toast.error(error.message);
     }

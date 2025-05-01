@@ -36,7 +36,7 @@ export function TokenPair({
           </div>
           <div>
             <p className="text-sm text-muted-foreground dark:text-muted-dark">
-              Lend Token
+              Loan Token
             </p>
             <h3
               className="font-semibold dark:text-primary-dark cursor-pointer"

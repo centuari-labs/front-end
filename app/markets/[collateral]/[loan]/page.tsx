@@ -26,8 +26,6 @@ export interface Order {
   type: "borrow" | "lend";
 }
 
-console.log({ url: process.env.VERCEL_PROJECT_PRODUCTION_URL });
-
 async function getMarketData(id: string) {
   const res = await fetch(`${BASE_URL}/api/market/${id}`);
   if (!res.ok) return undefined;

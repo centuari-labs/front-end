@@ -17,11 +17,11 @@ export default function Loading() {
       </div>
 
       <div className="grid grid-cols-6 gap-4 py-4 border-b border-gray-800 text-sm font-medium text-gray-400">
-        <div className="col-span-1">Asset</div>
-        <div className="col-span-1">Market Volume</div>
-        <div className="col-span-1">LLTV</div>
-        <div className="col-span-1">Lending APY</div>
-        <div className="col-span-1">Borrowing APY</div>
+        <div className="col-span-1">Vault</div>
+        <div className="col-span-1">Token</div>
+        <div className="col-span-1">Deposit</div>
+        <div className="col-span-1">Curator</div>
+        <div className="col-span-1">APY</div>
         <div className="col-span-1 text-right">Action</div>
       </div>
 

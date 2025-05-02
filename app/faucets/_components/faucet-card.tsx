@@ -74,7 +74,7 @@ export function FaucetCard({
         <div className="flex flex-col gap-1 mt-3">
           <p className="font-semibold dark:text-primary-dark">{name}</p>
           <div className="flex items-center gap-1">
-            <p className="text-sm font-light">1,000,00 / 30 Minutes</p>
+            <p className="text-sm font-light">100 / 30 Minutes</p>
           </div>
         </div>
       </CardContent>

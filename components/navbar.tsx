@@ -56,7 +56,6 @@ const NavbarLink = ({
 }) => {
   const Icon = route.icon;
 
-  console.log("route", route);
   return (
     <Link
       key={route.href}

@@ -28,6 +28,7 @@ import {
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import { CustomButtonWallet } from "./custom-button-wallet";
+import Image from "next/image";
 
 interface INavbarLink {
   href: string;
@@ -116,9 +117,11 @@ export function Navbar() {
           <div className="flex">
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative h-full w-40 rounded-full">
-                <img
+                <Image
                   src={"/logo-color.png"}
                   alt="DeFi Lending Logo"
+                  width={80}
+                  height={80}
                   className="h-full w-full object-cover"
                 />
               </div>

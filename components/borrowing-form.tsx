@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -16,22 +15,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { ILendingMarketProps } from "@/lib/types";
+import { useTokenBalance } from "@/hooks/use-token-balance";
+import { CENTUARI_CLOB } from "@/lib/tokenAddress";
+import { useApproval } from "@/hooks/use-approval";
+import { usePlaceOrder } from "@/hooks/use-place-order";
+import { parseToRate } from "@/lib/helper";
+import { useParams } from "next/navigation";
 
-interface BorrowingFormProps {
-  market: {
-    id: string;
-    name: string;
-    borrowingAPY: number;
-    ltv: number;
-    liquidationThreshold: number;
-    fixedRate: boolean;
-  };
-}
-
-export function BorrowingForm({ market }: BorrowingFormProps) {
+export function BorrowingForm({ market }: ILendingMarketProps) {
   const [collateralAmount, setCollateralAmout] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
   const [activeTab, setActiveTab] = useState("market");
+
+  const [fixedRate, setFixedRate] = useState(
+    parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
+  );
+
+  const { collateral } = useParams<{ collateral: string }>();
+
+  const { approve, error, isApproving } = useApproval();
+
+  const { placeOrder: placeOrderBorrow, isSuccess } = usePlaceOrder({
+    address: CENTUARI_CLOB as `0x${string}`,
+  });
 
   const handleCollateralAmoutChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -42,6 +49,10 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
   const handleBorrowAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBorrowAmount(e.target.value);
   };
+
+  // const { balance } = useTokenBalance({
+  //     tokenAddress: market.loan_token.address as `0x${string}`,
+  //   });
 
   // Calculate estimated cost based on amount, APY, and duration
   // const estimatedCost = collateral
@@ -61,6 +72,42 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
   //   currentBorrowAmount > 0
   //     ? ((borrowingPower - currentBorrowAmount) / borrowingPower) * 2 + 1
   //     : 2;
+
+  const handleSubmitBorrow = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Calculate amount as BigInt with proper decimal handling
+    const amountInSmallestUnit = Math.floor(
+      parseFloat(borrowAmount) * 10 ** market.loan_token.decimal
+    );
+
+    // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
+    // This helps avoid floating-point precision issues
+    const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 14);
+
+    await approve({
+      amount: BigInt(amountInSmallestUnit),
+      spender: CENTUARI_CLOB,
+      address: market.loan_token.address as `0x${string}`,
+    });
+
+    await placeOrderBorrow({
+      loanToken: market.loan_token.address as `0x${string}`,
+      collateralToken: market.collateral_token.address as `0x${string}`,
+      amount: BigInt(amountInSmallestUnit),
+      collateralAmount: BigInt("0"),
+      maturity: BigInt(market.maturity),
+      rate: BigInt(rateInSmallestUnit),
+      side: 1, // borrow
+    });
+
+    setBorrowAmount("");
+    setFixedRate(parseToRate(market.borrow_apy.toString()));
+  };
+
+  const { balance: collateralBalance } = useTokenBalance({
+    tokenAddress: collateral as `0x${string}`,
+  });
 
   return (
     <Card className="card-colorful">
@@ -123,7 +170,8 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="collateral">Collateral</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Max: 1222.00
+                      Max:{" "}
+                      {collateralBalance ? collateralBalance.toString() : "0"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -138,7 +186,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                       type="button"
                       className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
                       size="sm"
-                      // onClick={() => setCollateral(maxBorrowAmount.toString())}
+                      onClick={() => {
+                        setCollateralAmout(
+                          collateralBalance ? collateralBalance.toString() : "0"
+                        );
+                      }}
                     >
                       MAX
                     </Button>
@@ -149,8 +201,8 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="borrowAmount">Borrow</Label>
                     <span className="text-xs text-muted-foreground dark:text-muted-dark">
-                      Max: 2222.00
-                      {/* {market.name.split("/")[0]} */}
+                      Max:{" "}
+                      {collateralBalance ? collateralBalance.toString() : "0"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -165,7 +217,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                       type="button"
                       className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
                       size="sm"
-                      // onClick={() => setAmount(maxBorrowAmount.toString())}
+                      onClick={() => {
+                        setCollateralAmout(
+                          collateralBalance ? collateralBalance.toString() : "0"
+                        );
+                      }}
                     >
                       MAX
                     </Button>
@@ -184,9 +240,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Liquidation threshold
                     </span>
-                    <span className="font-medium">
-                      {market.liquidationThreshold}%
-                    </span>
+                    <span className="font-medium">80%</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
@@ -235,7 +289,13 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                 </div>
               </div>
 
-              <Button type="submit" className="mt-6 w-full" variant="colorful">
+              <Button
+                type="submit"
+                className="mt-6 w-full"
+                variant="colorful"
+                disabled={borrowAmount === "" || isApproving}
+                onClick={handleSubmitBorrow}
+              >
                 Borrow
               </Button>
             </form>
@@ -369,9 +429,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Liquidation threshold
                     </span>
-                    <span className="font-medium">
-                      {market.liquidationThreshold}%
-                    </span>
+                    <span className="font-medium">20%</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
@@ -420,7 +478,13 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                 </div>
               </div>
 
-              <Button type="submit" className="mt-6 w-full" variant="colorful">
+              <Button
+                type="submit"
+                className="mt-6 w-full"
+                variant="colorful"
+                disabled={borrowAmount === "" || isApproving}
+                onClick={handleSubmitBorrow}
+              >
                 Borrow
               </Button>
             </form>

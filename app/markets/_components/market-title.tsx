@@ -7,7 +7,6 @@ import Link from "next/link";
 import * as React from "react";
 
 export function MarketTitle({ market }: { market: MarketCardProps }) {
-  console.log(market);
   return (
     <div className="flex items-center gap-2">
       <h1 className="text-2xl font-bold tracking-tight">

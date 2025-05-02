@@ -20,36 +20,9 @@ import { useApproval } from "@/hooks/use-approval";
 import { CENTUARI_CLOB } from "@/lib/tokenAddress";
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { parseToAmount, parseToRate } from "@/lib/helper";
+import { ILendingMarketProps } from "@/lib/types";
 
-interface LendingFormProps {
-  market: {
-    id: string;
-    name: string;
-    lending_apy: number;
-    marketVolume: number;
-    collateralFactor: number;
-    fixedRate: boolean;
-    borrow_apy: number;
-    loan_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    collateral_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    maturity: number;
-  };
-}
-
-export function LendingForm({ market }: LendingFormProps) {
-  console.log(market.borrow_apy);
+export function LendingForm({ market }: ILendingMarketProps) {
   const [amount, setAmount] = useState("");
   const [fixedRate, setFixedRate] = useState(
     parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
@@ -121,6 +94,8 @@ export function LendingForm({ market }: LendingFormProps) {
   const { balance } = useTokenBalance({
     tokenAddress: market.loan_token.address as `0x${string}`,
   });
+
+  console.log("lending", { balance });
 
   return (
     <Card className="card-colorful">
@@ -213,7 +188,7 @@ export function LendingForm({ market }: LendingFormProps) {
                 variant="colorful"
                 onClick={handleSubmitLend}
               >
-                Lend
+                Create Market Order
               </Button>
             </form>
           </TabsContent>

@@ -115,7 +115,7 @@ export function Navbar() {
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative h-full w-40 rounded-full">
                 <img
-                  src={"logo-color.png"}
+                  src={"/logo-color.png"}
                   alt="DeFi Lending Logo"
                   className="h-full w-full object-cover"
                 />

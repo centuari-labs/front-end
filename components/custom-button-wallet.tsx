@@ -229,8 +229,10 @@ export const ConnectButtonWalletComponents = ({
                     title="Click to copy address"
                   >
                     {account.displayName}
+                    {account.displayBalance
+                      ? ` (${account.displayBalance})`
+                      : ""}
                   </span>
-                  {account.displayBalance ? ` (${account.displayBalance})` : ""}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent

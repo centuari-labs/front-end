@@ -54,6 +54,8 @@ const NavbarLink = ({
   isActive: boolean;
 }) => {
   const Icon = route.icon;
+
+  console.log("route", route);
   return (
     <Link
       key={route.href}
@@ -126,7 +128,9 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex md:flex-1 md:items-center md:justify-center md:space-x-1">
             {routes.map((route) => {
-              const isActive = pathname === route.href;
+              const isActive =
+                pathname === route.href ||
+                pathname.startsWith(`${route.href}/`);
 
               if (route.private && !isConnected) return null;
 

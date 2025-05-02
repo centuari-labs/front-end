@@ -86,9 +86,15 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
   });
 
   useEffect(() => {
-    const collateralPriceInToken = Number(BigInt(collateralBalance || 0) / BigInt(10 ** market.collateral_token.decimal));
-    const collateralPrice = collateralPriceInToken * getCollateralPrice(market.collateral_token.symbol);
-    const maxBorrowAmount = (collateralPrice * parseFloat(parseToRate(market.lltv.toString())) / 100 );
+    const collateralPriceInToken = Number(
+      BigInt(collateralBalance || 0) /
+        BigInt(10 ** market.collateral_token.decimal)
+    );
+    const collateralPrice =
+      collateralPriceInToken *
+      getCollateralPrice(market.collateral_token.symbol);
+    const maxBorrowAmount =
+      (collateralPrice * parseFloat(parseToRate(market.lltv.toString()))) / 100;
     setMaxBorrowAmount(maxBorrowAmount);
   }, [collateralBalance]);
 
@@ -172,7 +178,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                       Max Borrow Amount
                     </span>
                     <span className="font-medium">
-                      {parseToAmount(maxBorrowAmount.toString(), market.loan_token.decimal)} {market.loan_token.symbol}
+                      {parseToAmount(
+                        maxBorrowAmount.toString(),
+                        market.loan_token.decimal
+                      )}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>
@@ -356,14 +366,18 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     <Label htmlFor="fixed-rate">Fixed Rate</Label>
                   </div>
                   <div className="flex items-center gap-2">
-                    {/* <Input
+                    <Input
                       id="fixed-rate"
                       placeholder="0.00"
                       value={fixedRate}
-                      onChange={handleFixRatedChange}
+                      onChange={(e) =>
+                        setFixedRate(parseFloat(e.target.value).toString())
+                      }
                       className="flex-1 border-input"
                       type="number"
-                    /> */}
+                      min="0.01"
+                      step="0.01"
+                    />
                   </div>
                 </div>
                 {/* Collateral */}

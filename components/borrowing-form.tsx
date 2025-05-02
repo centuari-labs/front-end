@@ -88,7 +88,7 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
   useEffect(() => {
     const collateralPriceInToken = Number(BigInt(collateralBalance || 0) / BigInt(10 ** market.collateral_token.decimal));
     const collateralPrice = collateralPriceInToken * getCollateralPrice(market.collateral_token.symbol);
-    const maxBorrowAmount = (collateralPrice * parseFloat(parseToRate(market.lltv.toString())) / 100 );)
+    const maxBorrowAmount = (collateralPrice * parseFloat(parseToRate(market.lltv.toString())) / 100 );
     setMaxBorrowAmount(maxBorrowAmount);
   }, [collateralBalance]);
 

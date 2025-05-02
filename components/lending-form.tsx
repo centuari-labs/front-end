@@ -80,9 +80,7 @@ export function LendingForm({ market }: LendingFormProps) {
   // Effect to set customRate to 0 when activeTab is "market"
   useEffect(() => {
     if (activeTab === "market") {
-      setFixedRate(
-        parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
-      );
+      setFixedRate("0");
     }
   }, [activeTab]);
 
@@ -96,7 +94,7 @@ export function LendingForm({ market }: LendingFormProps) {
 
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
-    const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 14);
+    const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 16);
 
     await approve({
       amount: BigInt(amountInSmallestUnit),
@@ -121,8 +119,6 @@ export function LendingForm({ market }: LendingFormProps) {
   const { balance } = useTokenBalance({
     tokenAddress: market.loan_token.address as `0x${string}`,
   });
-
-  console.log("lending", { balance });
 
   return (
     <Card className="card-colorful">

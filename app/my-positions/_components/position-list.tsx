@@ -39,7 +39,7 @@ const PositionList = () => {
 
   useEffect(() => {
     getLendingData();
-  });
+  }, []);
 
   const { repay } = useRepay({
     address: CENTUARI,
@@ -102,6 +102,8 @@ const PositionList = () => {
     });
     await withdrawLend();
   };
+
+  console.log({ lendingData });
 
   return (
     <Accordion type="multiple" className="w-full space-y-4">

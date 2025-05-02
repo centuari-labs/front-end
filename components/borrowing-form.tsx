@@ -55,12 +55,6 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
   });
 
   useEffect(() => {
-    if (activeTab === "market") {
-      setFixedRate("0");
-    }
-  }, [activeTab]);
-
-  useEffect(() => {
     const collateralPrice =
       parseFloat(collateralAmount) *
       getCollateralPrice(market.collateral_token.symbol);

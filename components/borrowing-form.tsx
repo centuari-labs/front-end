@@ -99,6 +99,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
 
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
+    if(activeTab == "market") setFixedRate("0");
     const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 16);
 
     await approve({
@@ -119,7 +120,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
 
     setBorrowAmount("");
     setCollateralAmout("");
-    setFixedRate(parseToRate(market.borrow_apy.toString()));
+    setFixedRate("0");
   };
 
   return (

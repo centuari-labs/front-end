@@ -50,13 +50,6 @@ export function LendingForm({ market }: ILendingMarketProps) {
     address: CENTUARI_CLOB as `0x${string}`,
   });
 
-  // Effect to set customRate to 0 when activeTab is "market"
-  useEffect(() => {
-    if (activeTab === "market") {
-      setFixedRate("0");
-    }
-  }, [activeTab]);
-
   const handleSubmitLend = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -67,6 +60,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
 
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
+    if(activeTab == "market") setFixedRate("0");
     const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 16);
 
     await approve({
@@ -86,7 +80,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
     });
 
     setAmount("");
-    setFixedRate(parseToRate(market.borrow_apy.toString()));
+    setFixedRate("0");
   };
 
   const { balance } = useTokenBalance({

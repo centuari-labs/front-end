@@ -159,7 +159,7 @@ export function Navbar() {
           {/* Connect Wallet Button */}
           <div className="hidden md:flex items-center space-x-2">
             <CustomButtonWallet />
-            <div>
+            {/* <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon">
@@ -180,7 +180,7 @@ export function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

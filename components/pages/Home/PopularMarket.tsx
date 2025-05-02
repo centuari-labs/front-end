@@ -14,21 +14,29 @@ export const PopularMarket = async ({
         sectionLinkText="View all markets"
       >
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {marketData.map((market: MarketCardProps) => (
-            <MarketCard
-              key={market.id}
-              maturity={market.maturity}
-              id={market.id}
-              name={market.name}
-              loan_token={market.loan_token}
-              collateral_token={market.collateral_token}
-              lending_apy={market.lending_apy}
-              borrow_apy={market.borrow_apy}
-              market_volume={market.market_volume}
-              lltv={market.lltv}
-              maturity_date={market.maturity_date}
-            />
-          ))}
+          {marketData.length > 0 ? (
+            marketData.map((market: MarketCardProps) => (
+              <MarketCard
+                key={market.id}
+                maturity={market.maturity}
+                id={market.id}
+                name={market.name}
+                loan_token={market.loan_token}
+                collateral_token={market.collateral_token}
+                lending_apy={market.lending_apy}
+                borrow_apy={market.borrow_apy}
+                market_volume={market.market_volume}
+                lltv={market.lltv}
+                maturity_date={market.maturity_date}
+              />
+            ))
+          ) : (
+            <div className="flex items-center col-span-3 justify-center">
+              <h1 className="dark:text-muted-dark text-muted">
+                No Popular Market Found
+              </h1>
+            </div>
+          )}
         </div>
       </SectionLayout>
     </>

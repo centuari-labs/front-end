@@ -8,12 +8,24 @@ export async function GET(
   const { id } = await params;
 
   const sql = neon(process.env.DATABASE_URL ?? "");
-  const orderBooks = await sql`SELECT 
-    ob.*
-  FROM 
-      order_book ob
-  WHERE
-      ob.market_id = ${id}
+  const orderBooks = await sql`
+SELECT * FROM (SELECT 
+  ob.*
+FROM 
+  order_book ob
+WHERE
+  ob.market_id = ${id} AND side = 'BORROW'
+ORDER BY rate DESC
+LIMIT 6) bo
+UNION ALL
+SELECT * FROM (SELECT 
+  ob.*
+FROM 
+  order_book ob
+WHERE
+  ob.market_id = ${id} AND side = 'LEND'
+ORDER BY rate ASC
+LIMIT 6) lo
     `;
 
   const orderBookData: any = {

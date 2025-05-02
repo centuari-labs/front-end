@@ -25,6 +25,7 @@ import { useApproval } from "@/hooks/use-approval";
 import { useWithdrawBorrow } from "@/hooks/use-withdraw-borrow";
 import { useWithdrawLend } from "@/hooks/use-withdraw-lend";
 import { useAccount } from "wagmi";
+import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
 
 const PositionList = () => {
   const { address } = useAccount();
@@ -74,6 +75,16 @@ const PositionList = () => {
     },
   });
 
+  const { withdrawCurator } = useWithdrawCurator({
+    address: CENTUARI,
+    config: {
+      curator: USDC_TOKEN,
+      token: METH_TOKEN,
+      name: "name",
+      shares: BigInt("1194"), // contoh 1194 USDC
+    },
+  });
+
   const { approve, error, isApproving } = useApproval();
 
   const handleRepaySubmit = async () => {
@@ -101,6 +112,15 @@ const PositionList = () => {
       address: USDC_TOKEN as `0x${string}`,
     });
     await withdrawLend();
+  };
+
+  const handleWithdrawCurator = async () => {
+    await approve({
+      amount: BigInt("83138790259"),
+      spender: CENTUARI,
+      address: USDC_TOKEN as `0x${string}`,
+    });
+    await withdrawCurator();
   };
 
   console.log({ lendingData });

@@ -21,33 +21,9 @@ import { parseToRate } from "@/lib/helper";
 
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { parseToAmount, getCollateralPrice } from "@/lib/helper";
-import { useParams } from "next/navigation";
+import { ILendingMarketProps } from "@/lib/types";
 
-interface BorrowingFormProps {
-  market: {
-    id: string;
-    name: string;
-    borrow_apy: number;
-    lltv: number;
-    loan_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    collateral_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    maturity: number;
-  };
-}
-
-export function BorrowingForm({ market }: BorrowingFormProps) {
+export function BorrowingForm({ market }: ILendingMarketProps) {
   const [collateralAmount, setCollateralAmout] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
   const [activeTab, setActiveTab] = useState("market");
@@ -89,13 +65,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
       parseFloat(collateralAmount) *
       getCollateralPrice(market.collateral_token.symbol);
 
-    const amountInSmallestUnit = Math.floor(
-      parseFloat(borrowAmount)
-    );
-    
+    const amountInSmallestUnit = Math.floor(parseFloat(borrowAmount));
+
     const healthFactor = collateralPrice / amountInSmallestUnit;
     setHealthFactor(healthFactor ? healthFactor : 0);
-  }, [borrowAmount, collateralAmount])
+  }, [borrowAmount, collateralAmount]);
 
   useEffect(() => {
     const collateralPriceInToken = Number(
@@ -271,18 +245,26 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     <span className="text-muted-foreground dark:text-muted-dark">
                       LLTV
                     </span>
-                    <span className="font-medium">{parseToRate(market.lltv.toString())}%</span>
+                    <span className="font-medium">
+                      {parseToRate(market.lltv.toString())}%
+                    </span>
                   </div>
 
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Collateral Price
                     </span>
-                    <span className="font-medium">{
-                      parseFloat(collateralAmount) > 0 ?
-                      parseToAmount((
-                        getCollateralPrice(market.collateral_token.symbol) * parseFloat(collateralAmount)).toString(),
-                      0) : "0"}{" "}
+                    <span className="font-medium">
+                      {parseFloat(collateralAmount) > 0
+                        ? parseToAmount(
+                            (
+                              getCollateralPrice(
+                                market.collateral_token.symbol
+                              ) * parseFloat(collateralAmount)
+                            ).toString(),
+                            0
+                          )
+                        : "0"}{" "}
                       {market.loan_token.symbol}
                     </span>
                   </div>
@@ -340,7 +322,11 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                       Max Borrow Amount
                     </span>
                     <span className="font-medium">
-                      {parseToAmount(maxBorrowAmount.toString(), market.loan_token.decimal)} {market.loan_token.symbol}
+                      {parseToAmount(
+                        maxBorrowAmount.toString(),
+                        market.loan_token.decimal
+                      )}{" "}
+                      {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>
@@ -431,18 +417,26 @@ export function BorrowingForm({ market }: BorrowingFormProps) {
                     <span className="text-muted-foreground dark:text-muted-dark">
                       LLTV
                     </span>
-                    <span className="font-medium">{parseToRate(market.lltv.toString())}%</span>
+                    <span className="font-medium">
+                      {parseToRate(market.lltv.toString())}%
+                    </span>
                   </div>
 
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Collateral Price
                     </span>
-                    <span className="font-medium">{
-                      parseFloat(collateralAmount) > 0 ?
-                      parseToAmount((
-                        getCollateralPrice(market.collateral_token.symbol) * parseFloat(collateralAmount)).toString(),
-                      0) : "0"}{" "}
+                    <span className="font-medium">
+                      {parseFloat(collateralAmount) > 0
+                        ? parseToAmount(
+                            (
+                              getCollateralPrice(
+                                market.collateral_token.symbol
+                              ) * parseFloat(collateralAmount)
+                            ).toString(),
+                            0
+                          )
+                        : "0"}{" "}
                       {market.loan_token.symbol}
                     </span>
                   </div>

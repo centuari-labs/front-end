@@ -22,34 +22,7 @@ import { useTokenBalance } from "@/hooks/use-token-balance";
 import { parseToAmount, parseToRate } from "@/lib/helper";
 import { ILendingMarketProps } from "@/lib/types";
 
-interface LendingFormProps {
-  market: {
-    id: string;
-    name: string;
-    lending_apy: number;
-    marketVolume: number;
-    collateralFactor: number;
-    fixedRate: boolean;
-    borrow_apy: number;
-    loan_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    collateral_token: {
-      address: string;
-      name: string;
-      image_uri: string;
-      decimal: number;
-      symbol: string;
-    };
-    maturity: number;
-  };
-}
-
-export function LendingForm({ market }: LendingFormProps) {
+export function LendingForm({ market }: ILendingMarketProps) {
   const [amount, setAmount] = useState("");
   const [fixedRate, setFixedRate] = useState(
     parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")

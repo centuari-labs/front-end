@@ -5,6 +5,7 @@ export interface ILendingMarketProps {
     lending_apy: number;
     marketVolume: number;
     collateralFactor: number;
+    lltv: number;
     fixedRate: boolean;
     borrow_apy: number;
     loan_token: {

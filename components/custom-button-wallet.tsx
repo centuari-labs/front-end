@@ -233,7 +233,10 @@ export const ConnectButtonWalletComponents = ({
                   {account.displayBalance ? ` (${account.displayBalance})` : ""}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="min-w-[300px] bg-card dark:bg-card-dark dark:border-white/20">
+              <DropdownMenuContent
+                align="end"
+                className="w-[300px] bg-card dark:bg-card-dark dark:border-white/20"
+              >
                 <div className="flex flex-col space-x-2 p-2 text-white">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
@@ -267,7 +270,7 @@ export const ConnectButtonWalletComponents = ({
                   </div>
                   <TooltipProvider>
                     <Tooltip>
-                      <div className="flex items-center justify-between mt-3">
+                      <div className="flex items-center justify-between mt-5">
                         <Label htmlFor="theme" className="text-white">
                           Theme
                         </Label>

@@ -185,7 +185,7 @@ export function FaucetDialog({
                         {faucet.name}
                       </p>
                       <p className="text-sm dark:text-primary-dark">
-                        1,000,000
+                        100
                       </p>
                     </div>
                   </div>

@@ -3,7 +3,6 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import { HelpCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,14 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { usePlaceOrder } from "@/hooks/use-place-order";
-import { useAccount } from "wagmi";
 import { useApproval } from "@/hooks/use-approval";
 import { CENTUARI_CLOB } from "@/lib/tokenAddress";
 import { useTokenBalance } from "@/hooks/use-token-balance";
@@ -57,9 +49,10 @@ interface LendingFormProps {
 }
 
 export function LendingForm({ market }: LendingFormProps) {
+  console.log(market.borrow_apy);
   const [amount, setAmount] = useState("");
   const [fixedRate, setFixedRate] = useState(
-    parseToRate(market.borrow_apy.toString())
+    parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
   );
   const [activeTab, setActiveTab] = useState("market");
   const [estimatedEarnings, setEstimatedEarnings] = useState(0);
@@ -87,7 +80,9 @@ export function LendingForm({ market }: LendingFormProps) {
   // Effect to set customRate to 0 when activeTab is "market"
   useEffect(() => {
     if (activeTab === "market") {
-      setFixedRate(parseToRate(market.borrow_apy.toString()));
+      setFixedRate(
+        parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
+      );
     }
   }, [activeTab]);
 
@@ -194,7 +189,10 @@ export function LendingForm({ market }: LendingFormProps) {
                       Highest Borrow Rate
                     </span>
                     <span className="font-medium text-teal">
-                      {parseToRate(market.borrow_apy.toString())}%
+                      {parseToRate(
+                        market.borrow_apy ? market.borrow_apy.toString() : "0"
+                      )}
+                      %
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">

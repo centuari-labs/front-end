@@ -58,7 +58,7 @@ export function OrderBook({
                 {parseToRate(order.rate.toLocaleString())}%
               </span>
               <span className="font-medium">
-                {parseToAmount(order.amount.toLocaleString(), 6)} USDC
+                {parseToAmount(order.amount.toLocaleString(), 6)} MUSDC
               </span>
             </div>
           </div>
@@ -88,7 +88,7 @@ export function OrderBook({
                 {parseToRate(order.rate.toLocaleString())}%
               </span>
               <span className="font-medium">
-                {parseToAmount(order.amount.toLocaleString(), 6)} USDC
+                {parseToAmount(order.amount.toLocaleString(), 6)} MUSDC
               </span>
             </div>
           </div>

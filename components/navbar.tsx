@@ -28,6 +28,7 @@ import {
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import { CustomButtonWallet } from "./custom-button-wallet";
+import Image from "next/image";
 
 interface INavbarLink {
   href: string;
@@ -54,6 +55,8 @@ const NavbarLink = ({
   isActive: boolean;
 }) => {
   const Icon = route.icon;
+
+  console.log("route", route);
   return (
     <Link
       key={route.href}
@@ -114,9 +117,11 @@ export function Navbar() {
           <div className="flex">
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative h-full w-40 rounded-full">
-                <img
-                  src={"logo-color.png"}
+                <Image
+                  src={"/logo-color.png"}
                   alt="DeFi Lending Logo"
+                  width={80}
+                  height={80}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -126,7 +131,9 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex md:flex-1 md:items-center md:justify-center md:space-x-1">
             {routes.map((route) => {
-              const isActive = pathname === route.href;
+              const isActive =
+                pathname === route.href ||
+                pathname.startsWith(`${route.href}/`);
 
               if (route.private && !isConnected) return null;
 

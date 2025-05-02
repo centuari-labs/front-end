@@ -23,7 +23,6 @@ export function OrderBook({
   orders: Order;
   handleFixRated: (value: number) => void;
 }) {
-
   // Calculate the maximum amount for bar width scaling
   const maxAmountBorrow = useMemo(
     () => Math.max(...orders.borrow.map((order) => order.amount)),
@@ -50,7 +49,7 @@ export function OrderBook({
           >
             {/* Background bar */}
             <div
-              className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-green-300 dark:bg-green-700"
+              className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-green-700 to-green-900"
               style={{ width: `${(order.amount / maxAmountLend) * 100}%` }}
             />
             {/* Content */}
@@ -80,12 +79,10 @@ export function OrderBook({
             className="relative flex items-center h-8 group cursor-pointer"
             onClick={() => handleFixRated(order.rate)}
           >
-            {/* Background bar */}
             <div
-              className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-red-300 dark:bg-red-700"
+              className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-red-700 to-red-800"
               style={{ width: `${(order.amount / maxAmountBorrow) * 100}%` }}
             />
-            {/* Content */}
             <div className="relative flex justify-between w-full px-2 text-sm">
               <span className="font-medium">
                 {parseToRate(order.rate.toLocaleString())}%

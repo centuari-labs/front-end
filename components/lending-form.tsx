@@ -109,13 +109,13 @@ export function LendingForm({ market }: ILendingMarketProps) {
           <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
             <TabsTrigger
               value="market"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-600"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-700 data-[state=active]:to-blue-900 data-[state=active]:text-white"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-red-500 data-[state=active]:text-white dark:data-[state=active]:bg-red-600"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-red-700 data-[state=active]:to-red-900 data-[state=active]:text-white"
             >
               Limit Order
             </TabsTrigger>
@@ -146,7 +146,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
                     <Button
                       type="button"
                       size="sm"
-                      className="bg-blue-500 hover:bg-blue-200 dark:bg-blue-600 text-white dark:hover:bg-blue-500"
+                      className="bg-blue-500 hover:bg-blue-200 text-white dark:hover:bg-blue-500 bg-gradient-to-br from-blue-700 to-blue-900"
                       onClick={() => setAmount(balance?.toString() ?? "0")}
                     >
                       MAX
@@ -233,7 +233,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
                     <Button
                       type="button"
                       size="sm"
-                      className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500"
+                      className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500 bg-gradient-to-br from-red-700 to-red-900"
                       onClick={() => setAmount(balance?.toString() ?? "0")}
                     >
                       MAX

@@ -22,7 +22,7 @@ export default async function FaucetsPage() {
 
   return (
     <PageLayout
-      title="=Choose Faucets"
+      title="Choose Faucets"
       description="Get testnet tokens."
       filter={
         <>

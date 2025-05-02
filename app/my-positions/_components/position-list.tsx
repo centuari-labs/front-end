@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -24,8 +24,23 @@ import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { useApproval } from "@/hooks/use-approval";
 import { useWithdrawBorrow } from "@/hooks/use-withdraw-borrow";
 import { useWithdrawLend } from "@/hooks/use-withdraw-lend";
+import { useAccount } from "wagmi";
 
 const PositionList = () => {
+  const { address } = useAccount();
+  const [lendingData, setLendingData] = useState([]);
+
+  async function getLendingData() {
+    const res = await fetch(`/api/my-position/${address}/lending`);
+    if (!res.ok) return undefined;
+    const resData = await res.json();
+    setLendingData(resData);
+  }
+
+  useEffect(() => {
+    getLendingData();
+  });
+
   const { repay } = useRepay({
     address: CENTUARI,
     config: {

@@ -12,7 +12,7 @@ export function useTokenBalance({
   tokenAddress,
 }: UseTokenBalanceProps) {
   const { address: connectedAddress, isConnected } = useAccount();
-  
+
   const { data: balanceData, isLoading, isError, error, refetch } = useReadContract({
     address: tokenAddress,
     abi: erc20Abi,

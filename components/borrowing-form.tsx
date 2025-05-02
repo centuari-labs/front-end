@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,20 +16,47 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ILendingMarketProps } from "@/lib/types";
-import { useTokenBalance } from "@/hooks/use-token-balance";
 import { CENTUARI_CLOB } from "@/lib/tokenAddress";
 import { useApproval } from "@/hooks/use-approval";
 import { usePlaceOrder } from "@/hooks/use-place-order";
 import { parseToRate } from "@/lib/helper";
 import { useParams } from "next/navigation";
 
-export function BorrowingForm({ market }: ILendingMarketProps) {
+import { useTokenBalance } from "@/hooks/use-token-balance";
+import { parseToAmount, getCollateralPrice } from "@/lib/helper";
+
+interface BorrowingFormProps {
+  market: {
+    id: string;
+    name: string;
+    borrowingAPY: number;
+    lltv: number;
+    loan_token: {
+      address: string;
+      name: string;
+      image_uri: string;
+      decimal: number;
+      symbol: string;
+    };
+    collateral_token: {
+      address: string;
+      name: string;
+      image_uri: string;
+      decimal: number;
+      symbol: string;
+    };
+    maturity: number;
+  };
+}
+
+export function BorrowingForm({ market }: BorrowingFormProps) {
   const [collateralAmount, setCollateralAmout] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
   const [activeTab, setActiveTab] = useState("market");
+  const [maxBorrowAmount, setMaxBorrowAmount] = useState(0);
 
   const [fixedRate, setFixedRate] = useState(
-    parseToRate(market.borrow_apy ? market.borrow_apy.toString() : "0")
+    parseToRate(market.borrowingAPY ? market.borrowingAPY.toString() : "0")
   );
 
   const { collateral } = useParams<{ collateral: string }>();
@@ -50,28 +77,20 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
     setBorrowAmount(e.target.value);
   };
 
-  // const { balance } = useTokenBalance({
-  //     tokenAddress: market.loan_token.address as `0x${string}`,
-  //   });
+  const { balance: collateralBalance } = useTokenBalance({
+    tokenAddress: market.collateral_token.address as `0x${string}`,
+  });
 
-  // Calculate estimated cost based on amount, APY, and duration
-  // const estimatedCost = collateral
-  //   ? (
-  //       Number.parseFloat(collateral) *
-  //       (market.borrowingAPY / 100) *
-  //       (duration / 365)
-  //     ).toFixed(2)
-  //   : "0.00";
+  const { balance: loanBalance } = useTokenBalance({
+    tokenAddress: market.loan_token.address as `0x${string}`,
+  });
 
-  // Mock data for available collateral and borrowing power
-  // const availableCollateral = 10000;
-  // const borrowingPower = 7500;
-  // const maxBorrowAmount = 5000;
-  // const currentBorrowAmount = amount ? Number.parseFloat(amount) : 0;
-  // const healthFactor =
-  //   currentBorrowAmount > 0
-  //     ? ((borrowingPower - currentBorrowAmount) / borrowingPower) * 2 + 1
-  //     : 2;
+  useEffect(() => {
+    const collateralPriceInToken = Number(BigInt(collateralBalance || 0) / BigInt(10 ** market.collateral_token.decimal));
+    const collateralPrice = collateralPriceInToken * getCollateralPrice(market.collateral_token.symbol);
+    const maxBorrowAmount = (collateralPrice * parseFloat(parseToRate(market.lltv.toString())) / 100 );)
+    setMaxBorrowAmount(maxBorrowAmount);
+  }, [collateralBalance]);
 
   const handleSubmitBorrow = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,12 +121,8 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
     });
 
     setBorrowAmount("");
-    setFixedRate(parseToRate(market.borrow_apy.toString()));
+    setFixedRate(parseToRate(market.borrowingAPY.toString()));
   };
-
-  const { balance: collateralBalance } = useTokenBalance({
-    tokenAddress: collateral as `0x${string}`,
-  });
 
   return (
     <Card className="card-colorful">
@@ -145,15 +160,11 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                       Available Collateral
                     </span>
                     <span className="font-medium">
-                      {/* ${availableCollateral.toLocaleString()} */}
-                    </span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground dark:text-muted-dark">
-                      Borrowing Power
-                    </span>
-                    <span className="font-medium">
-                      {/* ${borrowingPower.toLocaleString()} */}
+                      {parseToAmount(
+                        collateralBalance?.toString() ?? "0",
+                        market.collateral_token.decimal
+                      )}{" "}
+                      {market.collateral_token.symbol}
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between text-sm">
@@ -161,7 +172,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                       Max Borrow Amount
                     </span>
                     <span className="font-medium">
-                      {/* ${maxBorrowAmount.toLocaleString()} */}
+                      {parseToAmount(maxBorrowAmount.toString(), market.loan_token.decimal)} {market.loan_token.symbol}
                     </span>
                   </div>
                 </div>

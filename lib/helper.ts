@@ -93,3 +93,27 @@ export function formatRelativeTime(unixTimestamp: number): string {
     return `${years} ${years === 1 ? "year" : "years"} ago`;
   }
 }
+
+export function getCollateralPrice(tokenSymbol: string): number {
+  let price = 0;
+  switch (tokenSymbol) {
+    case "METH":
+      price = 2500;
+      break;
+    case "MBTC":
+      price = 90000;
+      break;
+    case "MSOL":
+      price = 200;
+      break;
+    case "MLINK":
+      price = 15;
+      break;
+    case "MAAVE":
+      price = 200;
+      break;
+    default:
+      price = 0;
+  }
+  return price;
+}

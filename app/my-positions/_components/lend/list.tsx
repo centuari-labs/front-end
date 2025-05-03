@@ -23,6 +23,7 @@ import { formatDate, parseToAmount, parseToRate } from "@/lib/helper";
 import { CENTUARI } from "@/lib/tokenAddress";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 interface LendPositionTypes {
   assets: string;
@@ -41,6 +42,7 @@ interface LendPositionTypes {
   rate: string;
   shares: string;
   trader: string;
+  market_id: string;
 }
 
 export const LendPositionList = () => {
@@ -135,21 +137,25 @@ export const LendPositionList = () => {
               {lendData.length > 0 ? (
                 lendData.map((item: LendPositionTypes, index: number) => (
                   <TableRow key={index}>
-                    <TableCell>
-                      {isMobile ? (
-                        <TokenPairMobile
-                          lendTokenUrl={item.loan_token_image_uri}
-                          borrowTokenUrl={item.collateral_token_image_uri}
-                        />
-                      ) : (
-                        <TokenPairDesktop
-                          loanTokenUrl={item.loan_token_image_uri}
-                          collateralTokenUrl={item.collateral_token_image_uri}
-                          loanToken={item.loan_token_symbol}
-                          collateralToken={item.collateral_token_symbol}
-                        />
-                      )}
-                    </TableCell>
+                    <Link
+                      href={`markets/${item.collateral_token}/${item.loan_token}`}
+                    >
+                      <TableCell>
+                        {isMobile ? (
+                          <TokenPairMobile
+                            lendTokenUrl={item.loan_token_image_uri}
+                            borrowTokenUrl={item.collateral_token_image_uri}
+                          />
+                        ) : (
+                          <TokenPairDesktop
+                            loanTokenUrl={item.loan_token_image_uri}
+                            collateralTokenUrl={item.collateral_token_image_uri}
+                            loanToken={item.loan_token_symbol}
+                            collateralToken={item.collateral_token_symbol}
+                          />
+                        )}
+                      </TableCell>
+                    </Link>
                     <TableCell>
                       {parseToAmount(item.shares)} {item.loan_token_symbol}
                     </TableCell>

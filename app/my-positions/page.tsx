@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import PositionList from "./_components/position-list";
 import { PageLayout } from "@/components/layout/page-layout";
 import { FilterCard } from "./_components/filter-card";
+import { ActiveLend } from "./_components/filter/ActiveLend";
+import { ActiveBorrow } from "./_components/filter/ActiveBorrow";
+import { ActiveVault } from "./_components/filter/ActiveVault";
 
 export const metadata: Metadata = {
   title: "My Positions - DeFi Lending & Borrowing",
@@ -17,21 +20,9 @@ export default function MyPositionsPage() {
         <>
           <div className="w-full">
             <div className="grid gap-6 md:grid-cols-3">
-              <FilterCard
-                title="Active Supply"
-                description="Across all markets"
-              >
-                <div className="text-2xl font-bold">$12,450.83</div>
-              </FilterCard>
-              <FilterCard
-                title="Active Borrow"
-                description="Across all markets"
-              >
-                <div className="text-2xl font-bold">$5,280.42</div>
-              </FilterCard>
-              <FilterCard title="Active Vault" description="Across all markets">
-                <div className="text-2xl font-bold">$8,280.42</div>
-              </FilterCard>
+              <ActiveLend />
+              <ActiveBorrow />
+              <ActiveVault />
             </div>
           </div>
         </>

@@ -77,7 +77,8 @@ export const VaultPositionList = () => {
     },
   });
 
-  const handleWithdrawCurator = async () => {
+  const handleWithdrawCurator = async (balance: number | string) => {
+    console.log({ balance });
     await approve({
       amount: BigInt("83138790259"),
       spender: CENTUARI,

@@ -93,7 +93,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
 
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
-    if(activeTab == "market") setFixedRate("0");
+    if (activeTab == "market") setFixedRate("0");
     const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 16);
 
     await approve({
@@ -118,9 +118,9 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
   };
 
   return (
-    <Card className="card-colorful">
+    <Card className="border dark:border-muted-dark/40">
       <CardHeader>
-        <CardTitle className="gradient-coral-text font-bold">Borrow</CardTitle>
+        <CardTitle className=" font-bold">Borrow</CardTitle>
         <CardDescription>Borrow assets using your collateral</CardDescription>
       </CardHeader>
       <CardContent>
@@ -130,16 +130,16 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
           onValueChange={setActiveTab}
           value={activeTab}
         >
-          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
+          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-700">
             <TabsTrigger
               value="market"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-700 data-[state=active]:to-blue-900 data-[state=active]:text-white"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-slate-800 data-[state=active]:to-slate-800 data-[state=active]:text-white"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-red-700 data-[state=active]:to-red-900 data-[state=active]:text-white"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-slate-800 data-[state=active]:to-slate-800 data-[state=active]:text-white"
             >
               Limit Order
             </TabsTrigger>
@@ -147,7 +147,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
           <TabsContent value="market" className="mt-4">
             <form>
               <div className="grid gap-4">
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border dark:border-muted-dark/40">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Available Collateral
@@ -235,7 +235,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                     </Button>
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-muted-dark/40">
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       LLTV
@@ -299,7 +299,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
           <TabsContent value="limit" className="mt-4">
             <form>
               <div className="grid gap-4">
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-muted-dark/40">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Available Collateral
@@ -364,7 +364,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                     />
                     <Button
                       type="button"
-                      className="bg-red-500 hover:bg-red-200 text-white dark:hover:bg-red-500 bg-gradient-to-br from-red-700 to-red-900"
+                      className="bg-blue-500 hover:bg-blue-200 text-white dark:hover:bg-blue-500 bg-gradient-to-br from-blue-700 to-blue-900"
                       size="sm"
                       onClick={() => {
                         setCollateralAmout(
@@ -395,7 +395,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                     />
                     <Button
                       type="button"
-                      className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500 bg-gradient-to-br from-red-700 to-red-900"
+                      className="bg-blue-500 hover:bg-blue-200 text-white dark:hover:bg-blue-500 bg-gradient-to-br from-blue-700 to-blue-900"
                       size="sm"
                       onClick={() => {
                         setCollateralAmout(
@@ -407,7 +407,7 @@ export function BorrowingForm({ market }: ILendingMarketProps) {
                     </Button>
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-muted-dark/40">
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       LLTV

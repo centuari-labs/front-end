@@ -100,9 +100,9 @@ export function LendingForm({ market }: ILendingMarketProps) {
   });
 
   return (
-    <Card className="card-colorful">
+    <Card className="border dark:border-muted-dark/40">
       <CardHeader>
-        <CardTitle className="gradient-blue-text font-bold">Lend</CardTitle>
+        <CardTitle className=" font-bold">Lend</CardTitle>
         <CardDescription>Supply assets and earn interest</CardDescription>
       </CardHeader>
       <CardContent>
@@ -112,16 +112,16 @@ export function LendingForm({ market }: ILendingMarketProps) {
           onValueChange={setActiveTab}
           value={activeTab}
         >
-          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800">
+          <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-700">
             <TabsTrigger
               value="market"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-700 data-[state=active]:to-blue-900 data-[state=active]:text-white"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-slate-800 data-[state=active]:to-slate-800 data-[state=active]:text-white"
             >
               Market Order
             </TabsTrigger>
             <TabsTrigger
               value="limit"
-              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-red-700 data-[state=active]:to-red-900 data-[state=active]:text-white"
+              className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-slate-800 data-[state=active]:to-slate-800 data-[state=active]:text-white"
             >
               Limit Order
             </TabsTrigger>
@@ -240,7 +240,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
                     <Button
                       type="button"
                       size="sm"
-                      className="bg-red-500 hover:bg-red-200 dark:bg-red-600 text-white dark:hover:bg-red-500 bg-gradient-to-br from-red-700 to-red-900"
+                      className=" hover:bg-blue-200 text-white bg-gradient-to-br from-blue-700 to-blue-900 hover:from-blue-900 hover:to-blue-700"
                       onClick={() => setAmount(balance?.toString() ?? "0")}
                     >
                       MAX
@@ -248,7 +248,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border">
+                <div className="rounded-lg bg-muted/10 dark:bg-slate-900/40 p-4 border border-border dark:border-muted-dark/40">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground dark:text-muted-dark">
                       Fixed Rate

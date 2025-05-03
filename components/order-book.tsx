@@ -49,7 +49,7 @@ export function OrderBook({
           >
             {/* Background bar */}
             <div
-              className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-green-700 to-green-900"
+              className="absolute right-0 h-full order-book-sell transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-[#10b981] to-cyan-700"
               style={{ width: `${(order.amount / maxAmountLend) * 100}%` }}
             />
             {/* Content */}
@@ -80,7 +80,7 @@ export function OrderBook({
             onClick={() => handleFixRated(order.rate)}
           >
             <div
-              className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-red-700 to-red-800"
+              className="absolute right-0 h-full order-book-buy transition-all duration-200 group-hover:opacity-80 bg-gradient-to-br from-[#6366f1] to-blue-700"
               style={{ width: `${(order.amount / maxAmountBorrow) * 100}%` }}
             />
             <div className="relative flex justify-between w-full px-2 text-sm">

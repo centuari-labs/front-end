@@ -167,13 +167,13 @@ export default async function MarketDetailPage({
               <TabsList className="grid w-full grid-cols-2 md:w-auto bg-muted dark:bg-gray-800 mb-6">
                 <TabsTrigger
                   value="lend"
-                  className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-red-700 data-[state=active]:to-red-900 data-[state=active]:text-white"
+                  className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-[#10b981] data-[state=active]:to-cyan-700 data-[state=active]:text-white"
                 >
                   Lend
                 </TabsTrigger>
                 <TabsTrigger
                   value="borrow"
-                  className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-700 data-[state=active]:to-blue-900 data-[state=active]:text-white"
+                  className="text-slate-400 dark:text-white data-[state=active]:bg-gradient-to-br data-[state=active]:from-[#6366f1] data-[state=active]:to-blue-700 data-[state=active]:text-white"
                 >
                   Borrow
                 </TabsTrigger>

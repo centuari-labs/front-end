@@ -61,7 +61,7 @@ export function OpenOrders({ marketId }: { marketId: string }) {
       });
   }, []);
 
-  const { cancelOrder } = useCancelOrder({
+  const { cancelOrder, isSuccess } = useCancelOrder({
     address: CENTUARI_CLOB as `0x${string}`,
   });
 
@@ -82,9 +82,12 @@ export function OpenOrders({ marketId }: { marketId: string }) {
       },
       orderId,
     });
-    setData((prevData) =>
-      prevData.filter((order) => order.orderId !== orderId)
-    );
+
+    if (isSuccess) {
+      setData((prevData) =>
+        prevData.filter((order) => order.orderId !== orderId)
+      );
+    }
   };
 
   return (

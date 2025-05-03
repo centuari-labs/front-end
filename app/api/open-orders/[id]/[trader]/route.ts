@@ -9,7 +9,7 @@ export async function GET(
 
   const sql = neon(process.env.DATABASE_URL ?? "");
   const openOrders = await sql`
-SELECT 
+SELECT DISTINCT
   o.*, 
   lt.name as loan_token_name, lt.symbol as loan_token_symbol, lt.image_uri as loan_token_image_uri, lt.decimal as loan_token_decimal,
   ct.name as collateral_token_name, ct.symbol as collateral_token_symbol, ct.image_uri as collateral_token_image_uri, ct.decimal as collateral_token_decimal,

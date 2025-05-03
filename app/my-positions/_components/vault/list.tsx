@@ -1,6 +1,6 @@
 "use client";
 
-import { TokenPair } from "@/components/token-pair";
+import { TokenSingle } from "@/components/token-single";
 import {
   AccordionContent,
   AccordionItem,
@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTokenBalance } from "@/hooks/use-token-balance";
 import { parseToRate } from "@/lib/helper";
 import { IVaultPositionProps } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ import { useAccount } from "wagmi";
 
 export const VaultPositionList = () => {
   const { address } = useAccount();
+  const [balances, setBalances] = useState<Record<string, string>>({});
 
   const [vaultData, setVaultData] = useState<IVaultPositionProps[]>([]);
 
@@ -35,6 +37,30 @@ export const VaultPositionList = () => {
   useEffect(() => {
     getVaultPosition();
   }, []);
+
+  useEffect(() => {
+    async function fetchBalances() {
+      const balancePromises = vaultData.map(
+        (vault) =>
+          useTokenBalance({
+            tokenAddress: vault.centuari_prime_token as `0x${string}`,
+          }).balance
+      );
+
+      const resolvedBalances = await Promise.all(balancePromises);
+      const balanceMap = vaultData.reduce((acc, vault, index) => {
+        acc[vault.centuari_prime_token] =
+          resolvedBalances[index]?.toString() || "";
+        return acc;
+      }, {} as Record<string, string>);
+
+      setBalances(balanceMap);
+    }
+
+    if (vaultData.length > 0) {
+      fetchBalances();
+    }
+  }, [vaultData]);
 
   return (
     <AccordionItem
@@ -57,15 +83,11 @@ export const VaultPositionList = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Borrowed</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Value
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">APY</TableHead>
-                    <TableHead>Collateral</TableHead>
-                    <TableHead>Maturity</TableHead>
-                    <TableHead>Health Factor</TableHead>
+                    <TableHead>Vault Name</TableHead>
+                    <TableHead>Vault APY</TableHead>
+                    <TableHead>Token</TableHead>
+                    <TableHead>Balance</TableHead>
+                    <TableHead>Vault Token</TableHead>
                     <TableHead className="hidden md:table-cell">
                       Actions
                     </TableHead>
@@ -74,12 +96,17 @@ export const VaultPositionList = () => {
                 <TableBody>
                   <TableRow>
                     <TableCell>{vault.name}</TableCell>
-                    <TableCell>2.5 ETH</TableCell>
-                    <TableCell>$5,000</TableCell>
                     <TableCell>{parseToRate(vault.apy)}%</TableCell>
-                    <TableCell>USDT</TableCell>
-                    <TableCell>September 30, 2023</TableCell>
-                    <TableCell>1.85</TableCell>
+                    <TableCell>
+                      <TokenSingle
+                        tokenUrl={vault.token_image_uri}
+                        name={vault.token_symbol}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {balances[vault.centuari_prime_token] || "Loading..."}
+                    </TableCell>
+                    <TableCell>{vault.centuari_prime_token_symbol}</TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button variant="outline" size="sm" className="w-full">
                         Withdraw

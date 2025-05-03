@@ -6,16 +6,22 @@ import { Badge } from "@/components/ui/badge";
 import { formatRelativeTime, parseToAmount, parseToRate } from "@/lib/helper";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { useCancelOrder } from "@/hooks/use-cancel-order";
+import { CENTUARI_CLOB } from "@/lib/tokenAddress";
 
 interface OpenOrdersProps {
   loan_token_decimal: number;
   loan_token_symbol: string;
+  loan_token_address: `0x${string}`;
+  collateral_token_address: `0x${string}`;
   matched_amount: string;
   original_amount: string;
   rate: string;
   side: "LEND" | "BORROW";
   status: "PARTIALLY_FILLED" | "OPEN";
   timestamp: string;
+  orderId: bigint;
+  maturity: bigint;
 }
 
 // interface OpenOrder {
@@ -54,6 +60,29 @@ export function OpenOrders({ marketId }: { marketId: string }) {
         console.error("Error fetching open orders:", error);
       });
   }, []);
+
+  const { cancelOrder } = useCancelOrder({
+    address: CENTUARI_CLOB as `0x${string}`,
+  });
+
+  const handleCancelOrder = async ({
+    collateral_token_address: collateralToken,
+    loan_token_address: loanToken,
+    maturity,
+    orderId,
+  }: Pick<
+    OpenOrdersProps,
+    "collateral_token_address" | "loan_token_address" | "maturity" | "orderId"
+  >) => {
+    await cancelOrder({
+      config: {
+        collateralToken,
+        loanToken,
+        maturity: BigInt(maturity),
+      },
+      orderId,
+    });
+  };
 
   return (
     <div>
@@ -144,6 +173,14 @@ export function OpenOrders({ marketId }: { marketId: string }) {
                 // variant={"destructive"}
                 size="icon"
                 className="h-5 w-5 absolute -top-2 -right-2 bg-red-700 hover:bg-red-800 rounded-full"
+                onClick={() =>
+                  handleCancelOrder({
+                    collateral_token_address: order.collateral_token_address,
+                    loan_token_address: order.loan_token_address,
+                    maturity: order.maturity,
+                    orderId: order.orderId,
+                  })
+                }
               >
                 <X className="h-3 w-3" />
                 <span className="sr-only">Cancel order</span>

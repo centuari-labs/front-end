@@ -8,7 +8,7 @@ export async function GET(
   const { address } = await params;
 
   const sql = neon(process.env.DATABASE_URL ?? "");
-  const maturities = await sql`SELECT 
+  const vaults = await sql`SELECT 
   v.vault,
   v.curator,
   v.name,
@@ -26,5 +26,5 @@ LEFT JOIN token t on lower(t.address) = lower(v.token)
 WHERE v.vault = vd.vault AND lower(vd.user) = lower(${address})
 `;
 
-  return NextResponse.json(maturities);
+  return NextResponse.json(vaults);
 }

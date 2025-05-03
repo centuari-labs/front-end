@@ -24,25 +24,12 @@ import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { useApproval } from "@/hooks/use-approval";
 import { useWithdrawBorrow } from "@/hooks/use-withdraw-borrow";
 import { useWithdrawLend } from "@/hooks/use-withdraw-lend";
-import { useAccount } from "wagmi";
 import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
 import { VaultPositionList } from "./vault/list";
+import { LendPositionList } from "./lend/list";
+import { BorrowPositionList } from "./borrow/list";
 
 const PositionList = () => {
-  const { address } = useAccount();
-  const [lendingData, setLendingData] = useState([]);
-
-  async function getLendingData() {
-    const res = await fetch(`/api/my-position/${address}/lending`);
-    if (!res.ok) return undefined;
-    const resData = await res.json();
-    setLendingData(resData);
-  }
-
-  useEffect(() => {
-    getLendingData();
-  }, []);
-
   const { repay } = useRepay({
     address: CENTUARI,
     config: {
@@ -127,129 +114,8 @@ const PositionList = () => {
   return (
     <Accordion type="multiple" className="w-full space-y-4">
       <VaultPositionList />
-
-      <AccordionItem
-        value="item-2"
-        className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
-      >
-        <AccordionTrigger className="text-start">
-          <div>
-            <h1>Borrow</h1>
-            <p className="text-xs font-light">1 Position</p>
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4">
-          <div className="rounded-md border border-muted-dark/40 dark:border-muted-dark/40">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Assets</TableHead>
-                  <TableHead>Borrowed</TableHead>
-                  <TableHead className="hidden md:table-cell">Value</TableHead>
-                  <TableHead className="hidden md:table-cell">APY</TableHead>
-                  <TableHead>Collateral</TableHead>
-                  <TableHead>Maturity</TableHead>
-                  <TableHead>Health Factor</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Actions
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <TokenPair
-                      lendToken={marketData[0].lend_token}
-                      collateralToken={marketData[0].collateral_token}
-                      lendTokenUrl={marketData[0].lendTokenUrl}
-                      borrowTokenUrl={marketData[0].borrowTokenUrl}
-                      pairName={marketData[0].name}
-                      marketTrending={marketData[0].trending}
-                    />
-                  </TableCell>
-                  <TableCell>2.5 ETH</TableCell>
-                  <TableCell>$5,000</TableCell>
-                  <TableCell>-5.15%</TableCell>
-                  <TableCell>USDT</TableCell>
-                  <TableCell>September 30, 2023</TableCell>
-                  <TableCell>1.85</TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <Button
-                      variant={"destructive"}
-                      size="sm"
-                      className="w-full"
-                      onClick={handleRepaySubmit}
-                    >
-                      Repay
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Withdraw
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem
-        value="item-3"
-        className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
-      >
-        <AccordionTrigger className="text-start">
-          <div>
-            <h1>Lend</h1>
-            <p className="text-xs font-light">1 Position</p>
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4">
-          <div className="rounded-md border border-muted-dark/40 dark:border-muted-dark/40">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Assets</TableHead>
-                  <TableHead>Supplied</TableHead>
-                  <TableHead className="hidden md:table-cell">Value</TableHead>
-                  <TableHead className="hidden md:table-cell">APY</TableHead>
-                  <TableHead>Maturity</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <TokenPair
-                      lendToken={marketData[0].lend_token}
-                      collateralToken={marketData[0].collateral_token}
-                      lendTokenUrl={marketData[0].lendTokenUrl}
-                      borrowTokenUrl={marketData[0].borrowTokenUrl}
-                      pairName={marketData[0].name}
-                      marketTrending={marketData[0].trending}
-                    />
-                  </TableCell>
-                  <TableCell>10,000 USDC</TableCell>
-                  <TableCell>$10,000</TableCell>
-                  <TableCell>+3.25%</TableCell>
-                  <TableCell>September 30, 2023</TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <Button
-                      variant={"destructive"}
-                      size="sm"
-                      className="w-full"
-                      onClick={handleRepaySubmit}
-                    >
-                      Repay
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Withdraw
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
+      <BorrowPositionList />
+      <LendPositionList />
     </Accordion>
   );
 };

@@ -27,6 +27,7 @@ export interface ILendingMarketProps {
 }
 
 export interface IVaultPositionProps {
+  amount: string;
   apy: string;
   centuari_prime_token: string;
   centuari_prime_token_name: string;

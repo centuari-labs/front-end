@@ -19,7 +19,7 @@ import { useApproval } from "@/hooks/use-approval";
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
 import { BASE_URL } from "@/lib/api";
-import { parseToRate } from "@/lib/helper";
+import { parseToAmount, parseToRate } from "@/lib/helper";
 import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IVaultPositionProps } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -131,7 +131,8 @@ export const VaultPositionList = () => {
                       />
                     </TableCell>
                     <TableCell>
-                      {balances[vault.centuari_prime_token] || "Loading..."}
+                      {/* {balances[vault.centuari_prime_token] || "Loading..."} */}
+                      {parseToAmount(vault.amount, vault.token_decimal)} {vault.token_symbol}
                     </TableCell>
                     <TableCell>{vault.centuari_prime_token_symbol}</TableCell>
                     <TableCell className="flex items-center gap-2">

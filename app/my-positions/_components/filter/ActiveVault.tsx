@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { FilterCard } from "../filter-card";
+import { parseToAmount } from "@/lib/helper";
 
 export const ActiveVault = () => {
   const { address } = useAccount();
@@ -17,7 +18,11 @@ export const ActiveVault = () => {
       if (!res.ok) return undefined;
       const resData = await res.json();
 
-      setActiveVault(resData);
+      const total = resData.reduce(
+        (acc: any, curr: any) => acc + parseFloat(curr.amount) / 10e6,
+        0
+      );
+      setActiveVault(total);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -29,15 +34,15 @@ export const ActiveVault = () => {
     getActiveVault();
   }, []);
 
-  console.log("activeVault", activeVault);
-
   if (loading) {
     return <div className="rounded-md bg-gray-800 h-36 animate-pulse"></div>;
   }
 
   return (
     <FilterCard title="Active Vault" description="Across all markets">
-      <div className="text-2xl font-bold">$12,450.83</div>
+      <div className="text-2xl font-bold">
+        ${parseToAmount(activeVault?.toString(), 0, 2)}
+      </div>
     </FilterCard>
   );
 };

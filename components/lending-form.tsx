@@ -99,8 +99,6 @@ export function LendingForm({ market }: ILendingMarketProps) {
     tokenAddress: market.loan_token.address as `0x${string}`,
   });
 
-  console.log("amout", amount);
-
   return (
     <Card className="card-colorful">
       <CardHeader>

@@ -31,12 +31,20 @@ export const VaultPositionList = () => {
 
   const [balances, setBalances] = useState<Record<string, string>>({});
   const [vaultData, setVaultData] = useState<IVaultPositionProps[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function getVaultPosition() {
-    const res = await fetch(`${BASE_URL}/api/my-position/${address}/vault`);
-    if (!res.ok) return undefined;
-    const resData = await res.json();
-    setVaultData(resData);
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/my-position/${address}/vault`);
+      if (!res.ok) return undefined;
+      const resData = await res.json();
+      setVaultData(resData);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -87,7 +95,9 @@ export const VaultPositionList = () => {
     await withdrawCurator();
   };
 
-  console.log("vault Data", { vaultData });
+  if (isLoading) {
+    return <div className="rounded-md bg-gray-800 h-20 animate-pulse"></div>;
+  }
 
   return (
     <AccordionItem

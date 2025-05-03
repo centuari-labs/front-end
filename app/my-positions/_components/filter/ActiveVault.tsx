@@ -7,10 +7,10 @@ import { FilterCard } from "../filter-card";
 export const ActiveVault = () => {
   const { address } = useAccount();
 
-  const [activeVault, setActiveVault] = useState();
+  const [activeVault, setActiveVault] = useState<number>(0);
 
   async function getActiveVault() {
-    const res = await fetch(`/api/my-position/${address}/active-vault`);
+    const res = await fetch(`/api/my-position/${address}/vault`);
     if (!res.ok) return undefined;
     const resData = await res.json();
 

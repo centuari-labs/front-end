@@ -24,34 +24,15 @@ import { CENTUARI } from "@/lib/tokenAddress";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Link from "next/link";
-
-interface LendPositionTypes {
-  assets: string;
-  centuari_token: string;
-  collateral_token: string;
-  collateral_token_decimal: number;
-  collateral_token_image_uri: string;
-  collateral_token_name: string;
-  collateral_token_symbol: string;
-  loan_token: string;
-  loan_token_decimal: number;
-  loan_token_image_uri: string;
-  loan_token_name: string;
-  loan_token_symbol: string;
-  maturity: string;
-  rate: string;
-  shares: string;
-  trader: string;
-  market_id: string;
-}
+import { IPosition } from "@/lib/types";
 
 export const LendPositionList = () => {
   const { address } = useAccount();
   const isMobile = useIsMobile();
   const { approve, error, isApproving } = useApproval();
-  // const [balances, setBalances] = useState<Record<string, string>>({});
+  const [balances, setBalances] = useState<Record<string, string>>({});
 
-  const [lendData, setLendData] = useState<LendPositionTypes[]>([]);
+  const [lendData, setLendData] = useState<IPosition[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function getLendingPosition() {
@@ -135,7 +116,7 @@ export const LendPositionList = () => {
             </TableHeader>
             <TableBody>
               {lendData.length > 0 ? (
-                lendData.map((item: LendPositionTypes, index: number) => (
+                lendData.map((item: IPosition, index: number) => (
                   <TableRow key={index}>
                     <Link
                       href={`markets/${item.collateral_token}/${item.loan_token}`}
@@ -160,7 +141,7 @@ export const LendPositionList = () => {
                       {parseToAmount(item.shares)} {item.loan_token_symbol}
                     </TableCell>
                     <TableCell>${parseToAmount(item.shares)}</TableCell>
-                    <TableCell>{parseToRate(item.rate)}</TableCell>
+                    <TableCell>{parseToRate(item.rate)}%</TableCell>
                     <TableCell>{formatDate(item.maturity)}</TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button

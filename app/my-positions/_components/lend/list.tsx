@@ -106,14 +106,6 @@ export const LendPositionList = () => {
                 <TableCell>+3.25%</TableCell>
                 <TableCell>September 30, 2023</TableCell>
                 <TableCell className="flex items-center gap-2">
-                  <Button
-                    variant={"destructive"}
-                    size="sm"
-                    className="w-full"
-                    onClick={() => {}}
-                  >
-                    Repay
-                  </Button>
                   <Button variant="outline" size="sm" className="w-full">
                     Withdraw
                   </Button>

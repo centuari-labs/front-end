@@ -131,8 +131,17 @@ export const VaultPositionList = () => {
                     </TableCell>
                     <TableCell>{vault.centuari_prime_token_symbol}</TableCell>
                     <TableCell className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" className="w-full">
-                        Withdraw
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full"
+                        onClick={() =>
+                          handleWithdrawCurator(
+                            balances[vault.centuari_prime_token]
+                          )
+                        }
+                      >
+                        {isApproving ? "Approving..." : "Withdraw"}
                       </Button>
                     </TableCell>
                   </TableRow>

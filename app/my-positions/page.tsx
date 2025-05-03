@@ -15,7 +15,7 @@ export default function MyPositionsPage() {
       description="View your current lending and borrowing positions"
       filter={
         <>
-          <div className="container px-4 py-8 md:px-6 md:py-12">
+          <div className="w-full">
             <div className="grid gap-6 md:grid-cols-3">
               <FilterCard
                 title="Active Supply"

@@ -142,12 +142,13 @@ export const VaultPositionList = () => {
                     </TableCell>
                     <TableCell>
                       {/* {balances[vault.centuari_prime_token] || "Loading..."} */}
-                      {parseToAmount(vault.amount, vault.token_decimal)} {vault.token_symbol}
+                      {parseToAmount(vault.amount, vault.token_decimal)}{" "}
+                      {vault.token_symbol}
                     </TableCell>
                     <TableCell>{vault.centuari_prime_token_symbol}</TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button
-                        variant="outline"
+                        variant="colorful"
                         size="sm"
                         className="w-full"
                         onClick={() =>

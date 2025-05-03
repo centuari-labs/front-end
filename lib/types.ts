@@ -58,6 +58,7 @@ export interface IPosition {
   market_id: string;
   maturity: string;
   rate: string;
+  collateral_amount: string;
   shares: string;
   trader: string;
 }

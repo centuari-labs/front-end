@@ -106,11 +106,10 @@ export const LendPositionList = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Assets</TableHead>
-                <TableHead>Supplied</TableHead>
-                <TableHead className="hidden md:table-cell">Value</TableHead>
+                <TableHead className="md:w-[400px]">Assets</TableHead>
                 <TableHead className="hidden md:table-cell">APY</TableHead>
                 <TableHead>Maturity</TableHead>
+                <TableHead>Supplied</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -137,12 +136,9 @@ export const LendPositionList = () => {
                         )}
                       </TableCell>
                     </Link>
-                    <TableCell>
-                      {parseToAmount(item.shares)} {item.loan_token_symbol}
-                    </TableCell>
-                    <TableCell>${parseToAmount(item.shares)}</TableCell>
                     <TableCell>{parseToRate(item.rate)}%</TableCell>
                     <TableCell>{formatDate(item.maturity)}</TableCell>
+                    <TableCell>${parseToAmount(item.shares)}</TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button
                         variant="colorful"

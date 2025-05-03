@@ -21,7 +21,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useRepay } from "@/hooks/use-repay";
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { useWithdrawBorrow } from "@/hooks/use-withdraw-borrow";
-import { formatDate, parseToAmount, parseToRate } from "@/lib/helper";
+import {
+  formatDate,
+  getCollateralPrice,
+  parseToAmount,
+  parseToRate,
+} from "@/lib/helper";
 import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IPosition, IVaultPositionProps } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -121,10 +126,11 @@ export const BorrowPositionList = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Assets</TableHead>
-                <TableHead>Supplied</TableHead>
-                <TableHead className="hidden md:table-cell">Value</TableHead>
                 <TableHead className="hidden md:table-cell">APY</TableHead>
                 <TableHead>Maturity</TableHead>
+                <TableHead>Borrowed</TableHead>
+                <TableHead>Collateral Amount</TableHead>
+                <TableHead>Health Factor</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -140,22 +146,39 @@ export const BorrowPositionList = () => {
                         collateralTokenUrl={item.collateral_token_image_uri}
                       />
                     </TableCell>
+                    <TableCell>{parseToRate(item.rate)}%</TableCell>
+                    <TableCell>{formatDate(item.maturity)}</TableCell>
                     <TableCell>
                       {parseToAmount(item.shares)} {item.loan_token_symbol}
                     </TableCell>
-                    <TableCell>${parseToAmount(item.shares)}</TableCell>
-                    <TableCell>{parseToRate(item.rate)}%</TableCell>
-                    <TableCell>{formatDate(item.maturity)}</TableCell>
+                    <TableCell>
+                      {parseToAmount(
+                        item.collateral_amount,
+                        item.collateral_token_decimal
+                      )}{" "}
+                      {item.collateral_token_symbol}
+                    </TableCell>
+                    <TableCell>
+                      {(parseFloat(
+                        parseToAmount(
+                          item.collateral_amount,
+                          item.collateral_token_decimal
+                        )
+                      ) *
+                        getCollateralPrice(item.collateral_token_symbol)) /
+                        parseFloat(
+                          parseToAmount(item.assets, item.loan_token_decimal, 2)
+                        )}
+                    </TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button
-                        variant={"destructive"}
                         size="sm"
-                        className="w-full"
+                        className="w-full bg-gradient-to-r from-green-600 to-teal-700 text-white hover:bg-gradient-to-bl"
                         onClick={() => {}}
                       >
                         Repay
                       </Button>
-                      <Button variant="outline" size="sm" className="w-full">
+                      <Button variant="colorful" size="sm" className="w-full">
                         Withdraw
                       </Button>
                     </TableCell>

@@ -25,3 +25,18 @@ export interface ILendingMarketProps {
     maturity: number;
   };
 }
+
+export interface IVaultPositionProps {
+  apy: string;
+  centuari_prime_token: string;
+  centuari_prime_token_name: string;
+  centuari_prime_token_symbol: string;
+  curator: string;
+  name: string;
+  token_address: string;
+  token_decimal: number;
+  token_image_uri: string;
+  token_name: string;
+  token_symbol: string;
+  vault: string;
+}

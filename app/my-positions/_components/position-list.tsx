@@ -26,6 +26,7 @@ import { useWithdrawBorrow } from "@/hooks/use-withdraw-borrow";
 import { useWithdrawLend } from "@/hooks/use-withdraw-lend";
 import { useAccount } from "wagmi";
 import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
+import { VaultPositionList } from "./vault/list";
 
 const PositionList = () => {
   const { address } = useAccount();
@@ -123,27 +124,10 @@ const PositionList = () => {
     await withdrawCurator();
   };
 
-  console.log({ lendingData });
-
   return (
     <Accordion type="multiple" className="w-full space-y-4">
-      <AccordionItem
-        value="item-1"
-        className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"
-      >
-        <AccordionTrigger className="text-start">
-          <div>
-            <h1>Vault</h1>
-            <p className="text-xs font-light">0 Position</p>
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="border-t border-muted-dark/40 dark:border-muted-dark/40 pt-4 bg-card dark:bg-card-dark">
-          <div className="flex flex-col gap-3 h-52 items-center justify-center">
-            <p>No Position Yet</p>
-            <Button variant={"colorful"}>View Vault</Button>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
+      <VaultPositionList />
+
       <AccordionItem
         value="item-2"
         className="border border-muted-dark/40 dark:border-muted-dark/40 px-4 rounded-md bg-card dark:bg-card-dark"

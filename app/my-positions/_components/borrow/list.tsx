@@ -135,7 +135,7 @@ export const BorrowPositionList = () => {
                     <TableCell>
                       <TokenPair
                         loanToken={item.loan_token_symbol}
-                        collateralToken={item.collateral_token}
+                        collateralToken={item.collateral_token_symbol}
                         loanTokenUrl={item.loan_token_image_uri}
                         collateralTokenUrl={item.collateral_token_image_uri}
                       />

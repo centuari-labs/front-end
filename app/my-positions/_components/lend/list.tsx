@@ -158,7 +158,7 @@ export const LendPositionList = () => {
                     <TableCell>{formatDate(item.maturity)}</TableCell>
                     <TableCell className="flex items-center gap-2">
                       <Button
-                        variant={"destructive"}
+                        variant={"colorful"}
                         size="sm"
                         className="w-full"
                         onClick={() => {}}

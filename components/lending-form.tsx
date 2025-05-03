@@ -60,8 +60,20 @@ export function LendingForm({ market }: ILendingMarketProps) {
 
     // Convert to BigInt by multiplying by 10^14 and handling as a string calculation
     // This helps avoid floating-point precision issues
-    if(activeTab == "market") setFixedRate("0");
+    if (activeTab == "market") setFixedRate("0");
     const rateInSmallestUnit = Math.round(parseFloat(fixedRate) * 10 ** 16);
+
+    console.log("test lending market", {
+      amountInSmallestUnit,
+      rateInSmallestUnit,
+      loanToken: market.loan_token.address as `0x${string}`,
+      collateralToken: market.collateral_token.address as `0x${string}`,
+      amount: BigInt(amountInSmallestUnit),
+      collateralAmount: BigInt("0"),
+      maturity: BigInt(market.maturity),
+      rate: BigInt(rateInSmallestUnit),
+      side: 0,
+    });
 
     await approve({
       amount: BigInt(amountInSmallestUnit),
@@ -86,6 +98,8 @@ export function LendingForm({ market }: ILendingMarketProps) {
   const { balance } = useTokenBalance({
     tokenAddress: market.loan_token.address as `0x${string}`,
   });
+
+  console.log("amout", amount);
 
   return (
     <Card className="card-colorful">
@@ -177,6 +191,7 @@ export function LendingForm({ market }: ILendingMarketProps) {
                 className="mt-6 w-full"
                 variant="colorful"
                 onClick={handleSubmitLend}
+                disabled={amount === "" && Number(amount) === 0 ? true : false}
               >
                 Create Market Order
               </Button>

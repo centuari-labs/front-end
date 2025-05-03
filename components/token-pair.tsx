@@ -5,8 +5,6 @@ import { TrendingUp, TrendingDown } from "lucide-react";
 interface TokenPairProps {
   loanTokenUrl: string;
   collateralTokenUrl: string;
-  pairName: string;
-  marketTrending?: number;
   loanToken: string;
   collateralToken: string;
   onClick?: () => void;
@@ -21,8 +19,8 @@ export function TokenPair({
 }: TokenPairProps) {
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex items-center gap-2">
+      <div className="flex gap-6">
+        <div className="flex gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
             {loanTokenUrl && (
               <Image
@@ -46,7 +44,7 @@ export function TokenPair({
             </h3>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <div className="relative h-10 w-10 rounded-full border-2 border-background">
             {collateralTokenUrl && (
               <Image

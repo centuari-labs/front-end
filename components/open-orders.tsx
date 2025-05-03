@@ -82,6 +82,9 @@ export function OpenOrders({ marketId }: { marketId: string }) {
       },
       orderId,
     });
+    setData((prevData) =>
+      prevData.filter((order) => order.orderId !== orderId)
+    );
   };
 
   return (

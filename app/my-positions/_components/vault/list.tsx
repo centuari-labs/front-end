@@ -18,6 +18,7 @@ import {
 import { useApproval } from "@/hooks/use-approval";
 import { useTokenBalance } from "@/hooks/use-token-balance";
 import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
+import { BASE_URL } from "@/lib/api";
 import { parseToRate } from "@/lib/helper";
 import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IVaultPositionProps } from "@/lib/types";
@@ -32,7 +33,7 @@ export const VaultPositionList = () => {
   const [vaultData, setVaultData] = useState<IVaultPositionProps[]>([]);
 
   async function getVaultPosition() {
-    const res = await fetch(`/api/my-position/${address}/vault`);
+    const res = await fetch(`${BASE_URL}/api/my-position/${address}/vault`);
     if (!res.ok) return undefined;
     const resData = await res.json();
     setVaultData(resData);
@@ -84,6 +85,8 @@ export const VaultPositionList = () => {
     });
     await withdrawCurator();
   };
+
+  console.log("vault Data", { vaultData });
 
   return (
     <AccordionItem

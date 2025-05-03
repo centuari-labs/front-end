@@ -10,20 +10,9 @@ import {
 interface TokenPairProps {
   lendTokenUrl: string;
   borrowTokenUrl: string;
-  pairName: string;
-  marketTrending: number;
-  lendToken: string;
-  collateralToken: string;
 }
 
-export function TokenPair({
-  lendTokenUrl,
-  borrowTokenUrl,
-  pairName,
-  marketTrending,
-  lendToken,
-  collateralToken,
-}: TokenPairProps) {
+export function TokenPair({ lendTokenUrl, borrowTokenUrl }: TokenPairProps) {
   return (
     <TooltipProvider>
       <div className="relative flex items-center gap-4">

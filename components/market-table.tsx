@@ -52,14 +52,14 @@ export function MarketTable({ markets }: MarketTableProps) {
           {markets.length > 0 ? (
             markets.map((market, i) => (
               <TableRow key={i}>
-                <TableCell>
+                <TableCell className="md:w-[400px]">
                   <div className="flex justify-start">
                     <TokenPair
                       loanToken={market.loan_token.name}
                       collateralToken={market.collateral_token.name}
                       loanTokenUrl={market.loan_token.image_uri}
                       collateralTokenUrl={market.collateral_token.image_uri}
-                      pairName={market.name}
+                      // pairName={market.name}
                       onClick={() =>
                         handleMarketClick(
                           market.collateral_token.address,

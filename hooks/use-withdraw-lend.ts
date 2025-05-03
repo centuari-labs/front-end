@@ -5,13 +5,6 @@ import { useEffect } from "react";
 
 interface UseWithdrawLendProps {
   address: `0x${string}`;
-  config?: {
-    loanToken?: `0x${string}`;
-    collateralToken?: `0x${string}`;
-    maturity?: bigint;
-    rate?: bigint;
-    shares?: bigint;
-  };
   toastOptions?: {
     showToast?: boolean;
     pendingMessage?: string;
@@ -22,7 +15,6 @@ interface UseWithdrawLendProps {
 
 export const useWithdrawLend = ({
   address,
-  config,
   toastOptions = {
     showToast: true,
     pendingMessage: "Withdrawing lend...",
@@ -43,7 +35,19 @@ export const useWithdrawLend = ({
     hash: txHash,
   });
 
-  const withdrawLend = async () => {
+  const withdrawLend = async ({
+    loanToken,
+    collateralToken,
+    shares,
+    maturity,
+    rate,
+  }: {
+    loanToken: `0x${string}`;
+    collateralToken: `0x${string}`;
+    shares: bigint;
+    maturity: bigint;
+    rate: bigint;
+  }) => {
     let toastId: string | number | undefined;
     try {
       if (toastOptions.showToast) {
@@ -58,13 +62,12 @@ export const useWithdrawLend = ({
         functionName: "withdraw",
         args: [
           {
-            loanToken: config?.loanToken || ("0x..." as `0x${string}`),
-            collateralToken:
-              config?.collateralToken || ("0x..." as `0x${string}`),
-            maturity: config?.maturity || BigInt(1700000000),
+            loanToken: loanToken || ("0x..." as `0x${string}`),
+            collateralToken: collateralToken || ("0x..." as `0x${string}`),
+            maturity: maturity,
           },
-          config?.rate || BigInt(5_000),
-          config?.shares || BigInt(1_000_000),
+          rate,
+          shares,
         ],
       };
 

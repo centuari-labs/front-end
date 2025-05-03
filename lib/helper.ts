@@ -4,34 +4,34 @@ export function parseToAmount(
   precision: number = 0,
   notation: boolean = true
 ): string {
-    // Convert string to number
-    const num = parseFloat(value);
+  // Convert string to number
+  const num = parseFloat(value);
 
-    // Check if it's a valid number
-    if (isNaN(num)) {
-        return "Invalid number";
+  // Check if it's a valid number
+  if (isNaN(num)) {
+    return "Invalid number";
+  }
+
+  // Divide by token decimals
+  const result = num / 10 ** decimals;
+
+  // Format to M/B/T notation with thousand separators
+  if (notation) {
+    if (result >= 1_000_000_000_000) {
+      const formatted = (result / 1_000_000_000_000).toFixed(precision);
+      return `${addThousandSeparators(formatted)}T`;
+    } else if (result >= 1_000_000_000) {
+      const formatted = (result / 1_000_000_000).toFixed(precision);
+      return `${addThousandSeparators(formatted)}B`;
+    } else if (result >= 1_000_000) {
+      const formatted = (result / 1_000_000).toFixed(precision);
+      return `${addThousandSeparators(formatted)}M`;
+    } else {
+      return addThousandSeparators(result.toFixed(precision));
     }
-
-    // Divide by token decimals
-    const result = num / (10 ** decimals);
-
-    // Format to M/B/T notation with thousand separators
-    if (notation) {
-        if (result >= 1_000_000_000_000) {
-        const formatted = (result / 1_000_000_000_000).toFixed(precision);
-        return `${addThousandSeparators(formatted)}T`;
-        } else if (result >= 1_000_000_000) {
-            const formatted = (result / 1_000_000_000).toFixed(precision);
-            return `${addThousandSeparators(formatted)}B`;
-        } else if (result >= 1_000_000) {
-            const formatted = (result / 1_000_000).toFixed(precision);
-            return `${addThousandSeparators(formatted)}M`;
-        } else {
-            return addThousandSeparators(result.toFixed(precision));
-        }
-    }else{
-        return addThousandSeparators(result.toFixed(precision));
-    }
+  } else {
+    return addThousandSeparators(result.toFixed(precision));
+  }
 }
 
 export function parseToRate(value: string): string {
@@ -116,4 +116,14 @@ export function getCollateralPrice(tokenSymbol: string): number {
       price = 0;
   }
   return price;
+}
+
+export function formatDate(date: string) {
+  const result = new Date(Number(date) * 1000).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return result;
 }

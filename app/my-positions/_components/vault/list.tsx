@@ -15,16 +15,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useApproval } from "@/hooks/use-approval";
 import { useTokenBalance } from "@/hooks/use-token-balance";
+import { useWithdrawCurator } from "@/hooks/use-withdraw-curator";
 import { parseToRate } from "@/lib/helper";
+import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IVaultPositionProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 export const VaultPositionList = () => {
   const { address } = useAccount();
-  const [balances, setBalances] = useState<Record<string, string>>({});
+  const { approve, error, isApproving } = useApproval();
 
+  const [balances, setBalances] = useState<Record<string, string>>({});
   const [vaultData, setVaultData] = useState<IVaultPositionProps[]>([]);
 
   async function getVaultPosition() {
@@ -61,6 +65,25 @@ export const VaultPositionList = () => {
       fetchBalances();
     }
   }, [vaultData]);
+
+  const { withdrawCurator } = useWithdrawCurator({
+    address: CENTUARI,
+    config: {
+      curator: USDC_TOKEN,
+      token: METH_TOKEN,
+      name: "name",
+      shares: BigInt("1194"), // contoh 1194 USDC
+    },
+  });
+
+  const handleWithdrawCurator = async () => {
+    await approve({
+      amount: BigInt("83138790259"),
+      spender: CENTUARI,
+      address: USDC_TOKEN as `0x${string}`,
+    });
+    await withdrawCurator();
+  };
 
   return (
     <AccordionItem

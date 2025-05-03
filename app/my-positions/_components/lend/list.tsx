@@ -16,14 +16,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useApproval } from "@/hooks/use-approval";
 import { useTokenBalance } from "@/hooks/use-token-balance";
+import { useWithdrawLend } from "@/hooks/use-withdraw-lend";
 import { parseToRate } from "@/lib/helper";
+import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IVaultPositionProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 export const LendPositionList = () => {
   const { address } = useAccount();
+  const { approve, error, isApproving } = useApproval();
   // const [balances, setBalances] = useState<Record<string, string>>({});
 
   const [lendData, setLendData] = useState<any[]>([]);
@@ -38,6 +42,26 @@ export const LendPositionList = () => {
   useEffect(() => {
     getLendingPosition();
   }, []);
+
+  const { withdrawLend } = useWithdrawLend({
+    address: CENTUARI,
+    config: {
+      loanToken: USDC_TOKEN,
+      collateralToken: METH_TOKEN,
+      shares: BigInt("1194"), // contoh 1194 USDC
+      maturity: BigInt(1753981200),
+      rate: BigInt("60000000000000000"),
+    },
+  });
+
+  const handleWithdrawLend = async () => {
+    await approve({
+      amount: BigInt("83138790259"),
+      spender: CENTUARI,
+      address: USDC_TOKEN as `0x${string}`,
+    });
+    await withdrawLend();
+  };
 
   console.log({ lendData });
 

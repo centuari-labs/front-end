@@ -15,7 +15,7 @@ export const Hero = () => {
               <span>Centuari</span>
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground dark:text-primary-dark md:text-xl">
-              A DeFi platform revolutionizing CLOB for borrowers and lenders.
+              Fixed-Rate Order Book Lending with Curated Vaults and Trust-Based Uncollateralized Borrowing
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4">

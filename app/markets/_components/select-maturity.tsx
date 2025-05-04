@@ -34,7 +34,7 @@ export function SelectMaturity({ data }: { data: Maturity[] }) {
     <Select onValueChange={handleValueChange} value={value}>
       <SelectTrigger className="w-[440px] bg-background/95 dark:bg-[#1a1b2f] border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-white text-black">
         <SelectValue
-          placeholder={`Maturity ${new Date(data[0]?.maturity * 1000)
+          placeholder={`Maturity ${new Date((data[0]?.maturity-1) * 1000)
             .toLocaleString("en-US", {
               month: "short",
               year: "numeric",
@@ -49,7 +49,7 @@ export function SelectMaturity({ data }: { data: Maturity[] }) {
           {data.map((item: Maturity, index: number) => (
             <SelectItem key={index} value={item.market_id}>
               Maturity {` `}
-              {new Date(item?.maturity * 1000)
+              {new Date((item?.maturity-1) * 1000)
                 .toLocaleString("en-US", {
                   month: "short",
                   year: "numeric",

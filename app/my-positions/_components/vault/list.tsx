@@ -22,6 +22,7 @@ import { BASE_URL } from "@/lib/api";
 import { parseToAmount, parseToRate } from "@/lib/helper";
 import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IVaultPositionProps } from "@/lib/types";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -168,7 +169,9 @@ export const VaultPositionList = () => {
         ) : (
           <div className="flex flex-col gap-3 h-52 items-center justify-center">
             <p>No Position Yet</p>
-            <Button variant={"colorful"}>View Vault</Button>
+            <Link href={"/vaults"}>
+              <Button variant={"colorful"}>View Vault</Button>
+            </Link>
           </div>
         )}
       </AccordionContent>

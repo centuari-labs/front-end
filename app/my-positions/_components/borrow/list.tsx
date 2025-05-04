@@ -29,6 +29,7 @@ import {
 } from "@/lib/helper";
 import { CENTUARI, METH_TOKEN, USDC_TOKEN } from "@/lib/tokenAddress";
 import { IPosition, IVaultPositionProps } from "@/lib/types";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -186,10 +187,12 @@ export const BorrowPositionList = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <div className="flex flex-col gap-3 h-52 items-center justify-center">
                       <p>No Position Yet</p>
-                      <Button variant={"colorful"}>View Lend</Button>
+                      <Link href={"/markets"}>
+                        <Button variant={"colorful"}>View Lend</Button>
+                      </Link>
                     </div>
                   </TableCell>
                 </TableRow>

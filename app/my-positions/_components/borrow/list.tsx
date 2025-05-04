@@ -191,7 +191,7 @@ export const BorrowPositionList = () => {
                     <div className="flex flex-col gap-3 h-52 items-center justify-center">
                       <p>No Position Yet</p>
                       <Link href={"/markets"}>
-                        <Button variant={"colorful"}>View Lend</Button>
+                        <Button variant={"colorful"}>View Borrow</Button>
                       </Link>
                     </div>
                   </TableCell>

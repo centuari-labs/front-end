@@ -1,6 +1,6 @@
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import React, { ChangeEvent } from "react";
 import { TokenPair } from "./token-pair";
 import { FaucetDataProps } from "@/lib/data";
 import { Button } from "@/components/ui/button";

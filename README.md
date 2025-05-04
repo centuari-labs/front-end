@@ -1,6 +1,6 @@
 # Centuari Front-End
 
-Centuari is a revolutionary DeFi platform for lending & borrowing based on CLOB (Central Limit Order Book) system that connects lenders and borrowers.
+Centuari is a Central Limit Order Book (CLOB) powered lending platform that aims to bring the best of both Traditional Finance (TradFi) and decentralization technology. Our platform powers fixed-rate loans – delivering stable, predictable yields for both lenders and borrowers – and provide tailored and advanced financial solutions through our curator-managed vaults and uncollateralized lending products.
 
 ## Key Features
 
@@ -10,55 +10,72 @@ Centuari is a revolutionary DeFi platform for lending & borrowing based on CLOB 
 - **Faucet**: Get testnet tokens for testing.
 - **Position Dashboard**: Monitor your lending, borrowing, and vault positions.
 - **Order Book & Chart**: View real-time order book and market charts.
-- **Wallet Integration**: Connect wallets like MetaMask for transactions.
 
 ## Tech Stack
 
 - **Next.js** (App Router)
-- **React 19**
+- **React**
 - **TypeScript**
 - **Tailwind CSS**
 - **Wagmi & Viem** (Web3 hooks & utilities)
-- **Radix UI** (UI Components)
-- **Sonner** (Toast notifications)
-- **Lucide React** (SVG Icons)
 
 ## Directory Structure
 
 - `/app` — Pages and main routes (Next.js App Router)
-- `/components` — UI and page components
-- `/hooks` — Custom React hooks (Web3, approvals, etc.)
-- `/lib` — Helpers, types, abis, and utilities
-- `/public` — Static assets (icons, images)
-- `/styles` — (If any) global CSS files
+- `/components`
+- `/hooks`
+- `/lib`
+- `/public` — Static assets
+- `/styles` — Global styles
 
 ## Getting Started
 
-1. **Install dependencies**  
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/centuari-fe.git
+   cd centuari-fe
+   ```
+
+2. **Install dependencies**  
    ```bash
    pnpm install
    ```
 
-2. **Run development server**  
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Update the variables in `.env.local`:
+   ```
+   DATABASE_URL=test
+   NEXT_PUBLIC_BASE_URL=http:/localhost:3000
+   NEXT_PUBLIC_ENV=localhost
+   ```
+
+4. **Run development server**  
    ```bash
    pnpm dev
    ```
    Access at [http://localhost:3000](http://localhost:3000)
 
-3. **Build for production**  
+5. **Build for production**  
    ```bash
    pnpm build
    pnpm start
    ```
 
-## Environment Setup
+## Deployment
 
-- Create `.env.local` file in root for environment variables (see Next.js docs).
-- Chain configs, tokens, and RPC endpoints can be modified in `/lib/wagmi.ts` and `/lib/tokenAddress.ts`.
+The application can be deployed to various platforms:
+
+- **Vercel** (Recommended)
+  ```bash
+  vercel
+  ```
 
 ## Notes
 
-- This project uses Next.js 15+ and React 19.
+- This project uses Next.js 15+ and React.
 - For smart contract development, refer to the backend/smart contract repository.
 - API documentation can be found in the `/app/api` folder.
 
@@ -73,5 +90,3 @@ Centuari is a revolutionary DeFi platform for lending & borrowing based on CLOB 
 MIT
 
 ---
-
-> Centuari — DeFi Lending & Borrowing Platform

@@ -19,7 +19,7 @@ export const ActiveVault = () => {
       const resData = await res.json();
 
       const total = resData.reduce(
-        (acc: any, curr: any) => acc + parseFloat(curr.amount) / 10e6,
+        (acc: any, curr: any) => acc + parseFloat(curr.amount),
         0
       );
       setActiveVault(total);
@@ -41,7 +41,7 @@ export const ActiveVault = () => {
   return (
     <FilterCard title="Active Vault" description="Across all markets">
       <div className="text-2xl font-bold">
-        ${parseToAmount(activeVault?.toString(), 0, 2)}
+        ${parseToAmount(activeVault?.toString())}
       </div>
     </FilterCard>
   );

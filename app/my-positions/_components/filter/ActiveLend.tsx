@@ -19,7 +19,7 @@ export const ActiveLend = () => {
       const resData = await res.json();
 
       const total = resData.reduce(
-        (acc: any, curr: any) => acc + parseFloat(curr.assets) / 10e6,
+        (acc: any, curr: any) => acc + parseFloat(curr.assets),
         0
       );
       setActiveLend(total);
@@ -41,7 +41,7 @@ export const ActiveLend = () => {
   return (
     <FilterCard title="Active Lend" description="Across all markets">
       <div className="text-2xl font-bold">
-        ${parseToAmount(activelend?.toString(), 0, 2)}
+        ${parseToAmount(activelend?.toString())}
       </div>
     </FilterCard>
   );

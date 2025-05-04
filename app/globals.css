@@ -170,3 +170,37 @@
     font-weight: 500;
   }
 }
+
+
+/* Dark mode styles for Recharts components */
+
+/* Axis styling */
+html.dark .recharts-cartesian-axis-tick-value {
+  fill: white !important;
+  color: white !important;
+}
+
+html.dark .recharts-cartesian-axis-line {
+  stroke: white !important;
+}
+
+/* Grid styling */
+html.dark .recharts-cartesian-grid-horizontal line,
+html.dark .recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Improve line visibility */
+.recharts-line .recharts-line-curve {
+  stroke-width: 2px;
+}
+
+/* For dot points */
+html.dark .recharts-dot {
+  fill: white;
+}
+
+/* For reference lines */
+html.dark .recharts-reference-line line {
+  stroke: white;
+}

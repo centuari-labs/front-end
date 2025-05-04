@@ -95,8 +95,8 @@ export function OrderBook({
         ))}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-muted-dark border-t border-border/30 pt-4">
-        <div>
+      {/* <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-muted-dark border-t border-border/30 pt-4"> */}
+        {/* <div>
           <p>
             Highest Borrow:{" "}
             <span className="text-green-300 dark:text-green-600 font-medium">
@@ -119,7 +119,7 @@ export function OrderBook({
               %
             </span>
           </p>
-        </div>
+        </div> */}
         {/* <div className="text-right">
           <p>
             Total Lend Volume:{" "}
@@ -154,7 +154,7 @@ export function OrderBook({
             </span>
           </p>
         </div> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 }

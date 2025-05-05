@@ -18,8 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { BondCard } from "@/components/bond-card";
-import { tokenizedBonds, myBonds } from "@/lib/data";
 import UnderConstruction from "@/components/under-construction";
 
 export const metadata: Metadata = {

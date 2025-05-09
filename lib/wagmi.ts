@@ -1,3 +1,4 @@
+import { BASE_URL } from "./api";
 import { defineChain } from "viem";
 import { cookieStorage, createConfig, createStorage, http } from "wagmi";
 import { arbitrumSepolia } from "wagmi/chains";
@@ -7,10 +8,10 @@ export const pharos = defineChain({
   name: "Pharos Devnet",
   nativeCurrency: { name: "Pharos", symbol: "PTT", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://devnet.dplabs-internal.com"] },
+    default: { http: [`${BASE_URL}/api/proxy`] },
   },
   blockExplorers: {
-    default: { name: "Pharos Scan", url: "https://pharosscan.xyz" },
+    default: { name: "Pharos Scan", url: "https://devnet.pharosscan.xyz" },
   },
   testnet: true,
 });

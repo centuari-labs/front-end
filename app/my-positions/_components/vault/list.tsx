@@ -38,6 +38,10 @@ export const VaultPositionList = () => {
     setIsLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/api/my-position/${address}/vault`);
+      console.log({
+        BASE_URL,
+        env: `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+      });
       if (!res.ok) return undefined;
       const resData = await res.json();
       setVaultData(resData);
